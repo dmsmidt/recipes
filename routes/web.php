@@ -15,6 +15,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+// Authentication Routes...
+$this->get('login', '\App\Admin\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');
+$this->post('login', '\App\Admin\Http\Controllers\Auth\LoginController@login');
+$this->post('logout', '\App\Admin\Http\Controllers\Auth\LoginController@logout')->name('logout');
+
+// Registration Routes...
+$this->get('register', '\App\Admin\Http\Controllers\Auth\RegisterController@showRegistrationForm')->name('register');
+$this->post('register', '\App\Admin\Http\Controllers\Auth\RegisterController@register');
+
+// Password Reset Routes...
+$this->get('password/reset', '\App\Admin\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm');
+$this->post('password/email', '\App\Admin\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail');
+$this->get('password/reset/{token}', '\App\Admin\Http\Controllers\Auth\ResetPasswordController@showResetForm');
+$this->post('password/reset', '\App\Admin\Http\Controllers\Auth\ResetPasswordController@reset');
 
 Route::get('/home', 'HomeController@index');
