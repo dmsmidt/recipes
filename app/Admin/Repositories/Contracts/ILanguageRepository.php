@@ -16,5 +16,5 @@ interface ILanguageRepository{
 
     public function userLanguage($user);
 
-    public function activeLanguage();
+    public function activeLanguages();
 }

@@ -39,7 +39,7 @@ class LanguageRepository extends BaseRepository implements ILanguageRepository{
         return Language::where('abbr',$user->language)->get()->first();
     }
 
-    public function activeLanguage(){
+    public function activeLanguages(){
         return Language::active();
     }
 }

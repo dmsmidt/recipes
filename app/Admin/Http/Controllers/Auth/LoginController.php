@@ -114,7 +114,7 @@ class LoginController extends Controller
         $language_repo = new $repo();
         //get the users language
         $user_language = $language_repo->userLanguage($user);
-        //set language id according to user language setting
+        //set language id according to user language setting for admin(cms) translations
         Session::put('language.user_lang_id',$user_language->id);
         //set the locale according to user language setting
         \App::setLocale($user_language->abbr);
@@ -125,7 +125,7 @@ class LoginController extends Controller
             Session::put('language.default_id',$default_language->id);
             Session::put('language.default_abbr',$default_language->abbr);
         }
-        Session::put('language.active',$language_repo->activeLanguage());
+        Session::put('language.active',$language_repo->activeLanguages());
 
         //add role to the session
         $role = Role::find($user->role_id);

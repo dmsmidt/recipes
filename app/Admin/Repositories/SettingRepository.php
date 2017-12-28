@@ -61,7 +61,7 @@ class SettingRepository extends BaseRepository implements ISettingRepository{
                 $language->save();
                 $repo = '\\App\\Admin\\Repositories\\LanguageRepository';
                 $language_repo = new $repo();
-                Session::put('language.active',$language_repo->activeLanguage());
+                Session::put('language.active',$language_repo->activeLanguages());
             }
         }
 

@@ -72,7 +72,7 @@ class MainComposer {
         if(AdminRequest::hasChilds()){
             $top_bar["sub_title"] = AdminRequest::recipe();
         }
-        //select the active languages voor de flag buttons
+        //select the active languages to show the flag buttons
         $top_bar['languages'] = Session::get('language.active');
         return (object)$top_bar;
     }
