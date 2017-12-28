@@ -13,7 +13,15 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\Translate::class,
+        Commands\CreateSchema::class,
+        Commands\CreateModel::class,
+        Commands\CreateIRepository::class,
+        Commands\CreateProvider::class,
+        Commands\CreateRepository::class,
+        Commands\CreateController::class,
+        Commands\CreateRequest::class,
+        Commands\CreateSeeder::class,
     ];
 
     /**

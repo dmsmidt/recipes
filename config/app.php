@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Laravel',
+    'name' => 'CMS',
 
     /*
     |--------------------------------------------------------------------------
@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
 
     /*
     |--------------------------------------------------------------------------
@@ -77,7 +77,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => env('APP_LOCALE', 'en'),
 
     /*
     |--------------------------------------------------------------------------
@@ -120,7 +120,7 @@ return [
     |
     */
 
-    'log' => env('APP_LOG', 'single'),
+    'log' => env('APP_LOG', 'daily'),
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
@@ -166,7 +166,9 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Baum\Providers\BaumServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
         //
 
         /*
@@ -177,6 +179,28 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        /*
+         * Cms Core Service Providers...
+         */
+        App\Admin\Providers\ComposerServiceProvider::class,
+        App\Admin\Providers\RecipeServiceProvider::class,
+        App\Admin\Providers\FormFieldServiceProvider::class,
+        App\Admin\Providers\ClassCreatorServiceProvider::class,
+        App\Admin\Providers\AdminRequestServiceProvider::class,
+
+        /*
+         * Cms Repository providers
+         */
+        App\Admin\Providers\LanguageServiceProvider::class,
+        App\Admin\Providers\DashboardServiceProvider::class,
+        App\Admin\Providers\MenuServiceProvider::class,
+        App\Admin\Providers\MenuItemServiceProvider::class,
+        App\Admin\Providers\RoleServiceProvider::class,
+        App\Admin\Providers\ConfigurationServiceProvider::class,
+        App\Admin\Providers\SettingServiceProvider::class,
+        App\Admin\Providers\UserServiceProvider::class,
+
 
     ],
 
@@ -225,7 +249,16 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+        'Image' => Intervention\Image\Facades\Image::class,
+        /*
+         * Cms Facades
+         */
+        'Recipe' => App\Admin\Facades\Recipe::class,
+        'FormField' => App\Admin\Facades\FormField::class,
+        'ClassCreator' => App\Admin\Facades\ClassCreator::class,
+        'AdminRequest' => App\Admin\Facades\AdminRequest::class,
     ],
 
 ];

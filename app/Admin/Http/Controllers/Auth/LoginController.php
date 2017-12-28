@@ -5,7 +5,8 @@ namespace App\Admin\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-
+use Session;
+use App\Models\Role;
 
 class LoginController extends Controller
 {
@@ -27,7 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/admin/dashboard';
 
     /**
      * Create a new controller instance.
@@ -48,6 +49,38 @@ class LoginController extends Controller
     }
 
     /**
+     * Handle a login request to the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function login(Request $request)
+    {
+        $this->validateLogin($request);
+
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+
+        if ($this->attemptLogin($request)) {
+            return $this->sendLoginResponse($request);
+        }
+
+        // If the login attempt was unsuccessful we will increment the number of attempts
+        // to login and redirect the user back to the login form. Of course, when this
+        // user surpasses their maximum number of attempts they will get locked out.
+        $this->incrementLoginAttempts($request);
+
+        return $this->sendFailedLoginResponse($request);
+    }
+
+
+    /**
      * Log the user out of the application.
      *
      * @param \Illuminate\Http\Request  $request
@@ -63,4 +96,48 @@ class LoginController extends Controller
 
         return redirect('/');
     }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        //add user to session
+        Session::put('user',$user->toArray());
+
+        //add language to the session
+        $repo = '\\App\\Admin\\Repositories\\LanguageRepository';
+        $language_repo = new $repo();
+        //get the users language
+        $user_language = $language_repo->userLanguage($user);
+        //set language id according to user language setting
+        Session::put('language.user_lang_id',$user_language->id);
+        //set the locale according to user language setting
+        \App::setLocale($user_language->abbr);
+        //set the default active translation language from existing session or else language table
+        $lang = Session::get('language.default_id');
+        if(!isset($lang)){
+            $default_language = $language_repo->defaultLanguage();
+            Session::put('language.default_id',$default_language->id);
+            Session::put('language.default_abbr',$default_language->abbr);
+        }
+        Session::put('language.active',$language_repo->activeLanguage());
+
+        //add role to the session
+        $role = Role::find($user->role_id);
+        $permissions = [];
+        foreach($role->menuItems as $item){
+            $permissions[] = $item->url;
+        }
+        Session::put('role',$role->toArray());
+        Session::put('role.permissions',$permissions);
+
+
+
+    }
+
 }

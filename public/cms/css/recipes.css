@@ -1,0 +1,112 @@
+.recipe .fields{
+    width: 100%;
+    border-spacing: 0;
+}
+.recipe .fields .name{
+    width:10%;
+}
+.recipe #field_name{
+    width:calc(100% - 15px);
+    border:none;
+}
+.recipe .fields .type{
+    width:15%;
+}
+.recipe .fields .input{
+    width:15%;
+}
+.recipe .fields .inputoptions{
+    width:15%;
+}
+.recipe .fields .rules{
+    width:13%;
+}
+.recipe .fields .fieldoptions{
+    width:calc(32% - 30px);
+}
+
+.fields .parentRow{
+    border-right: 1px solid rgba(61,61,61,.36);
+}
+.fields .parentRow:last-child{
+    border-right: none;
+}
+
+.fields td{
+    background-color: #c6bcb2;
+    border-right: 1px solid rgba(61, 61, 61, 0.36);
+    border-bottom: 1px solid rgba(61, 61, 61, 0.36);
+    vertical-align: top;
+    color: #2d2d2d;
+}
+.fields td select{
+    width:99.9%;
+    height:26px;
+}
+.fields input{
+    width:auto;
+    padding:0;
+    vertical-align: middle;
+}
+.fields input[type=checkbox]{
+    margin:6px 0 6px 10px;
+}
+.fields input[type=text]{
+    height:24px;
+    padding-left:3px;
+    width:calc(99.9% - 5px);
+}
+.fields .row{
+    display:none;
+    width:99.9%;
+    float:left;
+    clear:both;
+}
+.fields .row input[type=text]{
+    width: calc(98% - 75px);
+}
+.fields label{
+    margin-left:10px;
+}
+.fields label.text{
+    display: inline-block;
+    width:60px;
+}
+.fields .checkbox_text_label{
+    vertical-align: sub;
+    display: inline-block;
+    width:60px;
+}
+.fields .checkbox_text{
+    width:120px!important;
+}
+.fields .table_btn{
+    width: 16px;
+    height:16px;
+    margin: 5px 0 0 0;
+}
+.fields input[type="text"]:disabled,
+.fields select:disabled{
+    background-color: rgba(255,255,255,.5);
+}
+.fields .array table{
+    width:100%;
+    border-collapse: collapse;
+}
+.fields .array .table,
+.fields .array .table tr{
+    border:none;
+}
+.fields .array table td{
+    border:1px solid #B5B5D7;
+}
+.fields .array table td input{
+    width:calc(100% - 2px)!important;
+    height:auto;
+    padding:1px;
+    border:none;
+}
+.fields .array,
+.fields .table{
+    display:none;
+}
