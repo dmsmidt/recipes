@@ -84,8 +84,7 @@ class MainComposer {
     public function bottomBar(){
         $bottom_bar = [];
         if($this->action == 'create' ||
-           $this->action == 'edit' ||
-           $this->moduleName == 'settings'){
+           $this->action == 'edit'){
             $arr_path = AdminRequest::segments();
             if($arr_path[count($arr_path)-1] == 'edit'){
                 $return = '/'.implode('/',array_slice($arr_path,0,count($arr_path)-2));
