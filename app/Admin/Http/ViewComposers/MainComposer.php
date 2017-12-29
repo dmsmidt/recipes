@@ -73,7 +73,11 @@ class MainComposer {
             $top_bar["sub_title"] = AdminRequest::recipe();
         }
         //select the active languages to show the flag buttons
-        $top_bar['languages'] = Session::get('language.active');
+        $active_languages = Session::get('language.active');
+        $top_bar['languages'] = [];
+        if(count($active_languages)){
+            $top_bar['languages'] = $active_languages;
+        }
         return (object)$top_bar;
     }
 

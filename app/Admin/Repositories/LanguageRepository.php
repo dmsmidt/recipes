@@ -28,7 +28,6 @@ class LanguageRepository extends BaseRepository implements ILanguageRepository{
     public function delete($id){
         $model = Language::find($id);
         $model->delete();
-        
     }
 
     public function defaultLanguage(){

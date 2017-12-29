@@ -10,3 +10,4 @@ Homestead.yaml
 /Admin/Http/Requests/backups
 /Admin/Recipes/backups
 /public/uploads
+/assets
