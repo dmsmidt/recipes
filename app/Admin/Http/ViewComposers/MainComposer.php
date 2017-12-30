@@ -69,7 +69,6 @@ class MainComposer {
         }
 
         //define the topbar title
-        //dd($this);
         if(AdminRequest::hasChilds()){
             $child_module = AdminRequest::childModule();
             $repository = 'App\\Admin\\Repositories\\'.str_singular(studly_case($this->moduleName)).'Repository';
@@ -82,11 +81,11 @@ class MainComposer {
             $top_bar["title"] = Lang::get($this->moduleName.'.'.ucfirst($this->moduleName));
         }
 
-
         //define related child title if creating or editing a child item
         if(AdminRequest::hasChilds()){
             $top_bar["sub_title"] = AdminRequest::recipe();
         }
+        
         //select the active languages to show the flag buttons
         $active_languages = Session::get('language.active');
         $top_bar['languages'] = [];
