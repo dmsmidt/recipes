@@ -67,7 +67,7 @@ class AdminRequest extends Request {
     }
 
     /**
-     * Returns true if the module has related child models
+     * Returns true if the module has editable related child models
      * @return bool
      */
     public function hasChilds(){
@@ -106,6 +106,16 @@ class AdminRequest extends Request {
             }
         }
         return (object)$form_action;
+    }
+
+    public function childModule(){
+        $segments = $this->segments();
+        return end($segments);
+    }
+
+    public function moduleItemId(){
+        $segments = $this->segments();
+        return $segments[2];
     }
 
 

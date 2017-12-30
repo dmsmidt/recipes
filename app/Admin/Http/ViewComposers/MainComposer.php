@@ -51,6 +51,7 @@ class MainComposer {
      */
     public function topBar($view){
         $top_bar = [];
+
         //show/hide the add button
         if(strpos($this->action,'create') === false && strpos($this->action,'edit') === false){
             $recipe = Recipe::get($this->moduleName);
@@ -66,8 +67,22 @@ class MainComposer {
         if(isset($view->getData()['topbar_buttons'])){
             $top_bar['buttons'] = array_merge($top_bar['buttons'], $view->getData()['topbar_buttons']);
         }
+
         //define the topbar title
-        $top_bar["title"] = Lang::get($this->moduleName.'.'.ucfirst($this->moduleName));
+        //dd($this);
+        if(AdminRequest::hasChilds()){
+            $child_module = AdminRequest::childModule();
+            $repository = 'App\\Admin\\Repositories\\'.str_singular(studly_case($this->moduleName)).'Repository';
+            $repo = new $repository;
+            $module_item_id = AdminRequest::moduleItemId();
+            $model = $repo->selectById($module_item_id);
+            $parent_name = $model->name;
+            $top_bar["title"] = Lang::get($this->moduleName.'.'.ucfirst($this->moduleName)).' '.$parent_name.': '.ucfirst(str_replace('_',' ',$child_module));
+        }else{
+            $top_bar["title"] = Lang::get($this->moduleName.'.'.ucfirst($this->moduleName));
+        }
+
+
         //define related child title if creating or editing a child item
         if(AdminRequest::hasChilds()){
             $top_bar["sub_title"] = AdminRequest::recipe();
