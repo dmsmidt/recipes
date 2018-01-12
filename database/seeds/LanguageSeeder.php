@@ -30,7 +30,7 @@ class LanguageSeeder extends Seeder
             "lft" => "3",
             "rgt" => "4",
             "level" => "0",
-            "active" => "1",
+            "active" => "0",
             "protect" => "0"],
 
             ["name" => "Deutch",
