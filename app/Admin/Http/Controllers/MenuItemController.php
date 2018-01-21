@@ -1,6 +1,5 @@
 <?php namespace App\Admin\Http\Controllers;
 
-use App\Admin\Http\Requests\MenuRequest;
 use App\Admin\Http\Requests\MenuItemRequest;
 use App\Admin\Repositories\Contracts\IMenuItemRepository;
 
@@ -18,11 +17,11 @@ class MenuItemController extends AdminController {
 	 *
 	 * @return Response
 	 */
-	public function index($menu_id)
+	public function index()
 	{
-        $data = $this->menu_item->selectTree($menu_id);
+        $data = $this->menu_item->selectTree();
         return view('admin')
-            ->with("javascripts", ["/cms/js/jquery.nestable.js"])
+            ->with("javascripts", ["/js/admin/jquery.nestable.js"])
             ->nest('center','main.index',compact('data'));
 	}
 
@@ -40,10 +39,10 @@ class MenuItemController extends AdminController {
      * @param MenuItemRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(MenuItemRequest $request, $menu_id)
+    public function store(MenuItemRequest $request)
 	{
-        $this->menu_item->add($request->input(), $menu_id);
-        return redirect('admin/menus/'.$menu_id.'/menu_items');
+        $this->menu_item->add($request->input());
+        return redirect('admin/menu_items');
 	}
 
     /**
@@ -63,7 +62,7 @@ class MenuItemController extends AdminController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($menu_id, $id)
+	public function edit($id)
 	{
         $data = $this->menu_item->selectById($id);
         return view('admin')->nest('center','main.form',compact('data'));
@@ -75,10 +74,10 @@ class MenuItemController extends AdminController {
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(MenuItemRequest $request, $menu_id, $id)
+    public function update(MenuItemRequest $request, $id)
 	{
         $this->menu_item->update($request->input(), $id);
-        return redirect('admin/menus/'.$menu_id.'/menu_items');
+        return redirect('admin/menu_items');
 	}
 
 	/**
@@ -87,9 +86,9 @@ class MenuItemController extends AdminController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($menu_id, $id)
+	public function destroy($id)
 	{
-        $this->menu_item->delete($menu_id, $id);
+        $this->menu_item->delete($id);
         return redirect()->back();
 	}
 

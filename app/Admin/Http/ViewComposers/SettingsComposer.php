@@ -73,7 +73,7 @@ class SettingsComposer {
         $row['active'] = null;
 
         //name column
-        $cols[0]['type'] = 'text';
+        $cols[0]['input'] = 'text';
         $props = [
             "name" => null,
             "label" => null,
@@ -82,7 +82,7 @@ class SettingsComposer {
         $cols[0]['value'] = Lang::get('settings.'.FormField::get('text',$props)->view());
 
         //value column
-        $cols[1]['type'] = $row_data['input_type'];
+        $cols[1]['input'] = $row_data['input_type'];
         $props = [
             "name" => $row_data['name'],
             "label" => null,

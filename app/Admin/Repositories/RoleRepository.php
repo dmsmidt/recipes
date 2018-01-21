@@ -11,8 +11,8 @@ class RoleRepository extends BaseRepository implements IRoleRepository{
 
     public function SelectById($id){
         $role = Role::find($id);
-        $data = $role->toArray();
         $menu_items = $role->menuItems;
+        $data = $role->toArray();
         $ids = [];
         foreach($menu_items as $menu_item){
             $ids[] = $menu_item->id;

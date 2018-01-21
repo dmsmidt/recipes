@@ -27,9 +27,7 @@ class Role extends Recipe{
                             "options" => [
                                 "table" => "menu_items",
                                 "text" => "name",
-                                "value" => "id",
-                                "group_by" => "menus.name",
-                                "filter_by" => "menus.id = 1"            ]
+                                "value" => "id"            ]
                         ],
     ];
     public $hidden = [];
@@ -45,10 +43,10 @@ class Role extends Recipe{
     public $sortable = false;
     public $nestable = false;
     public $timestamps = false;
-    public $has_many = [
+    public $has_one = [
             [
                 "table" => "users",
-                "inverse" => false
+                "inverse" => true
             ],
     ];
     public $many_many = [

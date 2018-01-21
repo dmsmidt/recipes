@@ -14,7 +14,7 @@
             <input type="text" name="field[{{ $row }}][inputoptions_table]" id="inputoptions_table_{{ $row }}" value="@if(isset($field['options']['table'])){{ $field['options']['table'] }}@endif">
 
             {{-- LABEL FOR FIELDS INPUT --}}
-            <label class="text">Fields for:</label>
+            <label class="text" style="width:90%">Fields for:</label>
 
             {{-- INPUT TABLE FIELD FOR OPTION LABEL/TEXT --}}
             <label class="text">Label</label>
@@ -23,6 +23,16 @@
             {{-- INPUT TABLE FIELD FOR OPTION VALUE --}}
             <label class="text">Value</label>
             <input type="text" name="field[{{ $row }}][inputoptions_value]" id="inputoptions_value_{{ $row }}" value="@if(isset($field['options']['value'])){{ $field['options']['value'] }}@endif">
+            <hr>
+
+            {{-- INPUT TABLE FIELD FOR GROUP BY --}}
+            <label class="text">Group by</label>
+            <input type="text" name="field[{{ $row }}][inputoptions_group_by]" id="inputoptions_group_by_{{ $row }}" value="@if(isset($field['options']['group_by'])){{ $field['options']['group_by'] }}@endif">
+            <hr>
+
+            {{-- INPUT TABLE FIELD FOR FILTERING | relation: <tablename.fieldname = value> local table <fieldname = value>  --}}
+            <label class="text">Filter by</label>
+            <input type="text" name="field[{{ $row }}][inputoptions_filter_by]" id="inputoptions_filter_by_{{ $row }}" value="@if(isset($field['options']['filter_by'])){{ $field['options']['filter_by'] }}@endif">
         </div>
 
         <div class="array array_input_{{ $row }} inputoptionrow_{{ $row }}" @if(isset($field['options']) && !isset($field['options']['table'])) style="display:block;" @endif>

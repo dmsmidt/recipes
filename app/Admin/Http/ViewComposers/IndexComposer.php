@@ -104,6 +104,7 @@ class IndexComposer {
         $row['rgt'] = isset($row_data['rgt']) ? $row_data['rgt'] : null;
         $row['level'] = isset($row_data['level']) ? $row_data['level'] : null;
 
+        // A boolean is_header is used to show header rows in the index view
         if(isset($row_data['is_header']) && $row_data['is_header']){
             $row['class'] = 'parent_row';
         }
@@ -112,38 +113,53 @@ class IndexComposer {
         if($options['protectable']){ $row['protect'] = $row_data['protect']; }else{ $row['protect'] = null; }
         //get the active value of the row if option exists
         if($options['activatable']){ $row['active'] = $row_data['active']; }else{ $row['active'] = null; }
+
         //get the summary columns
         foreach($summary as $field){
             if(array_key_exists($field,$row_data)){
-                $type = $this->recipe->fields[$field]['input'];
+                $input = $this->recipe->fields[$field]['input'];
+                //get the input label if it exists
                 $label = array_key_exists('label',$this->recipe->fields[$field]) ? $this->recipe->fields[$field]['label'] : null;
-                $cols[$c]['type'] = $type;
+                $cols[$c]['input'] = $input;
                 $props = [
                     "name" => $field,
                     "label" => $label,
                     "value" => $row_data[$field]
                 ];
-                $cols[$c]['value'] = FormField::get($type,$props)->view();
+                $cols[$c]['value'] = FormField::get($input,$props)->view();
             }
-            elseif(isset($this->recipe->has_many) && array_key_exists($field,$this->recipe->has_many)){
-                /* in this case the input has multiple related child data
-                 * therefore a button is added to the row to open a window
-                 * for editing the child data
-                 * the value is the parents id
-                 */
-                $type = $this->recipe->fields[$field]['input'];
-                $label = array_key_exists('label',$this->recipe->fields[$field]) ? $this->recipe->fields[$field]['label'] : null;
-                $cols[$c]['type'] = $type;
-                $props = [
-                    "name" => $field,
-                    "label" => $label,
-                    "value" => $row['id']
-                ];
-                $cols[$c]['value'] = FormField::get($type,$props)->view();
+
+            /*
+             * Search in the recipe if there is a has_many relation with table name = field name
+             */
+            elseif(isset($this->recipe->has_many)){
+                $has_many_relations = [];
+                foreach($this->recipe->has_many as $relation){
+                    $has_many_relations[] = $relation['table'];
+                }
+                //@todo: NOT checking out has_many related table exists as a field name, but input is multiple
+                if(in_array($field, $has_many_relations)){
+                    /* in this case the input has multiple related child data
+                     * therefore a button is added to the row to open a window
+                     * for editing the child data
+                     * the value is the parents id
+                     */
+                    $input = $this->recipe->fields[$field]['input'];
+                    $label = array_key_exists('label',$this->recipe->fields[$field]) ? $this->recipe->fields[$field]['label'] : null;
+                    $cols[$c]['input'] = $input;
+                    $props = [
+                        "name" => $field,
+                        "label" => $label,
+                        "value" => $row['id']
+                    ];
+                    $cols[$c]['value'] = FormField::get($input,$props)->view();
+
+                }
             }
             $c++;
         }
         $row['columns'] = $cols;
+
         //define the controller action verb for the possible options
         $actions = ["edit" => "get", "delete" => "delete", "sortable" => "", "nestable" => "", "activatable" => "", "protectable" => ""];
         //define the action urls

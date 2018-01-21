@@ -49,7 +49,7 @@
                 </div>
                 <div class="col_text">
                     <button data-recipe="{{$row['name']}}" type="button" class="row_btn btnMigrate" style="margin:0;">@if($row['table'])
-                        <div class="icon-checkbox2""></div>@else<div class="icon-checkbox3"></div>@endif
+                        <div class="icon-checkbox2"></div>@else<div class="icon-checkbox3"></div>@endif
                     </button>
                 </div>
 

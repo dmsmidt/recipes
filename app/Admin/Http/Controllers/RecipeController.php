@@ -104,7 +104,6 @@ class RecipeController  extends AdminController {
     public function edit($recipe)
 	{
 	    $_recipe = Recipe::get($recipe);
-        //dd($_recipe);
         $data['display'] = 'edit';
         $data['recipe'] = $_recipe;
         //add type options to fields
@@ -384,14 +383,15 @@ class RecipeController  extends AdminController {
         ];
         $messages = [];
         foreach($paths as $key => $path){
-            if(unlink($path)){
-                $messages[] = ['type' => 'succes', 'text' => 'The '.$names[$key].' has been deleted.'];
-            }else{
-                $messages[] = ['type' => 'alert', 'text' => 'The '.$names[$key].' has not been deleted.'];
+            if(file_exists($path)){
+                if(unlink($path)){
+                    $messages[] = ['type' => 'succes', 'text' => 'The '.$names[$key].' has been deleted.'];
+                }else{
+                    $messages[] = ['type' => 'alert', 'text' => 'The '.$names[$key].' has not been deleted.'];
+                }
             }
         }
         return $this->messageDialog($messages, $callback);
-
     }
 
     /**

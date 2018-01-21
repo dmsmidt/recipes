@@ -17,19 +17,19 @@
             <th class="parentRow col_sort" style="width:30px;">
                 {{--<button class="btn table_btn" type="button" data-rowname="row"><div class="icon-tree-expand"></div></button>--}}
             </th>
-            <th class="parentRow " style="width:10%">Field</th>
-            <th class="parentRow " style="width:15%">Related table.field</th>
-            <th class="parentRow " style="width:calc(75% - 30px)"></th>
+            <th class="parentRow " style="width:10%">Table</th>
+            <th class="parentRow " style="width:5%">Inverse</th>
+            <th class="parentRow " style="width:calc(85% - 30px)"></th>
         </tr>
         @if(isset($data['recipe']->has_one))
             <?php $n = 0; ?>
-            @foreach($data['recipe']->has_one as $field => $relation)
+            @foreach($data['recipe']->has_one as $relation)
             <tr>
                 <td></td>
                 {{-- HAS ONE FIELD COLUMN --}}
-                <td><input type="text" name="has_one[{{ $n }}][field]" id="has_one_field_{{ $n }}" value="{{ $field }}"></td>
+                <td><input type="text" name="has_one[{{ $n }}][table]" id="has_one_field_{{ $n }}" value="{{ $relation['table'] }}"></td>
                 {{-- HAS ONE RELATED TABLE FIELD COLUMN --}}
-                <td><input type="text" name="has_one[{{ $n }}][tablefield]" id="has_one_tablefield_{{ $n }}" value="{{ $relation }}"></td>
+                <td><input type="checkbox" name="has_one[{{ $n }}][inverse]" id="has_one_inverse_{{ $n }}" value="1" @if($relation['inverse']) checked @endif ></td>
             </tr>
             <?php $n++; ?>
             @endforeach
@@ -47,19 +47,19 @@
             <th class="parentRow col_sort" style="width:30px;">
                 {{--<button class="btn table_btn" type="button" data-rowname="row"><div class="icon-tree-expand"></div></button>--}}
             </th>
-            <th class="parentRow " style="width:10%">Field</th>
-            <th class="parentRow " style="width:15%">Related table.field</th>
-            <th class="parentRow " style="width:calc(75% - 30px)"></th>
+            <th class="parentRow " style="width:10%">Table</th>
+            <th class="parentRow " style="width:5%">Inverse</th>
+            <th class="parentRow " style="width:calc(85% - 30px)"></th>
         </tr>
         @if(isset($data['recipe']->has_many))
             <?php $n = 0; ?>
-            @foreach($data['recipe']->has_many as $field => $relation)
+            @foreach($data['recipe']->has_many as $relation)
             <tr>
                 <td></td>
                 {{-- HAS MANY FIELD COLUMN --}}
-                <td><input type="text" name="has_many[{{ $n }}][field]" id="has_many_field_{{ $n }}" value="{{ $field }}"></td>
+                <td><input type="text" name="has_many[{{ $n }}][table]" id="has_many_field_{{ $n }}" value="{{ $relation['table'] }}"></td>
                 {{-- HAS MANY RELATED TABLE FIELD COLUMN --}}
-                <td><input type="text" name="has_many[{{ $n }}][tablefield]" id="has_many_tablefield_{{ $n }}" value="{{ $relation }}"></td>
+                <td><input type="checkbox" name="has_many[{{ $n }}][inverse]" id="has_many_inverse_{{ $n }}" value="1" @if($relation['inverse']) checked @endif ></td>
             </tr>
             <?php $n++; ?>
             @endforeach
@@ -77,19 +77,19 @@
             <th class="parentRow col_sort" style="width:30px;">
                 {{--<button class="btn table_btn" type="button" data-rowname="row"><div class="icon-tree-expand"></div></button>--}}
             </th>
-            <th class="parentRow " style="width:10%">Field</th>
-            <th class="parentRow " style="width:15%">Related table.field</th>
-            <th class="parentRow " style="width:calc(75% - 30px)"></th>
+            <th class="parentRow " style="width:10%">Table</th>
+            <th class="parentRow " style="width:5%">&nbsp;</th>
+            <th class="parentRow " style="width:calc(85% - 30px)"></th>
         </tr>
         @if(isset($data['recipe']->many_many))
             <?php $n = 0; ?>
-            @foreach($data['recipe']->many_many as $field => $relation)
+            @foreach($data['recipe']->many_many as $relation)
             <tr>
                 <td></td>
                 {{-- MANY MANY FIELD COLUMN --}}
-                <td><input type="text" name="many_many[{{ $n }}][field]" id="many_many_field_{{ $n }}" value="{{ $field }}"></td>
+                <td><input type="text" name="many_many[{{ $n }}][table]" id="many_many_field_{{ $n }}" value="{{ $relation['table'] }}"></td>
                 {{-- MANY MANY RELATED TABLE FIELD COLUMN --}}
-                <td><input type="text" name="many_many[{{ $n }}][tablefield]" id="many_many_tablefield_{{ $n }}" value="{{ $relation }}"></td>
+                <td>&nbsp;</td>
             </tr>
             <?php $n++; ?>
             @endforeach

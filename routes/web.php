@@ -27,15 +27,16 @@ Route::group(['prefix' => 'admin'], function() {
         Route::get('/',function(){
             return Redirect::to('admin/dashboard');
         });
-        Route::resource('dashboard', '\App\Admin\Http\Controllers\DashboardController');
-        Route::resource('recipes', '\App\Admin\Http\Controllers\RecipeController');
-        Route::resource('menus', '\App\Admin\Http\Controllers\MenuController');
-        Route::resource('menus.menu_items', '\App\Admin\Http\Controllers\MenuItemController');
-        Route::resource('roles', '\App\Admin\Http\Controllers\RoleController');
-        Route::resource('settings', '\App\Admin\Http\Controllers\SettingController');
-        Route::resource('configurations', '\App\Admin\Http\Controllers\ConfigurationController');
-        Route::resource('users', '\App\Admin\Http\Controllers\UserController');
-
+        Route::group(['middleware' => 'role'], function(){
+            Route::resource('dashboard', '\App\Admin\Http\Controllers\DashboardController');
+            Route::resource('recipes', '\App\Admin\Http\Controllers\RecipeController');
+            Route::resource('menus', '\App\Admin\Http\Controllers\MenuController');
+            Route::resource('menus.menu_items', '\App\Admin\Http\Controllers\MenuItemController');
+            Route::resource('roles', '\App\Admin\Http\Controllers\RoleController');
+            Route::resource('settings', '\App\Admin\Http\Controllers\SettingController');
+            Route::resource('configurations', '\App\Admin\Http\Controllers\ConfigurationController');
+            Route::resource('users', '\App\Admin\Http\Controllers\UserController');
+        });
         //Ajax request
         $model = studly_case(str_singular(Request::segment(2)));
         Route::post('{module}/ajax', array('as' => 'ajaxRequest', 'uses' => '\App\Admin\Http\Controllers\\'.$model.'Controller@ajax'))->where('module','.+');

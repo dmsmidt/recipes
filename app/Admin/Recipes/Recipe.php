@@ -163,9 +163,12 @@ class Recipe {
                 }
                 if(isset($field['inputoptions']) && !empty($field['inputoptions'])){
                     if($field['inputoptions'] == 'db_table'){
-                        $recipe['fields'][$field['name']]['options'] = ['table' => $field['inputoptions_table'],
+                        $recipe['fields'][$field['name']]['options'] = [
+                            'table' => $field['inputoptions_table'],
                             'label' => $field['inputoptions_label'],
-                            'value' => $field['inputoptions_value']
+                            'value' => $field['inputoptions_value'],
+                            'group_by' => $field['inputoptions_group_by'],
+                            'filter_by'=> $field['inputoptions_filter_by']
                         ];
                     }elseif($field['inputoptions'] == 'array'){
                         for($n = 0; $n < count($field['inputoptionslabel_array']); $n++){
@@ -241,21 +244,26 @@ class Recipe {
         if(isset($formdata['has_one']) && count($formdata['has_one'])){
             $recipe['has_one'] = [];
             foreach($formdata['has_one'] as $related){
-                $recipe['has_one'][$related['field']] = $related['tablefield'];
+                $recipe['has_one'][] = ["table" => $related['table'], "inverse" => $related['inverse']];
             }
         }
         //has_many
         if(isset($formdata['has_many']) && count($formdata['has_many'])){
             $recipe['has_many'] = [];
             foreach($formdata['has_many'] as $related){
-                $recipe['has_many'][$related['field']] = $related['tablefield'];
+                if(isset($related['table']) && isset($related['inverse'])){
+                    $recipe['has_many'][] = ["table" => $related['table'], "inverse" => $related['inverse']];
+                }else{
+                    $recipe['has_many'][] = ["table" => $related['table'], "inverse" => 0];
+                }
+
             }
         }
         //many_many
         if(isset($formdata['many_many']) && count($formdata['many_many'])){
             $recipe['many_many'] = [];
             foreach($formdata['many_many'] as $related){
-                $recipe['many_many'][$related['field']] = $related['tablefield'];
+                $recipe['many_many'][] = ["table" => $related['table']];
             }
         }
         return (object)$recipe;

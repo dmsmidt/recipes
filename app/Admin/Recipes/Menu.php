@@ -62,8 +62,10 @@ class Menu extends Recipe{
     public $nestable = false;
     public $timestamps = false;
     public $has_many = [
-        
-            "menu_items" => "menu_items.menu_id",
+        [
+            "table" => "menu_items",
+            "inverse" => false
+        ]
     ];
 
     /**

@@ -62,8 +62,10 @@ class Setting extends Recipe{
     public $nestable = false;
     public $timestamps = false;
     public $has_one = [
-        
-            "configuration_id" => "configurations.id",
+        [
+            "table" => "configurations",
+            "inverse" => false
+        ]
     ];
 
     /**

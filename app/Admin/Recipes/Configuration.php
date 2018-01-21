@@ -117,9 +117,6 @@ class Configuration  extends Recipe{
     public $guarded = ["id","parent_id","lft","rgt","level"];
     public $scoped = [];
     public $summary = ["name","label","is_header"];
-    public $has_one = [
-        "parent_id" => "configurations.id"
-    ];
     public $add = true;
     public $edit = true;
     public $delete = true;
@@ -128,6 +125,12 @@ class Configuration  extends Recipe{
     public $activatable = true;
     public $protectable = true;
     public $timestamps = false;
+    public $has_one = [
+        [
+            "table" => "settings",
+            "inverse" => true
+        ]
+    ];
 
     /**
      * @return mixed

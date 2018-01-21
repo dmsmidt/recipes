@@ -29,7 +29,8 @@ class Role extends Recipe{
                                 "text" => "name",
                                 "value" => "id",
                                 "group_by" => "menus.name",
-                                "filter_by" => "menus.id = 1"            ]
+                                "filter_by" => "menus.id = 1",
+                            ]
                         ],
     ];
     public $hidden = [];

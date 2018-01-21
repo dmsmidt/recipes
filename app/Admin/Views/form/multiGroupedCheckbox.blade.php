@@ -6,7 +6,7 @@
         {{ Lang::get($moduleName.'.'.$field['label']) }}
     </label>
 </div>
-
+{{--dd($field['options'])--}}
 @foreach($field['options'] as $group => $option)
 <div class="parentRow">
 

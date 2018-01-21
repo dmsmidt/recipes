@@ -32,7 +32,7 @@
                 <div class="dd3-content">
                 <?php $n = 0; ?>
                     @foreach($row['columns'] as $column)
-                        <div class="col_{{ $column['type'] }}">@if($n == 0 && isset($row['edit']['url']) && !empty($row['edit']['url']) && !$row['protect'])<a href="{{ $row['edit']['url'] }}">@endif{!! $column['value'] !!}</a></div>
+                        <div class="col_{{ $column['input'] }}">@if($n == 0 && isset($row['edit']['url']) && !empty($row['edit']['url']) && !$row['protect'])<a href="{{ $row['edit']['url'] }}">@endif{!! $column['value'] !!}</a></div>
                         <?php $n++; ?>
                     @endforeach
 

@@ -175,7 +175,7 @@ $(function(){
        }else{
            $('.error_msg.name').text('');
        }
-    }
+    };
 
     tableExistsMsg = function(data){
         if(data.exists){
@@ -183,7 +183,7 @@ $(function(){
         }else{
             $('.error_msg.table').text('');
         }
-    }
+    };
 
     $fields_table.on('click','.btnAddRule',function(){
         var row = $(this).data('row');
@@ -196,40 +196,40 @@ $(function(){
         var row = $table.find('> tbody > tr').length -1;
         var html = '<tr>'+
             '<td></td>'+
-            '<td><input type="text" name="has_one['+row+'][field]" id="has_one_field_'+row+'" value=""></td>'+
-            '<td><input type="text" name="has_one['+row+'][tablefield]" id="has_one_tablefield_'+row+'" value=""></td>'+
+            '<td><input type="text" name="has_one['+row+'][table]" id="has_one_table_'+row+'" value=""></td>'+
+            '<td><input type="checkbox" name="has_one['+row+'][inverse]" id="has_one_inverse_'+row+'" value="1"></td>'+
             '</tr>';
         $table.find('tbody > tr:last').after(html);
-    }
+    };
 
     addHasMany = function(){
         var $table = $('.hasmany_table');
         var row = $table.find('> tbody > tr').length -1;
         var html = '<tr>'+
             '<td></td>'+
-            '<td><input type="text" name="has_many['+row+'][field]" id="has_many_field_'+row+'" value=""></td>'+
-            '<td><input type="text" name="has_many['+row+'][tablefield]" id="has_many_tablefield_'+row+'" value=""></td>'+
+            '<td><input type="text" name="has_many['+row+'][table]" id="has_many_table_'+row+'" value=""></td>'+
+            '<td><input type="checkbox" name="has_many['+row+'][inverse]" id="has_many_inverse_'+row+'" value="1"></td>'+
             '</tr>';
         $table.find('tbody > tr:last').after(html);
-    }
+    };
 
     addManyMany = function(){
         var $table = $('.manymany_table');
         var row = $table.find('> tbody > tr').length -1;
         var html = '<tr>'+
         '<td></td>'+
-        '<td><input type="text" name="many_many['+row+'][field]" id="many_many_field_'+row+'" value=""></td>'+
-        '<td><input type="text" name="many_many['+row+'][tablefield]" id="many_many_tablefield_'+row+'" value=""></td>'+
+        '<td><input type="text" name="many_many['+row+'][table]" id="many_many_table_'+row+'" value=""></td>'+
+        '<td>&nbsp;</td>'+
         '</tr>';
         $table.find('tbody > tr:last').after(html);
-    }
+    };
 
     addTypeOptions = function(data){
         var $container = $('#field_type_'+data.row);
         $container.parent().find('.row').remove();
         $container.after(data.html);
         $container.parent().find('.row').show();
-    }
+    };
 
     /**
      * Backup recipe and classes

@@ -12,7 +12,7 @@ class FormField {
     public $properties;
 
     public function get($input,$props){
-        //if($input == 'images'){dd($props);}
+        //if($input == 'multiGroupedCheckbox'){dd($props);}
         $_field = __NAMESPACE__.'\\'.studly_case($input);
         return new $_field($props);
     }
@@ -21,6 +21,10 @@ class FormField {
         $input_class = (new \ReflectionClass($this))->getShortName();
         $this->module = AdminRequest::module();
         $this->recipe = Recipe::get(AdminRequest::recipe());
+
+        /*if($input_class == 'MultiGroupedCheckbox'){
+            dd($props);
+        }*/
 
         //define the field label
         $this->properties['label'] = isset($props['label']) ? $props['label'] : null;
@@ -57,15 +61,34 @@ class FormField {
                 $table = $options['table'];
                 $text = $options['text'];
                 $value = $options['value'];
+
                 //if the items need to be grouped for multiple checkbox or radio groups
-                if(array_key_exists('group_by',$options)){
+                if(array_key_exists('group_by',$options) && !empty($options['group_by'])){
+
                     //if a dot exists in the string the options are grouped by a field in a related table
                     if(strpos($options['group_by'],'.') !== false){
                         $arrRelation = explode('.',$options['group_by']);
                         $rel_table = $arrRelation[0];
                         $rel_field = $arrRelation[1];
                         $id = str_singular($rel_table).'_id';
-                        $where = isset($options['filter_by']) ? "WHERE ".$rel_table.".".$options['filter_by'][0]." = '".$options['filter_by'][1]."'" : "";
+                        //setup filter if it exists
+                        $where = '';
+                        if(isset($options['filter_by']) && !empty($options['filter_by'])){
+                            $filterArr = explode(' = ',$options['filter_by']);
+                            $filterFindArr = explode('.',$filterArr[0]);
+                            $filterFindIn = $filterFindArr['0'];
+                            $filterFindWhat = $filterFindArr['1'];
+                            $filterFindEqual = $filterArr['1'];
+                            // works only if the referenced table is the same as the related table
+                            if($rel_table == $filterFindIn){
+                                $where = "WHERE ".$rel_table.".".$filterFindWhat." = '".$filterFindEqual."'";
+                            }
+                        }
+                        /**
+                         * @todo this query should not be here. Move is to a repository class.
+                         * If the recipe has a field with a grouped input this query(below) should be added to the repository of the recipe
+                         * Add groupAndFilterBy method to the repository
+                         */
                         $result = DB::select(DB::raw("SELECT ".$rel_table.".".$rel_field." AS 'group_name', ".$table.".".$text." AS 'text', ".$table.".".$value." AS 'value'
                                               FROM ".$rel_table."
                                               INNER JOIN ".$table." ON ".$rel_table.".id = ".$table.".".$id."
@@ -94,7 +117,11 @@ class FormField {
                             ];
                         }
                     }else{
-                        //
+                        /**
+                         * @todo build a group and filter feature for local table (no dots(.) in the group_by)
+                         * The group_by value will represent a column name inside the table
+                         * The filter_by value will represent column name = value
+                         */
                     }
                 }else{
                     $result = DB::select(DB::raw("SELECT ".$value.",".$text." FROM ".$table." ORDER BY ".$text));

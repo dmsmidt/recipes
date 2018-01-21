@@ -2,13 +2,13 @@
 
 interface IMenuItemRepository{
 
-    public function selectTree($parent_id);
+    public function selectTree();
 
     public function SelectById($id);
 
-    public function add($input, $parent_id);
+    public function add($input);
 
     public function update($input, $id);
 
-    public function delete($parent_id, $id);
+    public function delete($id);
 }

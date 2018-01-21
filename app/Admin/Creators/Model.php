@@ -128,14 +128,26 @@ FILLABLE;
 GUARDED;
         }
 
+        if(isset($recipe->with) && count($recipe->with)){
+            $with = implode('","',$recipe->with);
+            $str .= PHP_EOL.<<<WITH
+    /**
+     * Fields disallowed for mass assignment
+     * @var array
+     */
+    protected \$with = ["{$with}"];
+
+WITH;
+        }
+
         if(isset($recipe->has_one)){
             $has_one = $recipe->has_one;
-            foreach($has_one as $name => $value){
-                $func_name = camel_case($name);
-                $ref = explode('.',$value);
-                $relModel = studly_case($ref[0]);
-                $reference = $ref[1];
-                $str .= PHP_EOL.<<<HAS_ONE
+            foreach($has_one as $field){
+                $func_name = str_singular($field['table']);
+                $relModel = studly_case(str_singular($field['table']));
+                $reference = str_singular($recipe->table).'_id';
+                if(!$field['inverse']){
+                    $str .= PHP_EOL.<<<HAS_ONE
     /**
      * Retrieve has_one relationship
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -146,22 +158,30 @@ GUARDED;
     }
 
 HAS_ONE;
+                }else{
+                    $str .= PHP_EOL.<<<HAS_ONE_INVERSE
+    /**
+     * Retrieve inverse has_one relationship
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function {$func_name}()
+    {
+        return \$this->belongsTo('App\\Models\\{$relModel}','{$reference}');
+    }
+
+HAS_ONE_INVERSE;
+                }
             }
         }
 
         if(isset($recipe->has_many)){
             $has_many = $recipe->has_many;
-            foreach($has_many as $name => $value){
-
-                if($recipe->fields[$name]['input'] == 'language'){
-                    $func_name = 'language';
-                }else{
-                    $func_name = camel_case($name);
-                }
-                $ref = explode('.',$value);
-                $relModel = studly_case(str_singular($ref[0]));
-                $reference = $ref[1];
-                $str .= PHP_EOL.<<<HAS_MANY
+            foreach($has_many as $field){
+                $relModel = studly_case(str_singular($field['table']));
+                $reference = str_singular($recipe->table).'_id';
+                if(!$field['inverse']){
+                    $func_name = $field['table'];
+                    $str .= PHP_EOL.<<<HAS_MANY
     /**
      * Retrieve has_many relationships
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -172,25 +192,38 @@ HAS_ONE;
     }
 
 HAS_MANY;
+
+                }else{
+                    $func_name = str_singular($field['table']);
+                    $str .= PHP_EOL.<<<HAS_MANY_INVERSE
+    /**
+     * Retrieve inverse has_many relationships
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function {$func_name}()
+    {
+        return \$this->belongsTo('App\\Models\\{$relModel}', '{$reference}');
+    }
+
+HAS_MANY_INVERSE;
+
+                }
             }
         }
 
         if(isset($recipe->many_many)){
             $many_many = $recipe->many_many;
-            foreach($many_many as $name => $value){
-                $func_name = camel_case($name);
-                $ref = explode('.',$value);
-                $relModel = studly_case(str_singular($name));
-                $reference = $ref[1];
-                $foreign_key = str_singular($name).'_id';
+            foreach($many_many as $field){
+                $func_name = $field['table'];
+                $relModel = studly_case(str_singular($field['table']));
                 $str .= PHP_EOL.<<<MANY_MANY
-    /*
+    /**
      * Retrieve many_many relationships
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function {$func_name}()
     {
-        return \$this->belongsToMany('App\\Models\\{$relModel}', '{$ref[0]}', '{$reference}', '{$foreign_key}');
+        return \$this->belongsToMany('App\\Models\\{$relModel}');
     }
 
 MANY_MANY;

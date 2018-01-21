@@ -157,7 +157,9 @@ INPUTOPTIONS;
 
                                 "table" => "{$field['options']['table']}",
                                 "text" => "{$field['options']['label']}",
-                                "value" => "{$field['options']['value']}"
+                                "value" => "{$field['options']['value']}",
+                                "group_by" => "{$field['options']['group_by']}",
+                                "filter_by" => "{$field['options']['filter_by']}"
 TABLEOPTIONS;
                 }else{
                     foreach ($field['options'] as $val) {
@@ -293,10 +295,13 @@ RECIPEOPTIONS;
         $str = '';
         if(isset($_recipe->has_one) && count($_recipe->has_one)){
             $relations = '';
-            foreach($_recipe->has_one as $field => $related){
+            foreach($_recipe->has_one as $related){
+                $inverse = $related['inverse'] ? 'true' : 'false';
                 $relations .= <<<RELATIONS
-
-            "{$field}" => "{$related}",
+    [
+                "table" => "{$related['table']}",
+                "inverse" => {$inverse}
+            ],
 RELATIONS;
 
             }
@@ -310,10 +315,13 @@ HASONE;
         }
         if(isset($_recipe->has_many) && count($_recipe->has_many)){
             $relations = '';
-            foreach($_recipe->has_many as $field => $related){
+            foreach($_recipe->has_many as $related){
+                $inverse = $related['inverse'] ? 'true' : 'false';
                 $relations .= <<<RELATIONS
-
-            "{$field}" => "{$related}",
+    [
+                "table" => "{$related['table']}",
+                "inverse" => {$inverse}
+            ],
 RELATIONS;
 
             }
@@ -329,8 +337,9 @@ HASMANY;
             $relations = '';
             foreach($_recipe->many_many as $field => $related){
                 $relations .= <<<RELATIONS
-
-            "{$field}" => "{$related}",
+    [
+                "table" => "{$related['table']}"
+            ],
 RELATIONS;
 
             }
