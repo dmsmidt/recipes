@@ -83,6 +83,11 @@ class AdminRequest extends Request {
         }
     }
 
+    public function parent_id(){
+        $request_arr = Request::segments();
+        return $request_arr[2];
+    }
+
     public function formAction(){
         $segments = $this->segments();
         $form_action = [];

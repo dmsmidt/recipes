@@ -5,11 +5,11 @@ use App\Models\MenuItem;
 
 class MenuItemRepository extends BaseRepository implements IMenuItemRepository{
 
-    public function selectTree(){
+    public function selectTree($parent_id = null){
         return MenuItem::all()->toHierarchy()->toArray();
     }
 
-    public function SelectById($id){
+    public function SelectById($parent_id, $id){
         return MenuItem::find($id);
     }
 
@@ -25,7 +25,7 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository{
         $this->saveTranslations('menu_items',$input, $model->id);
     }
 
-    public function delete($id){
+    public function delete($parent_id, $id){
         $model = MenuItem::find($id);
         $model->delete();
         $this->deleteTranslations('menu_items',$id);

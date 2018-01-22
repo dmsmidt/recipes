@@ -19,6 +19,15 @@
                 <span class="error_msg table">{!! $errors->first('table') !!}</span>
             </div>
 
+            {{-- PARENT TABLE --}}
+            <div class="formRow text">
+                {!! Form::label('parent_table', 'Parent table') !!}
+                @if(isset($data['recipe']->parent_table)){!! Form::text('parent_table', $data['recipe']->parent_table, ['id' => 'parent_table']) !!}
+                @else{!! Form::text('parent_table', '', ['id' => 'parent_table']) !!}
+                @endif
+                <span class="error_msg parent_table">{!! $errors->first('parent_table') !!}</span>
+            </div>
+
             {{-- ADD --}}
             @if(isset($data['recipe']->add))
                 <div class="formRow checkbox">

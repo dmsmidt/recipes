@@ -108,6 +108,7 @@ class Recipe {
         $recipe = [
             'moduleName' => $formdata['name'],//required
             'table' => $formdata['table'],//required
+            'parent_table' => $formdata['parent_table'],
             'add' => isset($formdata['add'])&&$formdata['add'] ? true : false,
             'edit' => isset($formdata['edit'])&&$formdata['edit'] ? true : false,
             'delete' => isset($formdata['delete'])&&$formdata['delete'] ? true : false,

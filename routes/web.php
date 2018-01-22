@@ -27,8 +27,8 @@ Route::group(['prefix' => 'admin'], function() {
         Route::get('/',function(){
             return Redirect::to('admin/dashboard');
         });
+        Route::resource('dashboard', '\App\Admin\Http\Controllers\DashboardController');
         Route::group(['middleware' => 'role'], function(){
-            Route::resource('dashboard', '\App\Admin\Http\Controllers\DashboardController');
             Route::resource('recipes', '\App\Admin\Http\Controllers\RecipeController');
             Route::resource('menus', '\App\Admin\Http\Controllers\MenuController');
             Route::resource('menus.menu_items', '\App\Admin\Http\Controllers\MenuItemController');

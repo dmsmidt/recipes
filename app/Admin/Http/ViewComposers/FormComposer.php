@@ -203,9 +203,19 @@ class FormComposer {
                            $props['active_languages'] = $active_languages;
                         }
 
+                        /**
+                         * Generate hidden id_fields for relationships
+                         * These fields contain a hidden input and _id in the name
+                         */
+                        if($field['input'] == 'hidden' && strpos($name,'_id') !== false && count(AdminRequest::segments()) >= 5){
+                            $parent_id = AdminRequest::parent_id();
+                            $props['value'] = $parent_id;
+                        }
+
                         $Input = FormField::get($field['input'],$props)->input();
                         $formfields[$name]['field'] = $Input;
                     }
+
 
                 }
             }

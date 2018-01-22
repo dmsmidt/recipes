@@ -62,9 +62,9 @@ class MenuItemController extends AdminController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($menu_id, $id)
 	{
-        $data = $this->menu_item->selectById($id);
+        $data = $this->menu_item->selectById($menu_id, $id);
         return view('admin')->nest('center','main.form',compact('data'));
 	}
 
@@ -77,7 +77,7 @@ class MenuItemController extends AdminController {
     public function update(MenuItemRequest $request, $id)
 	{
         $this->menu_item->update($request->input(), $id);
-        return redirect('admin/menu_items');
+        return redirect('admin/menus/'.$request->input('menu_id').'/menu_items');
 	}
 
 	/**

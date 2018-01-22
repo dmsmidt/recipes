@@ -24,6 +24,7 @@ class {$name} extends Recipe{
 
     public \$moduleName = '{$_recipe->moduleName}';
     public \$table = '{$_recipe->table}';
+    public \$parent_table = '{$_recipe->parent_table}';
 
 START;
         if(isset($_recipe->fields) && count($_recipe->fields)){
