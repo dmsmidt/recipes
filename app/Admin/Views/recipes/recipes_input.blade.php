@@ -11,7 +11,7 @@
         <option value="foreign"  @if(isset($field['input']) && $field['input'] == 'foreign') selected @endif>foreign</option>
         <option value="hidden"  @if(isset($field['input']) && $field['input'] == 'hidden') selected @endif>hidden</option>
         <option value="html"  @if(isset($field['input']) && $field['input'] == 'html') selected @endif>html</option>
-        <!--<option value="icon"  @if(isset($field['input']) && $field['input'] == 'icon') selected @endif>icon</option>-->
+        <option value="icon"  @if(isset($field['input']) && $field['input'] == 'icon') selected @endif>icon</option>
         <option value="image"  @if(isset($field['input']) && $field['input'] == 'image') selected @endif>image</option>
         <option value="images"  @if(isset($field['input']) && $field['input'] == 'images') selected @endif>images</option>
         <option value="language"  @if(isset($field['input']) && $field['input'] == 'language') selected @endif>language</option>

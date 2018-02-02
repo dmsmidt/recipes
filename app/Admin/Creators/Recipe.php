@@ -318,10 +318,12 @@ HASONE;
             $relations = '';
             foreach($_recipe->has_many as $related){
                 $inverse = $related['inverse'] ? 'true' : 'false';
+                $cascade = $related['cascade'] ? 'true' : 'false';
                 $relations .= <<<RELATIONS
     [
                 "table" => "{$related['table']}",
-                "inverse" => {$inverse}
+                "inverse" => {$inverse},
+                "cascade" => {$cascade}
             ],
 RELATIONS;
 
@@ -337,9 +339,11 @@ HASMANY;
         if(isset($_recipe->many_many) && count($_recipe->many_many)){
             $relations = '';
             foreach($_recipe->many_many as $field => $related){
+                $cascade = $related['cascade'] ? 'true' : 'false';
                 $relations .= <<<RELATIONS
     [
-                "table" => "{$related['table']}"
+                "table" => "{$related['table']}",
+                "cascade" => {$cascade}
             ],
 RELATIONS;
 

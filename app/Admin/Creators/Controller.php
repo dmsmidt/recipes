@@ -44,6 +44,9 @@ class {$controllerClass}Controller extends {$extends} {
         parent::__construct();
     }
 
+START;
+
+        $str .= <<<INDEX
     /**
 	 * Display a listing of the resource.
 	 *
@@ -57,6 +60,9 @@ class {$controllerClass}Controller extends {$extends} {
             ->nest('center','main.index',compact('data'));
 	}
 
+INDEX;
+
+        $str .= <<<CREATE
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -67,6 +73,9 @@ class {$controllerClass}Controller extends {$extends} {
         return view('admin')->nest('center','main.form');
 	}
 
+CREATE;
+
+        $str .= <<<STORE
 	/**
      * @param {$controllerClass}Request \$request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
@@ -77,6 +86,9 @@ class {$controllerClass}Controller extends {$extends} {
         return redirect('admin/{$moduleName}');
 	}
 
+STORE;
+
+        $str .= <<<SHOW
     /**
 	 * Display the specified resource.
 	 *
@@ -88,6 +100,13 @@ class {$controllerClass}Controller extends {$extends} {
 		//
 	}
 
+SHOW;
+        if(isset($recipe->parent_table) && !empty($recipe->parent_table)){
+            $edit_params = '$'.str_singular($recipe->parent_table).'_id, $id';
+        }else{
+            $edit_params = '$id';
+        }
+        $str .= <<<EDIT
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -96,10 +115,17 @@ class {$controllerClass}Controller extends {$extends} {
 	 */
 	public function edit(\$id)
 	{
-        \$data = \$this->{$controllerName}->selectById(\$id);
+        \$data = \$this->{$controllerName}->selectById({$edit_params});
         return view('admin')->nest('center','main.form',compact('data'));
 	}
 
+EDIT;
+        if(isset($recipe->parent_table) && !empty($recipe->parent_table)){
+            $redirect = "'admin/".$recipe->parent_table."/'.\$request->input('".str_singular($recipe->parent_table)."_id').'/".$moduleName."'";
+        }else{
+            $redirect = "'admin/".$moduleName."'";
+        }
+        $str .= <<<UPDATE
 	/**
      * Update the specified resource in storage.
      * @param RoleRequest \$request
@@ -109,9 +135,12 @@ class {$controllerClass}Controller extends {$extends} {
     public function update({$controllerClass}Request \$request, \$id)
 	{
         \$this->{$controllerName}->update(\$request->input(), \$id);
-        return redirect('admin/{$moduleName}');
+        return redirect({$redirect});
 	}
 
+UPDATE;
+
+        $str .= <<<DESTROY
 	/**
 	 * Remove the specified resource from storage.
 	 *
@@ -124,7 +153,7 @@ class {$controllerClass}Controller extends {$extends} {
         return redirect()->back();
 	}
 
-START;
+DESTROY;
 
     $str .= PHP_EOL.<<<END
 }

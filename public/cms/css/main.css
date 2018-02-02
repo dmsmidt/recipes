@@ -444,9 +444,9 @@ li .col_sort{
 li .col_icon{
     min-width:60px;
 }
-li .col_icon > a > div{
+li .col_icon > div{
     margin-top: 6px;
-    font-size:16px;
+    font-size:18px;
 }
 li .col_text{
     width:200px;

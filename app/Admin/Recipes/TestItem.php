@@ -2,19 +2,19 @@
 
 use App\Admin\Recipes\Traits\Ingredients;
 
-class MenuItem extends Recipe{
+class TestItem extends Recipe{
 
     use Ingredients;
 
-    public $moduleName = 'menu_items';
-    public $table = 'menu_items';
-    public $parent_table = 'menus';
+    public $moduleName = 'test_items';
+    public $table = 'test_items';
+    public $parent_table = 'tests';
     public $fields = [
     
             "id" => [
                             "type" => "increments",
                         ],
-            "menu_id" => [
+            "test_id" => [
                             "type" => "integer",
                             "unsigned" => 1,
                             "input" => "hidden",
@@ -31,7 +31,6 @@ class MenuItem extends Recipe{
                             "length" => 50,
                             "nullable" => 1,
                             "label" => "Icon",
-                            "input" => "icon",
                         ],
             "url" => [
                             "type" => "varchar",
@@ -50,10 +49,10 @@ class MenuItem extends Recipe{
                         ],
     ];
     public $hidden = [];
-    public $summary = ["name","icon"];
-    public $fillable = ["menu_id","name","icon","url"];
+    public $summary = ["name","icon","text"];
+    public $fillable = ["test_id","name","icon","url"];
     public $guarded = ["id"];
-    public $scoped = ["menu_id"];
+    public $scoped = ["test_id"];
     public $add = true;
     public $edit = true;
     public $delete = true;
@@ -64,16 +63,19 @@ class MenuItem extends Recipe{
     public $timestamps = false;
     public $has_many = [
             [
-                "table" => "menu_items_lang",
-                "inverse" => false
+                "table" => "test_items_lang",
+                "inverse" => false,
+                "cascade" => true
             ],    [
-                "table" => "menus",
-                "inverse" => true
+                "table" => "tests",
+                "inverse" => true,
+                "cascade" => true
             ],
     ];
     public $many_many = [
             [
-                "table" => "roles"
+                "table" => "roles",
+                "cascade" => false
             ],
     ];
 

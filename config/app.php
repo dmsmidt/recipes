@@ -201,6 +201,7 @@ return [
         App\Admin\Providers\SettingServiceProvider::class,
         App\Admin\Providers\UserServiceProvider::class,
         App\Admin\Providers\PostServiceProvider::class,
+        App\Admin\Providers\TestServiceProvider::class,
 
 
     ],

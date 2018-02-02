@@ -13,7 +13,6 @@ class Migration {
     public function create($name){
 
         $recipe = Recipe::get($name);
-        //dd($recipe);
         $time_prefix = date('Y_n_j_His');
         $_table = $recipe->table;
         $class = 'Create'.studly_case($_table).'Table';
@@ -23,27 +22,42 @@ class Migration {
         $file = fopen($path,'w+');
         $fields = $recipe->fields;
         $schema_rows = '';
-
         //define table field schema or foreign relation
         foreach($fields as $key=>$fielddata){
             if(isset($fielddata['type']) && !empty($fielddata['type']))
             {
                 //fields
                 $field_type = $fielddata['type'] == 'string' ? 'Varchar' : studly_case(($fielddata['type']));
-                $typeclass = 'App\\Admin\\Types\\'.$field_type;
-                $type = new $typeclass($key,$fielddata);
-                $schema_rows .= $type->addSchema($_table);
+                //all types except foreign
+                if($field_type !== 'Foreign'){
+                    $typeclass = 'App\\Admin\\Types\\'.$field_type;
+                    $type = new $typeclass($key,$fielddata);
+                    $schema_rows .= $type->addSchema($_table);
+                //except foreign types when cascade is true
+                }elseif($field_type == 'Foreign' && isset($fielddata['cascade']) && $fielddata['cascade'] == true ){
+                    $typeclass = 'App\\Admin\\Types\\'.$field_type;
+                    $type = new $typeclass($key,$fielddata);
+                    $schema_rows .= $type->addSchema($_table);
+                }
             }
         }
 
-        //many_many
+        //many_many pivot table
         if(isset($recipe->many_many) && count($recipe->many_many)){
             $pivot_schema = '';
             foreach($recipe->many_many as $key => $value){
-                $ref_arr = explode('.',$value);
-                $pivot_table = $ref_arr[0];
-                $reference = $ref_arr[1];
-                $foreign_key = str_singular($key).'_id';
+                //$ref_arr = explode('.',$value);
+                //$pivot_table = $ref_arr[0];
+                $tables = [];
+                //collect related tables
+                $tables[] = $value['table'];
+                $tables[] = $recipe->table;
+                sort($tables);
+                $pivot_table = implode('_', $tables);
+                //echo '<pre>'.$pivot_table.'</pre>';
+                //die();
+                $reference = str_singular($recipe->table).'_id';
+                $foreign_key = str_singular($value['table']).'_id';
                 $pivot_schema .= <<<PIVOT
 Schema::create('{$pivot_table}', function(\$table)
 	    {
