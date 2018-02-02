@@ -2,7 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 
-class TestServiceProvider extends ServiceProvider{
+class TestItemServiceProvider extends ServiceProvider{
 
     /**
 	 * Register the application services.
@@ -12,7 +12,7 @@ class TestServiceProvider extends ServiceProvider{
 	public function register()
 	{
         $this->app->bind(
-            'App\Admin\Repositories\Contracts\ITestRepository','App\Admin\Repositories\TestRepository');
+            'App\Admin\Repositories\Contracts\ITestItemRepository','App\Admin\Repositories\TestItemRepository');
 	}
 
 }

@@ -18,7 +18,7 @@ class Controller {
         $plugins = '';
         $select = '->selectAll()';
         if($recipe->nestable || $recipe->sortable){
-            $plugins = '->with("javascripts", ["/js/admin/jquery.nestable.js"])';
+            $plugins = '->with("javascripts", ["/cms/js/jquery.nestable.js"])';
             $select = '->selectTree()';
         }
         $app_path = app_path();
@@ -46,7 +46,7 @@ class {$controllerClass}Controller extends {$extends} {
 
 START;
 
-        $str .= <<<INDEX
+        $str .= PHP_EOL.<<<INDEX
     /**
 	 * Display a listing of the resource.
 	 *
@@ -62,7 +62,7 @@ START;
 
 INDEX;
 
-        $str .= <<<CREATE
+        $str .= PHP_EOL.<<<CREATE
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -75,7 +75,7 @@ INDEX;
 
 CREATE;
 
-        $str .= <<<STORE
+        $str .= PHP_EOL.<<<STORE
 	/**
      * @param {$controllerClass}Request \$request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
@@ -88,7 +88,7 @@ CREATE;
 
 STORE;
 
-        $str .= <<<SHOW
+        $str .= PHP_EOL.<<<SHOW
     /**
 	 * Display the specified resource.
 	 *
@@ -106,7 +106,7 @@ SHOW;
         }else{
             $edit_params = '$id';
         }
-        $str .= <<<EDIT
+        $str .= PHP_EOL.<<<EDIT
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -120,19 +120,19 @@ SHOW;
 	}
 
 EDIT;
-        if(isset($recipe->parent_table) && !empty($recipe->parent_table)){
-            $redirect = "'admin/".$recipe->parent_table."/'.\$request->input('".str_singular($recipe->parent_table)."_id').'/".$moduleName."'";
-        }else{
-            $redirect = "'admin/".$moduleName."'";
-        }
-        $str .= <<<UPDATE
+
+        $params = isset($recipe->parent_table) && !empty($recipe->parent_table) ? "$".str_singular($recipe->parent_table)."_id, \$id" : "\$id";
+        $redirect = isset($recipe->parent_table) && !empty($recipe->parent_table) ?
+            "'admin/".$recipe->parent_table."/'.\$request->input('".str_singular($recipe->parent_table)."_id').'/".$moduleName."'" :
+            "'admin/".$moduleName."'";
+        $str .= PHP_EOL.<<<UPDATE
 	/**
      * Update the specified resource in storage.
      * @param RoleRequest \$request
      * @param \$id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update({$controllerClass}Request \$request, \$id)
+    public function update({$controllerClass}Request \$request, {$params})
 	{
         \$this->{$controllerName}->update(\$request->input(), \$id);
         return redirect({$redirect});
@@ -140,7 +140,8 @@ EDIT;
 
 UPDATE;
 
-        $str .= <<<DESTROY
+        $params = isset($recipe->parent_table) && !empty($recipe->parent_table) ? "$".str_singular($recipe->parent_table)."_id, \$id" : "\$id";
+        $str .= PHP_EOL.<<<DESTROY
 	/**
 	 * Remove the specified resource from storage.
 	 *
@@ -149,7 +150,7 @@ UPDATE;
 	 */
 	public function destroy(\$id)
 	{
-        \$this->{$controllerName}->delete(\$id);
+        \$this->{$controllerName}->delete({$params});
         return redirect()->back();
 	}
 

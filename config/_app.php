@@ -201,8 +201,7 @@ return [
         App\Admin\Providers\ConfigurationServiceProvider::class,
         App\Admin\Providers\SettingServiceProvider::class,
         App\Admin\Providers\UserServiceProvider::class,
-        App\Admin\Providers\TestItemServiceProvider::class,
-       //<<CMS
+        //<<CMS
 
     ],
 

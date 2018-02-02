@@ -21,7 +21,7 @@ class MenuItemController extends AdminController {
 	{
         $data = $this->menu_item->selectTree();
         return view('admin')
-            ->with("javascripts", ["/js/admin/jquery.nestable.js"])
+            ->with("javascripts", ["/cms/js/jquery.nestable.js"])
             ->nest('center','main.index',compact('data'));
 	}
 
@@ -42,7 +42,7 @@ class MenuItemController extends AdminController {
     public function store(MenuItemRequest $request)
 	{
         $this->menu_item->add($request->input());
-        return redirect('admin/menu_items');
+        return redirect('admin/menus/'.$request->input('menu_id').'/menu_items');
 	}
 
     /**
@@ -74,7 +74,7 @@ class MenuItemController extends AdminController {
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(MenuItemRequest $request, $id)
+    public function update(MenuItemRequest $request, $menu_id, $id)
 	{
         $this->menu_item->update($request->input(), $id);
         return redirect('admin/menus/'.$request->input('menu_id').'/menu_items');
@@ -86,9 +86,9 @@ class MenuItemController extends AdminController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($menu_id, $id)
 	{
-        $this->menu_item->delete($id);
+        $this->menu_item->delete($menu_id, $id);
         return redirect()->back();
 	}
 

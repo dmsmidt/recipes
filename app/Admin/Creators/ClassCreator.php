@@ -72,6 +72,10 @@ class ClassCreator {
                     $_provider = new Provider();
                     if($_provider->create($this->name)){
                         $messages[] = ['type' => 'succes', 'text' => 'Created the '.$this->recipe.'ServiceProvider.'];
+                        $_service_provider = new ServiceProvider();
+                        if($_service_provider->create($this->name)){
+                            $messages[] = ['type' => 'succes', 'text' => 'The service provider has been added to config/app.php.'];
+                        }
                         $messages[] = ['type' => 'info', 'text' => 'Add the path to the providers array in config/app.php manually.'];
                     }else{
                         $messages[] = ['type' => 'alert', 'text' => 'The '.$this->recipe.'ServiceProvider could not be created.'];

@@ -32,32 +32,48 @@ class Repository {
 
 class {$repository}Repository extends {$extends} implements I{$repository}Repository{
 
+START;
+
+        $str .= PHP_EOL.<<<ALL
     public function {$selectAll}{
         return {$repository}::all(){$hierarchy};
     }
 
-    public function SelectById(\$id){
+ALL;
+        $params = isset($recipe->parent_table) && !empty($recipe->parent_table) ? '$parent_id, $id' : '$id';
+        $str .= PHP_EOL.<<<BYID
+    public function SelectById({$params}){
         return {$repository}::find(\$id);
     }
 
+BYID;
+
+        $str .= PHP_EOL.<<<ADD
     public function add(\$input){
         \$model = new {$repository};
         \$model->fill(\$input)->save();
         {$save_translations}
     }
 
+ADD;
+
+        $str .= PHP_EOL.<<<UPDATE
     public function update(\$input, \$id){
         \$model = {$repository}::find(\$id);
         \$model->fill(\$input)->save();
         {$save_translations}
     }
 
-    public function delete(\$id){
+UPDATE;
+        $params = isset($recipe->parent_table) && !empty($recipe->parent_table) ? '$parent_id, $id' : '$id';
+        $str .= PHP_EOL.<<<DELETE
+    public function delete({$params}){
         \$model = {$repository}::find(\$id);
         \$model->delete();
         {$delete_translations}
     }
-START;
+
+DELETE;
 
     $str .= PHP_EOL.<<<END
 }

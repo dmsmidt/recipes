@@ -1,6 +1,6 @@
 <?php namespace App\Admin\Repositories\Contracts;
 
-interface IMenuItemRepository{
+interface ITestItemRepository{
 
     public function selectTree($parent_id = null);
 
@@ -11,4 +11,5 @@ interface IMenuItemRepository{
     public function update($input, $id);
 
     public function delete($parent_id, $id);
+
 }
