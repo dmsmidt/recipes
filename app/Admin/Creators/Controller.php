@@ -21,9 +21,8 @@ class Controller {
             $plugins = '->with("javascripts", ["/cms/js/jquery.nestable.js"])';
             $select = '->selectTree()';
         }
-        $app_path = app_path();
         //create file
-        $path = $app_path.'/Admin/Http/Controllers/'.$controllerClass.'Controller.php';
+        $path = app_path().'/Admin/Http/Controllers/'.$controllerClass.'Controller.php';
         $file = fopen($path,'w+');
         $extends = 'AdminController';
         //import classes
@@ -163,6 +162,12 @@ END;
             return true;
         }
         return false;
+    }
+
+    public function remove($name){
+        $controllerClass = studly_case(str_singular($name));
+        $path = app_path().'/Admin/Http/Controllers/'.$controllerClass.'Controller.php';
+        return unlink($path);
     }
 
 

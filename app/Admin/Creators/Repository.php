@@ -84,5 +84,10 @@ END;
         return false;
     }
 
+    public function remove($name){
+        $repository = studly_case(str_singular($name));
+        $path = app_path().'/Admin/Repositories/'.$repository.'Repository.php';
+        return unlink($path);
+    }
 
 } 

@@ -1,7 +1,6 @@
 /node_modules
 /public/storage
 /storage/*.key
-/vendor
 /.idea
 Homestead.json
 Homestead.yaml
@@ -9,5 +8,8 @@ Homestead.yaml
 /Admin/Http/Controllers/backups
 /Admin/Http/Requests/backups
 /Admin/Recipes/backups
+/Admin/Repositories/backups
+/Admin/Repositories/Contracts/backups
+/app/Models/backups
 /public/uploads
 /assets

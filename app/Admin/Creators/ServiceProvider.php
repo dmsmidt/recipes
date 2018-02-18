@@ -29,4 +29,17 @@ class ServiceProvider {
         }
         return false;
     }
+
+    public function remove($name){
+        $provider = studly_case(str_singular($name));
+        $classpath = 'App\\Admin\\Providers\\'.$provider.'ServiceProvider::class,';
+        $path = base_path().'/config/app.php';
+        $contents = file_get_contents($path);
+        $contents = str_replace($classpath, '', $contents);
+        $file = fopen($path,'w+');
+        if(fwrite($file,$contents)){
+            return true;
+        }
+        return false;
+    }
 }

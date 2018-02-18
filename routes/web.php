@@ -29,6 +29,7 @@ Route::group(['prefix' => 'admin'], function() {
         });
         Route::resource('dashboard', '\App\Admin\Http\Controllers\DashboardController');
         Route::group(['middleware' => 'role'], function(){
+            //>>CMS
             Route::resource('recipes', '\App\Admin\Http\Controllers\RecipeController');
             Route::resource('menus', '\App\Admin\Http\Controllers\MenuController');
             Route::resource('tests', '\App\Admin\Http\Controllers\TestController');
@@ -38,6 +39,8 @@ Route::group(['prefix' => 'admin'], function() {
             Route::resource('settings', '\App\Admin\Http\Controllers\SettingController');
             Route::resource('configurations', '\App\Admin\Http\Controllers\ConfigurationController');
             Route::resource('users', '\App\Admin\Http\Controllers\UserController');
+            Route::resource('users', '\App\Admin\Http\Controllers\TestItemController');
+          //<<CMS
         });
         //Ajax request
         $model = studly_case(str_singular(Request::segment(2)));

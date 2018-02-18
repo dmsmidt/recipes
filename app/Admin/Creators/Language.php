@@ -6,10 +6,6 @@
  * Translations added to these translation files are only used for the cms interface.
  * Each CMS module has its own translation array file
  * To mention, translations for the frontend are entered via cms form fields and saved in the database
- * Todo: If a module file doesn't exist, the console shows an error message that the file is missing.
- * Todo: When a file doesn't exist, it has to be created.
- * Todo: add functionality to CreateModel console command to create the language files if they don't already exist
- *
  */
 
 

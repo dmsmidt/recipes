@@ -29,27 +29,27 @@
                 <div class="col_text"><a href="/admin/recipes/{{ $row['name'] }}/edit">{!! $row['class'] !!}</a></div>
                 <div class="col_text">
                     <button data-recipe="{{$row['name']}}" type="button" class="row_btn btnModelUpdate" style="margin:0;">@if($row['model'])
-                        <div class="icon-checkbox2"></div>@else<div class="icon-checkbox3"></div>@endif
+                        <div class="icon-checkbox2 checked"></div>@else<div class="icon-checkbox3 unchecked"></div>@endif
                     </button>
                 </div>
                 <div class="col_text">
                     <button data-recipe="{{$row['name']}}" type="button" class="row_btn btnControllerUpdate" style="margin:0;">@if($row['controller'])
-                        <div class="icon-checkbox2"></div>@else<div class="icon-checkbox3"></div>@endif
+                        <div class="icon-checkbox2 checked"></div>@else<div class="icon-checkbox3 unchecked"></div>@endif
                     </button>
                 </div>
                 <div class="col_text">
                     <button data-recipe="{{$row['name']}}" type="button" class="row_btn btnRepositoryUpdate" style="margin:0;">@if($row['repository'])
-                        <div class="icon-checkbox2"></div>@else<div class="icon-checkbox3"></div>@endif
+                        <div class="icon-checkbox2 checked"></div>@else<div class="icon-checkbox3 unchecked"></div>@endif
                     </button>
                 </div>
                 <div class="col_text">
                     <button data-recipe="{{$row['name']}}" type="button" class="row_btn btnTranslationsUpdate" style="margin:0;">@if($row['translations'])
-                        <div class="icon-checkbox2"></div>@else<div class="icon-checkbox3"></div>@endif
+                        <div class="icon-checkbox2 checked"></div>@else<div class="icon-checkbox3 unchecked"></div>@endif
                     </button>
                 </div>
                 <div class="col_text">
                     <button data-recipe="{{$row['name']}}" type="button" class="row_btn btnMigrate" style="margin:0;">@if($row['table'])
-                        <div class="icon-checkbox2"></div>@else<div class="icon-checkbox3"></div>@endif
+                        <div class="icon-checkbox2 checked"></div>@else<div class="icon-checkbox3 unchecked"></div>@endif
                     </button>
                 </div>
 

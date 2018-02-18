@@ -249,7 +249,7 @@ $(function(){
     });
 
     /**
-     * Create recipes model class
+     * Create/Remove recipes model class
      */
     $('.btnModelUpdate').click(function(){
         var $elem = $(this);

@@ -32,7 +32,12 @@ class ClassCreator {
                 $messages[] = ['type' => 'alert', 'text' => 'Model creation of '.$this->recipe.' failed.'];
             }
         }else{
-            $messages[] = ['type' => 'alert', 'text' => 'The model '.$this->recipe.' already exists.'];
+            $_model = new Model();
+            if($_model->remove($this->recipe)){
+                $messages[] = ['type' => 'succes', 'text' => 'Removed the model '.$this->recipe.'.'];
+            }else{
+                $messages[] = ['type' => 'alert', 'text' => 'The Model for '.$this->recipe.' could not be removed.'];
+            }
         }
         return $messages;
     }
@@ -47,6 +52,12 @@ class ClassCreator {
                 $_request = new Request();
                 if($_request->create($this->recipe)){
                     $messages[] = ['type' => 'succes', 'text' => 'Created the '.$this->recipe.'Request.'];
+                    $route_add = new RouteAdd();
+                    if($route_add->create($this->name)){
+                        $messages[] = ['type' => 'succes', 'text' => 'Added the resource route.'];
+                    }else{
+                        $messages[] = ['type' => 'alert', 'text' => 'Could not add the resource route.'];
+                    }
                 }else{
                     $messages[] = ['type' => 'alert', 'text' => 'The '.$this->recipe.'Request could not be created.'];
                 }
@@ -54,7 +65,13 @@ class ClassCreator {
                 $messages[] = ['type' => 'alert', 'text' => 'The '.$this->recipe.'Controller could not be created.'];
             }
         }else{
-            $messages[] = ['type' => 'alert', 'text' => 'The '.$this->recipe.'Controller already exists.'];
+            $_controller = new Controller();
+            if($_controller->remove($this->recipe)){
+                $messages[] = ['type' => 'succes', 'text' => 'The '.$this->recipe.'Controller has been removed.'];
+            }else{
+                $messages[] = ['type' => 'alert', 'text' => 'The '.$this->recipe.'Controller could not be removed.'];
+            }
+
         }
         return $messages;
     }
@@ -75,6 +92,8 @@ class ClassCreator {
                         $_service_provider = new ServiceProvider();
                         if($_service_provider->create($this->name)){
                             $messages[] = ['type' => 'succes', 'text' => 'The service provider has been added to config/app.php.'];
+                        }else{
+                            $messages[] = ['type' => 'alert', 'text' => 'The service provider could not be added to config/app.php'];
                         }
                         $messages[] = ['type' => 'info', 'text' => 'Add the path to the providers array in config/app.php manually.'];
                     }else{

@@ -298,5 +298,11 @@ END;
         return false;
     }
 
+    public function remove($name){
+        $model = $name;
+        $path = app_path().'/Models/'.$model.'.php';
+        return unlink($path);
+    }
+
 
 } 

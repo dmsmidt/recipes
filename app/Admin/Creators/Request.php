@@ -83,5 +83,10 @@ END;
         return false;
     }
 
+    public function remove($name){
+        $requestClass = studly_case(str_singular($name));
+        $path = app_path().'/Admin/Http/Requests/'.$requestClass.'Request.php';
+        return unlink($path);
+    }
 
 } 

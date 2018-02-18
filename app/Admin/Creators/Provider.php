@@ -42,4 +42,10 @@ END;
         }
         return false;
     }
+
+    public function remove($name){
+        $provider = studly_case(str_singular($name));
+        $path = app_path().'/Admin/Providers/'.$provider.'ServiceProvider.php';
+        return unlink($path);
+    }
 }
