@@ -6,7 +6,7 @@ use App\Models\MenuItem;
 class MenuItemRepository extends BaseRepository implements IMenuItemRepository{
 
     public function selectTree($parent_id = null){
-        return MenuItem::all()->toHierarchy()->toArray();
+        return MenuItem::where('menu_id',$parent_id)->get()->toHierarchy()->toArray();
     }
 
     public function SelectById($parent_id, $id){

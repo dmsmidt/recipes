@@ -17,9 +17,9 @@ class MenuItemController extends AdminController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($menu_id)
 	{
-        $data = $this->menu_item->selectTree();
+        $data = $this->menu_item->selectTree($menu_id);
         return view('admin')
             ->with("javascripts", ["/cms/js/jquery.nestable.js"])
             ->nest('center','main.index',compact('data'));
