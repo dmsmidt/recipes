@@ -4,7 +4,6 @@
 /.idea
 Homestead.json
 Homestead.yaml
-.env
 /Admin/Http/Controllers/backups
 /Admin/Http/Requests/backups
 /Admin/Recipes/backups
