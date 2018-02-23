@@ -121,4 +121,11 @@ trait Ingredients {
         return $plugins;
     }
 
+    public function hasParent(){
+        if(isset($this->parent_table) && !empty($this->parent_table)){
+            return true;
+        }
+        return false;
+    }
+
 } 

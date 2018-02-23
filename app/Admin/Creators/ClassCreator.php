@@ -68,6 +68,11 @@ class ClassCreator {
             $_controller = new Controller();
             if($_controller->remove($this->recipe)){
                 $messages[] = ['type' => 'succes', 'text' => 'The '.$this->recipe.'Controller has been removed.'];
+                $messages[] = ['type' => 'succes', 'text' => 'The '.$this->recipe.'Request has been removed.'];
+                $route_add = new RouteAdd();
+                if($route_add->remove($this->name)){
+                    $messages[] = ['type' => 'succes', 'text' => 'The '.$this->recipe.' resource route has been removed.'];
+                }
             }else{
                 $messages[] = ['type' => 'alert', 'text' => 'The '.$this->recipe.'Controller could not be removed.'];
             }

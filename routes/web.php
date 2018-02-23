@@ -32,14 +32,12 @@ Route::group(['prefix' => 'admin'], function() {
             //>>CMS
             Route::resource('recipes', '\App\Admin\Http\Controllers\RecipeController');
             Route::resource('menus', '\App\Admin\Http\Controllers\MenuController');
-            Route::resource('tests', '\App\Admin\Http\Controllers\TestController');
-            Route::resource('menus.menu_items', '\App\Admin\Http\Controllers\MenuItemController');
             Route::resource('tests.test_items', '\App\Admin\Http\Controllers\TestItemController');
             Route::resource('roles', '\App\Admin\Http\Controllers\RoleController');
             Route::resource('settings', '\App\Admin\Http\Controllers\SettingController');
             Route::resource('configurations', '\App\Admin\Http\Controllers\ConfigurationController');
             Route::resource('users', '\App\Admin\Http\Controllers\UserController');
-            Route::resource('users', '\App\Admin\Http\Controllers\TestItemController');
+            Route::resource('menus.menu_items', '\App\Admin\Http\Controllers\MenuItemController');
           //<<CMS
         });
         //Ajax request

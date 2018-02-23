@@ -14,7 +14,7 @@ class Seeder {
         $path = 'database/seeds/'.$class.'.php';
         $file = fopen($path,'w+');
         $recipe = Recipe::get($name);
-        $table = $recipe->table;
+        $table = $recipe->moduleName;
         $fields = $recipe->fields;
         //add fields from the recipe
         $fieldkeys = ' ['.PHP_EOL;

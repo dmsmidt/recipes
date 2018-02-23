@@ -14,12 +14,13 @@ class Controller {
         $controllerName = snake_case(str_singular($name));
         $moduleName = snake_case(str_plural($controllerName));
         $recipe = Recipe::get($moduleName);
-        $nestable = $recipe->nestable || $recipe->sortable ? '->with("javascripts", ["/js/admin/jquery.nestable.js"])' : '';
+        $all_args = $recipe->hasParent() ? '$parent_id' : '';
+        $parent_name = $recipe->hasParent() ? $recipe->parent_table : null ;
         $plugins = '';
-        $select = '->selectAll()';
+        $select = '->selectAll('.$all_args.')';
         if($recipe->nestable || $recipe->sortable){
             $plugins = '->with("javascripts", ["/cms/js/jquery.nestable.js"])';
-            $select = '->selectTree()';
+            $select = '->selectTree('.$all_args.')';
         }
         //create file
         $path = app_path().'/Admin/Http/Controllers/'.$controllerClass.'Controller.php';
@@ -45,11 +46,27 @@ class {$controllerClass}Controller extends {$extends} {
 
 START;
 
-        $str .= PHP_EOL.<<<INDEX
+        if($recipe->hasParent()){
+            $str .= PHP_EOL.<<<INDEX
     /**
 	 * Display a listing of the resource.
-	 *
-	 * @return Response
+	 * @param \$parent_id
+	 * @return mixed
+	 */
+	public function index(\$parent_id)
+	{
+        \$data = \$this->{$controllerName}{$select};
+        return view('admin')
+            {$plugins}
+            ->nest('center','main.index',compact('data'));
+	}
+
+INDEX;
+        }else{
+            $str .= PHP_EOL.<<<INDEX
+    /**
+	 * Display a listing of the resource.
+	 * @return mixed
 	 */
 	public function index()
 	{
@@ -60,12 +77,12 @@ START;
 	}
 
 INDEX;
+        }
 
         $str .= PHP_EOL.<<<CREATE
 	/**
 	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
+	 * @return mixed
 	 */
 	public function create()
 	{
@@ -74,7 +91,22 @@ INDEX;
 
 CREATE;
 
-        $str .= PHP_EOL.<<<STORE
+        if($recipe->hasParent()){
+            $str .= PHP_EOL.<<<STORE
+	/**
+     * @param {$controllerClass}Request \$request
+     * @param \$parent_id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function store({$controllerClass}Request \$request, \$parent_id)
+	{
+        \$this->{$controllerName}->add(\$request->input(), \$parent_id);
+        return redirect('admin/{$parent_name}/'.\$parent_id.'/{$moduleName}');
+	}
+
+STORE;
+        }else{
+            $str .= PHP_EOL.<<<STORE
 	/**
      * @param {$controllerClass}Request \$request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
@@ -86,6 +118,7 @@ CREATE;
 	}
 
 STORE;
+        }
 
         $str .= PHP_EOL.<<<SHOW
     /**
@@ -100,60 +133,105 @@ STORE;
 	}
 
 SHOW;
-        if(isset($recipe->parent_table) && !empty($recipe->parent_table)){
-            $edit_params = '$'.str_singular($recipe->parent_table).'_id, $id';
-        }else{
-            $edit_params = '$id';
-        }
-        $str .= PHP_EOL.<<<EDIT
+        if($recipe->hasParent()){
+            $str .= PHP_EOL.<<<EDIT
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  int  \$id
-	 * @return Response
+	 * @param  int  \$parent_id
+	 * @param int \$id
+	 * @return mixed
 	 */
-	public function edit(\$id)
+	public function edit(\$parent_id, \$id)
 	{
-        \$data = \$this->{$controllerName}->selectById({$edit_params});
+        \$data = \$this->{$controllerName}->selectById(\$parent_id, \$id);
         return view('admin')->nest('center','main.form',compact('data'));
 	}
 
 EDIT;
+        }else{
+            $str .= PHP_EOL.<<<EDIT
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  \$id
+	 * @return mixed
+	 */
+	public function edit(\$id)
+	{
+        \$data = \$this->{$controllerName}->selectById(\$id);
+        return view('admin')->nest('center','main.form',compact('data'));
+	}
 
-        $params = isset($recipe->parent_table) && !empty($recipe->parent_table) ? "$".str_singular($recipe->parent_table)."_id, \$id" : "\$id";
-        $redirect = isset($recipe->parent_table) && !empty($recipe->parent_table) ?
-            "'admin/".$recipe->parent_table."/'.\$request->input('".str_singular($recipe->parent_table)."_id').'/".$moduleName."'" :
-            "'admin/".$moduleName."'";
-        $str .= PHP_EOL.<<<UPDATE
+EDIT;
+        }
+
+        $redirect = $recipe->hasParent() ? '\'admin/'.$recipe->parent_table.'/\'.$parent_id.\'/'.$recipe->moduleName.'\'' : '\'admin/'.$recipe->moduleName.'\'';
+        if($recipe->hasParent()){
+            $str .= PHP_EOL.<<<UPDATE
 	/**
      * Update the specified resource in storage.
-     * @param RoleRequest \$request
-     * @param \$id
+     * @param {$controllerClass}Request \$request
+     * @param int \$parent_id
+     * @param int \$id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update({$controllerClass}Request \$request, {$params})
+    public function update({$controllerClass}Request \$request, \$parent_id, \$id)
 	{
         \$this->{$controllerName}->update(\$request->input(), \$id);
         return redirect({$redirect});
 	}
 
 UPDATE;
+        }else{
+            $str .= PHP_EOL.<<<UPDATE
+	/**
+     * Update the specified resource in storage.
+     * @param {$controllerClass}Request \$request
+     * @param \$id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function update({$controllerClass}Request \$request, \$id)
+	{
+        \$this->{$controllerName}->update(\$request->input(), \$id);
+        return redirect({$redirect});
+	}
 
-        $params = isset($recipe->parent_table) && !empty($recipe->parent_table) ? "$".str_singular($recipe->parent_table)."_id, \$id" : "\$id";
-        $str .= PHP_EOL.<<<DESTROY
+UPDATE;
+        }
+
+        if($recipe->hasParent()){
+            $str .= PHP_EOL.<<<DESTROY
 	/**
 	 * Remove the specified resource from storage.
 	 *
+	 * @param  int  \$parent_id
 	 * @param  int  \$id
-	 * @return Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
-	public function destroy(\$id)
+	public function destroy(\$parent_id, \$id)
 	{
-        \$this->{$controllerName}->delete({$params});
+        \$this->{$controllerName}->delete(\$parent_id, \$id);
         return redirect()->back();
 	}
 
 DESTROY;
+        }else{
+            $str .= PHP_EOL.<<<DESTROY
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  \$id
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
+	public function destroy(\$id)
+	{
+        \$this->{$controllerName}->delete(\$id);
+        return redirect()->back();
+	}
+
+DESTROY;
+        }
 
     $str .= PHP_EOL.<<<END
 }
@@ -167,6 +245,9 @@ END;
     public function remove($name){
         $controllerClass = studly_case(str_singular($name));
         $path = app_path().'/Admin/Http/Controllers/'.$controllerClass.'Controller.php';
+        if(unlink($path)){
+            $path = app_path().'/Admin/Http/Requests/'.$controllerClass.'Request.php';
+        }
         return unlink($path);
     }
 

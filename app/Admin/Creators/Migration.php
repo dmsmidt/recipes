@@ -14,7 +14,7 @@ class Migration {
 
         $recipe = Recipe::get($name);
         $time_prefix = date('Y_n_j_His');
-        $_table = $recipe->table;
+        $_table = $recipe->moduleName;
         $class = 'Create'.studly_case($_table).'Table';
         //create the file
         $filename = $time_prefix.'_create_'.$_table.'_table.php';
@@ -51,12 +51,12 @@ class Migration {
                 $tables = [];
                 //collect related tables
                 $tables[] = $value['table'];
-                $tables[] = $recipe->table;
+                $tables[] = $recipe->moduleName;
                 sort($tables);
                 $pivot_table = implode('_', $tables);
                 //echo '<pre>'.$pivot_table.'</pre>';
                 //die();
-                $reference = str_singular($recipe->table).'_id';
+                $reference = str_singular($recipe->moduleName).'_id';
                 $foreign_key = str_singular($value['table']).'_id';
                 $pivot_schema .= <<<PIVOT
 Schema::create('{$pivot_table}', function(\$table)

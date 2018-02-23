@@ -14,12 +14,12 @@ class MenuItemController extends AdminController {
 
     /**
 	 * Display a listing of the resource.
-	 *
-	 * @return Response
+	 * @param $parent_id
+	 * @return mixed
 	 */
-	public function index($menu_id)
+	public function index($parent_id)
 	{
-        $data = $this->menu_item->selectTree($menu_id);
+        $data = $this->menu_item->selectTree($parent_id);
         return view('admin')
             ->with("javascripts", ["/cms/js/jquery.nestable.js"])
             ->nest('center','main.index',compact('data'));
@@ -27,8 +27,7 @@ class MenuItemController extends AdminController {
 
 	/**
 	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
+	 * @return mixed
 	 */
 	public function create()
 	{
@@ -37,12 +36,13 @@ class MenuItemController extends AdminController {
 
 	/**
      * @param MenuItemRequest $request
+     * @param $parent_id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(MenuItemRequest $request)
+    public function store(MenuItemRequest $request, $parent_id)
 	{
-        $this->menu_item->add($request->input());
-        return redirect('admin/menus/'.$request->input('menu_id').'/menu_items');
+        $this->menu_item->add($request->input(), $parent_id);
+        return redirect('admin/menus/'.$parent_id.'/menu_items');
 	}
 
     /**
@@ -59,36 +59,39 @@ class MenuItemController extends AdminController {
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  int  $id
-	 * @return Response
+	 * @param  int  $parent_id
+	 * @param int $id
+	 * @return mixed
 	 */
-	public function edit($menu_id, $id)
+	public function edit($parent_id, $id)
 	{
-        $data = $this->menu_item->selectById($menu_id, $id);
+        $data = $this->menu_item->selectById($parent_id, $id);
         return view('admin')->nest('center','main.form',compact('data'));
 	}
 
 	/**
      * Update the specified resource in storage.
-     * @param RoleRequest $request
-     * @param $id
+     * @param MenuItemRequest $request
+     * @param int $parent_id
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(MenuItemRequest $request, $menu_id, $id)
+    public function update(MenuItemRequest $request, $parent_id, $id)
 	{
         $this->menu_item->update($request->input(), $id);
-        return redirect('admin/menus/'.$request->input('menu_id').'/menu_items');
+        return redirect('admin/menus/'.$parent_id.'/menu_items');
 	}
 
 	/**
 	 * Remove the specified resource from storage.
 	 *
+	 * @param  int  $parent_id
 	 * @param  int  $id
-	 * @return Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
-	public function destroy($menu_id, $id)
+	public function destroy($parent_id, $id)
 	{
-        $this->menu_item->delete($menu_id, $id);
+        $this->menu_item->delete($parent_id, $id);
         return redirect()->back();
 	}
 

@@ -16,7 +16,7 @@ class Model {
         $recipe = Recipe::get($model);
         $extends = $recipe->nestable || $recipe->sortable ? 'Node' : 'Model';
         $use = $recipe->nestable || $recipe->sortable ? 'Baum\Node;' : 'Illuminate\Database\Eloquent\Model;';
-        $table = $recipe->table;
+        $table = $recipe->moduleName;
         $str = <<<START
 <?php namespace App\Models;
 
@@ -145,7 +145,7 @@ WITH;
             foreach($has_one as $field){
                 $func_name = str_singular($field['table']);
                 $relModel = studly_case(str_singular($field['table']));
-                $reference = str_singular($recipe->table).'_id';
+                $reference = str_singular($recipe->moduleName).'_id';
                 if(!$field['inverse']){
                     $str .= PHP_EOL.<<<HAS_ONE
     /**
@@ -178,7 +178,7 @@ HAS_ONE_INVERSE;
             $has_many = $recipe->has_many;
             foreach($has_many as $field){
                 $relModel = studly_case(str_singular($field['table']));
-                $reference = str_singular($recipe->table).'_id';
+                $reference = str_singular($recipe->moduleName).'_id';
                 if(!$field['inverse']){
                     $func_name = $field['table'];
                     $str .= PHP_EOL.<<<HAS_MANY
