@@ -26,9 +26,8 @@ class Recipe {
             $_recipe = Recipe::get($recipe);
             $recipes[$key]['name'] = $recipe;
             $recipes[$key]['class'] = $recipeClassName;
-            $recipes[$key]['table_name'] = $_recipe->table;
             //check for table
-            if(Schema::hasTable($_recipe->table)){
+            if(Schema::hasTable($_recipe->moduleName)){
                 $recipes[$key]['table'] = true;
             }else{
                 $recipes[$key]['table'] = false;
@@ -107,7 +106,6 @@ class Recipe {
     public function build($formdata){
         $recipe = [
             'moduleName' => $formdata['name'],//required
-            'table' => $formdata['table'],//required
             'parent_table' => $formdata['parent_table'],
             'add' => isset($formdata['add'])&&$formdata['add'] ? true : false,
             'edit' => isset($formdata['edit'])&&$formdata['edit'] ? true : false,

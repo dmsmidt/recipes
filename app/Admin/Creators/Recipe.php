@@ -23,7 +23,6 @@ class {$name} extends Recipe{
     use Ingredients;
 
     public \$moduleName = '{$_recipe->moduleName}';
-    public \$table = '{$_recipe->table}';
     public \$parent_table = '{$_recipe->parent_table}';
 
 START;

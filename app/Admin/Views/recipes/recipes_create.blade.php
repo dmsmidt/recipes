@@ -12,13 +12,6 @@
                 <span class="error_msg name">{!! $errors->first('name') !!}@if(isset($message)){!! $message !!}@endif</span>
             </div>
 
-            {{-- TABLE --}}
-            <div class="formRow text">
-                {!! Form::label('table', 'Table', ['class' => 'required']) !!}
-                {!! Form::text('table', $data['recipe']->table, ['id' => 'table']) !!}
-                <span class="error_msg table">{!! $errors->first('table') !!}</span>
-            </div>
-
             {{-- PARENT TABLE --}}
             <div class="formRow text">
                 {!! Form::label('parent_table', 'Parent table') !!}

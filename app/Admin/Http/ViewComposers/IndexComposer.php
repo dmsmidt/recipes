@@ -44,7 +44,7 @@ class IndexComposer {
             // a nestable has always a parent which is retrieved here
             $parent_recipe = Recipe::get($this->module);
             // select the parent from db
-            $parent = \DB::table($parent_recipe->table)->where('id',$this->parent_id)->first();
+            $parent = \DB::table($parent_recipe->moduleName)->where('id',$this->parent_id)->first();
             if(isset($parent->levels)){
                 $this->levels = $parent->levels;
             }else{
