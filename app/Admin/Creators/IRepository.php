@@ -12,7 +12,7 @@ class IRepository {
     public function create($name){
         $repository = studly_case(str_singular($name));
         $recipe = Recipe::get($name);
-        $params_all = isset($recipe->parent_table) && !empty($recipe->parent_table) ? '$parent_id = null' : '';
+        $params_all = $recipe->hasParent() ? '$parent_id = null' : '';
         $selectAll = $recipe->nestable || $recipe->sortable ? 'selectTree('.$params_all.');' : 'selectAll('.$params_all.');';
         $path = app_path().'/Admin/Repositories/Contracts/I'.$repository.'Repository.php';
         $file = fopen($path,'w+');
@@ -25,7 +25,7 @@ interface I{$repository}Repository{
 
 START;
 
-        $params = isset($recipe->parent_table) && !empty($recipe->parent_table) ? '$parent_id, $id' : '$id';
+        $params = $recipe->hasParent() ? '$parent_id, $id' : '$id';
         $str .= PHP_EOL.<<<BYID
     public function SelectById({$params});
 
@@ -41,7 +41,7 @@ ADD;
 
 UPDATE;
 
-        $params = isset($recipe->parent_table) && !empty($recipe->parent_table) ? '$parent_id, $id' : '$id';
+        $params = $recipe->hasParent() ? '$parent_id, $id' : '$id';
         $str .= PHP_EOL.<<<DELETE
     public function delete({$params});
 

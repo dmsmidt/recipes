@@ -132,6 +132,7 @@ class LoginController extends Controller
 
         //put the active translation languages to the session
         $active_languages = $language_repo->activeLanguages();
+
         if(count($active_languages)){
             Session::put('language.active',$active_languages);
         }else{

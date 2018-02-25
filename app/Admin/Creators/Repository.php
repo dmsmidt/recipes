@@ -40,7 +40,7 @@ START;
     }
 
 ALL;
-        $params = isset($recipe->parent_table) && !empty($recipe->parent_table) ? '$parent_id, $id' : '$id';
+        $params = $recipe->hasParent() ? '$parent_id, $id' : '$id';
         $str .= PHP_EOL.<<<BYID
     public function SelectById({$params}){
         return {$repository}::find(\$id);
@@ -65,7 +65,7 @@ ADD;
     }
 
 UPDATE;
-        $params = isset($recipe->parent_table) && !empty($recipe->parent_table) ? '$parent_id, $id' : '$id';
+        $params = $recipe->hasParent() ? '$parent_id, $id' : '$id';
         $str .= PHP_EOL.<<<DELETE
     public function delete({$params}){
         \$model = {$repository}::find(\$id);

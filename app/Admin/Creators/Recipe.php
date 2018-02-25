@@ -23,7 +23,7 @@ class {$name} extends Recipe{
     use Ingredients;
 
     public \$moduleName = '{$_recipe->moduleName}';
-    public \$parent_table = '{$_recipe->parent_table}';
+    public \$parent = '{$_recipe->parent}';
 
 START;
         if(isset($_recipe->fields) && count($_recipe->fields)){

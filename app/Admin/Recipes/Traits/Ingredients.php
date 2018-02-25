@@ -122,7 +122,7 @@ trait Ingredients {
     }
 
     public function hasParent(){
-        if(isset($this->parent_table) && !empty($this->parent_table)){
+        if(isset($this->parent) && !empty($this->parent)){
             return true;
         }
         return false;

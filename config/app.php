@@ -201,7 +201,9 @@ return [
         App\Admin\Providers\ConfigurationServiceProvider::class,
         App\Admin\Providers\SettingServiceProvider::class,
         App\Admin\Providers\UserServiceProvider::class,
-       //<<CMS
+        
+        App\Admin\Providers\PageServiceProvider::class,
+        //<<CMS
 
     ],
 

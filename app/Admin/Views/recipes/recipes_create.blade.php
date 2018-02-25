@@ -12,13 +12,13 @@
                 <span class="error_msg name">{!! $errors->first('name') !!}@if(isset($message)){!! $message !!}@endif</span>
             </div>
 
-            {{-- PARENT TABLE --}}
+            {{-- PARENT --}}
             <div class="formRow text">
-                {!! Form::label('parent_table', 'Parent table') !!}
-                @if(isset($data['recipe']->parent_table)){!! Form::text('parent_table', $data['recipe']->parent_table, ['id' => 'parent_table']) !!}
-                @else{!! Form::text('parent_table', '', ['id' => 'parent_table']) !!}
+                {!! Form::label('parent', 'Parent') !!}
+                @if(isset($data['recipe']->parent)){!! Form::text('parent', $data['recipe']->parent, ['id' => 'parent']) !!}
+                @else{!! Form::text('parent', '', ['id' => 'parent']) !!}
                 @endif
-                <span class="error_msg parent_table">{!! $errors->first('parent_table') !!}</span>
+                <span class="error_msg parent">{!! $errors->first('parent') !!}</span>
             </div>
 
             {{-- ADD --}}

@@ -7,8 +7,7 @@ class MenuItem extends Recipe{
     use Ingredients;
 
     public $moduleName = 'menu_items';
-    public $table = 'menu_items';
-    public $parent_table = 'menus';
+    public $parent = 'menus';
     public $fields = [
     
             "id" => [

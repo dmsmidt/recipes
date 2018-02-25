@@ -21,8 +21,7 @@ class RecipeRequest extends Request {
 	public function rules()
 	{
         $rules =  [
-            "name" => "required",
-            "table" => "required"
+            "name" => "required"
         ];
         return $rules;
 	}

@@ -108,10 +108,8 @@ class MainComposer
     public function bottomBar()
     {
         $bottom_bar = [];
-        if ($this->action == 'create' ||
-            $this->action == 'edit'
-        ) {
-            $arr_path = AdminRequest::segments();
+        $arr_path = AdminRequest::segments();
+        if ($this->action == 'create' || $this->action == 'edit') {
             if ($arr_path[count($arr_path) - 1] == 'edit') {
                 $return = '/' . implode('/', array_slice($arr_path, 0, count($arr_path) - 2));
             } else {
@@ -122,6 +120,10 @@ class MainComposer
             ];
             $bottom_bar['cancel'] = [
                 "href" => $return
+            ];
+        } elseif($this->action == 'index' && AdminRequest::hasChilds()) {
+            $bottom_bar['cancel'] = [
+                "href" => '/' . implode('/', array_slice($arr_path, 0, count($arr_path) - 2))
             ];
         } else {
             return null;

@@ -11,7 +11,7 @@ class RouteAdd {
      */
     public function create($name){
         $recipe = Recipe::get($name);
-        $name = $recipe->hasParent() ? $recipe->parent_table.'.'.$recipe->moduleName : $recipe->moduleName;
+        $name = $recipe->hasParent() ? $recipe->parent.'.'.$recipe->moduleName : $recipe->moduleName;
         $route = "  Route::resource('".$name."', '\\App\\Admin\\Http\\Controllers\\".studly_case(str_singular($recipe->moduleName))."Controller');";
         $path = base_path().'/routes/web.php';
         //get part of string
@@ -34,7 +34,7 @@ class RouteAdd {
 
     public function remove($name){
         $recipe = Recipe::get($name);
-        $name = $recipe->hasParent() ? $recipe->parent_table.'.'.$recipe->moduleName : $recipe->moduleName;
+        $name = $recipe->hasParent() ? $recipe->parent.'.'.$recipe->moduleName : $recipe->moduleName;
         $route = "  Route::resource('".$name."', '\\App\\Admin\\Http\\Controllers\\".studly_case(str_singular($recipe->moduleName))."Controller');";
         $path = base_path().'/routes/web.php';
         $contents = file_get_contents($path);

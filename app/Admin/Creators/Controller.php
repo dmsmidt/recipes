@@ -15,7 +15,7 @@ class Controller {
         $moduleName = snake_case(str_plural($controllerName));
         $recipe = Recipe::get($moduleName);
         $all_args = $recipe->hasParent() ? '$parent_id' : '';
-        $parent_name = $recipe->hasParent() ? $recipe->parent_table : null ;
+        $parent_name = $recipe->hasParent() ? $recipe->parent : null ;
         $plugins = '';
         $select = '->selectAll('.$all_args.')';
         if($recipe->nestable || $recipe->sortable){
@@ -166,7 +166,7 @@ EDIT;
 EDIT;
         }
 
-        $redirect = $recipe->hasParent() ? '\'admin/'.$recipe->parent_table.'/\'.$parent_id.\'/'.$recipe->moduleName.'\'' : '\'admin/'.$recipe->moduleName.'\'';
+        $redirect = $recipe->hasParent() ? '\'admin/'.$recipe->parent.'/\'.$parent_id.\'/'.$recipe->moduleName.'\'' : '\'admin/'.$recipe->moduleName.'\'';
         if($recipe->hasParent()){
             $str .= PHP_EOL.<<<UPDATE
 	/**

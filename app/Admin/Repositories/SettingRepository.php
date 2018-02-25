@@ -57,7 +57,7 @@ class SettingRepository extends BaseRepository implements ISettingRepository{
         $languages = Language::all();
         foreach($languages as $language){
             if($language->abbr === $input['name']){
-                $language->active = isset($input[$input['name']]) ? $input[$input['name']] : 0;
+                $language->active = isset($input[$input['name']]) && $input[$input['name']] ? 1 : 0;
                 $language->save();
                 $repo = '\\App\\Admin\\Repositories\\LanguageRepository';
                 $language_repo = new $repo();

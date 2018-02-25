@@ -106,7 +106,7 @@ class Recipe {
     public function build($formdata){
         $recipe = [
             'moduleName' => $formdata['name'],//required
-            'parent_table' => $formdata['parent_table'],
+            'parent' => $formdata['parent'],
             'add' => isset($formdata['add'])&&$formdata['add'] ? true : false,
             'edit' => isset($formdata['edit'])&&$formdata['edit'] ? true : false,
             'delete' => isset($formdata['delete'])&&$formdata['delete'] ? true : false,

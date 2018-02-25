@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Artisan;
 use Recipe;
 use App\Admin\Creators\Recipe as RecipeCreator;
+use App\Admin\Creators\ServiceProvider as ServiceProviderCreator;
+use App\Admin\Creators\RouteAdd;
 use App\Admin\Http\Requests\RecipeRequest;
 use Lang;
 use ClassCreator;
@@ -382,6 +384,7 @@ class RecipeController  extends AdminController {
             "Model class"
         ];
         $messages = [];
+        //remove class files
         foreach($paths as $key => $path){
             if(file_exists($path)){
                 if(unlink($path)){
@@ -391,6 +394,20 @@ class RecipeController  extends AdminController {
                 }
             }
         }
+        //remove route and provider
+        $provider = new ServiceProviderCreator;
+        if($provider->remove($recipe)){
+            $messages[] = ['type' => 'succes', 'text' => 'The '.$names[$key].' service provider has been removed.'];
+        }else{
+            $messages[] = ['type' => 'alert', 'text' => 'The '.$names[$key].' service provider could not be removed.'];
+        }
+        $route = new RouteAdd;
+        if($route->remove($recipe)){
+            $messages[] = ['type' => 'succes', 'text' => 'The '.$names[$key].' route has been removed.'];
+        }else{
+            $messages[] = ['type' => 'alert', 'text' => 'The '.$names[$key].' route could not be removed.'];
+        }
+
         return $this->messageDialog($messages, $callback);
     }
 
