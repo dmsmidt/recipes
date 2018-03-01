@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePagesTable extends Migration {
+class CreateImagesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -13,14 +13,13 @@ class CreatePagesTable extends Migration {
 	 */
 	public function up()
 	{
-	    Schema::create('pages', function($table)
+	    Schema::create('images', function($table)
 	    {
 		 $table->increments('id');
-         $table->text('html');
-         $table->string('name', 255)
-               ->unique();
+         $table->string('filename', 255);
+         $table->integer('image_template_id')
+                  ->unsigned();
          $table->boolean('active')->default(false);
-         $table->boolean('protect')->default(false);
          $table->timestamps();
 
 		});
@@ -35,6 +34,6 @@ class CreatePagesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('pages');
+		Schema::drop('images');
 	}
 }

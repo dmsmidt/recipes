@@ -1,15 +1,13 @@
-<?php
-
-namespace App\Admin\Recipes;
+<?php namespace App\Admin\Recipes;
 
 use App\Admin\Recipes\Traits\Ingredients;
 
-class Image  extends Recipe{
+class Image extends Recipe{
 
     use Ingredients;
 
     public $moduleName = 'images';
-    public $table = 'images';
+    public $parent = '';
     public $fields = [
     
             "id" => [
@@ -22,24 +20,22 @@ class Image  extends Recipe{
                             "input" => "text",
                             "rule" => "required",
                         ],
-            "template" => [
-                            "type" => "varchar",
-                            "length" => 50,
-                            "label" => "Template",
-                            "input" => "text",
+            "image_template_id" => [
+                            "type" => "integer",
+                            "unsigned" => 1,
                             "rule" => "required",
                         ],
             "alt" => [
                             "type" => "foreign",
                             "label" => "Alt",
                             "input" => "language",
-                        ]
+                        ],
     ];
     public $hidden = [];
-    public $summary = ["filename","template"];
-    public $fillable = ["filename","template","header_id"];
+    public $summary = ["filename","image_template_id"];
+    public $fillable = ["filename","image_template_id"];
     public $guarded = ["id"];
-    public $scoped = ["header_id"];
+    public $scoped = [];
     public $add = true;
     public $edit = true;
     public $delete = true;
@@ -49,14 +45,19 @@ class Image  extends Recipe{
     public $nestable = false;
     public $timestamps = true;
     public $has_many = [
-        [
-            "table" => "formats",
-            "inverse" => false,
-        ],
-        [
-            "table" => "images_lang",
-            "inverse" => "false"
-        ]
+            [
+                "table" => "image_formats",
+                "inverse" => false,
+                "cascade" => true
+            ],    [
+                "table" => "images_lang",
+                "inverse" => false,
+                "cascade" => false
+            ],    [
+                "table" => "image_templates",
+                "inverse" => true,
+                "cascade" => false
+            ],
     ];
 
     /**

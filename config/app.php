@@ -203,6 +203,7 @@ return [
         App\Admin\Providers\UserServiceProvider::class,
         
         App\Admin\Providers\PageServiceProvider::class,
+        App\Admin\Providers\ImageServiceProvider::class,
         //<<CMS
 
     ],

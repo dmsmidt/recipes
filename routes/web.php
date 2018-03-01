@@ -39,6 +39,7 @@ Route::group(['prefix' => 'admin'], function() {
             Route::resource('menus.menu_items', '\App\Admin\Http\Controllers\MenuItemController');
           
             Route::resource('pages', '\App\Admin\Http\Controllers\PageController');
+            Route::resource('images', '\App\Admin\Http\Controllers\ImageController');
           //<<CMS
         });
         //Ajax request

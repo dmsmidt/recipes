@@ -2,38 +2,29 @@
 
 use App\Admin\Recipes\Traits\Ingredients;
 
-class ImagesLang extends Recipe{
+class ImageTemplate extends Recipe{
 
     use Ingredients;
 
-    public $moduleName = 'images_lang';
+    public $moduleName = 'image_templates';
     public $parent = '';
     public $fields = [
     
             "id" => [
                             "type" => "increments",
                         ],
-            "image_id" => [
-                            "type" => "integer",
-                            "unsigned" => 1,
-                            "input" => "hidden",
-                        ],
-            "language_id" => [
-                            "type" => "integer",
-                            "unsigned" => 1,
-                            "input" => "hidden",
-                        ],
-            "alt" => [
+            "name" => [
                             "type" => "varchar",
                             "length" => 255,
-                            "nullable" => 1,
-                            "label" => "Alt",
+                            "unique" => 1,
+                            "label" => "Name",
                             "input" => "text",
+                            "rule" => "required",
                         ],
     ];
     public $hidden = [];
-    public $summary = [];
-    public $fillable = ["image_id","language_id","alt"];
+    public $summary = ["name"];
+    public $fillable = ["name"];
     public $guarded = ["id"];
     public $scoped = [];
     public $add = true;
@@ -47,11 +38,7 @@ class ImagesLang extends Recipe{
     public $has_many = [
             [
                 "table" => "images",
-                "inverse" => true,
-                "cascade" => false
-            ],    [
-                "table" => "languages",
-                "inverse" => true,
+                "inverse" => false,
                 "cascade" => false
             ],
     ];
