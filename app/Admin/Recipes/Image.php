@@ -16,14 +16,22 @@ class Image extends Recipe{
             "filename" => [
                             "type" => "varchar",
                             "length" => 255,
-                            "label" => "Name",
+                            "label" => "Filename",
                             "input" => "text",
                             "rule" => "required",
                         ],
             "image_template_id" => [
                             "type" => "integer",
                             "unsigned" => 1,
+                            "label" => "Template",
+                            "input" => "select",
                             "rule" => "required",
+                            "options" => [
+                                "table" => "image_templates",
+                                "text" => "name",
+                                "value" => "id",
+                                "group_by" => "",
+                                "filter_by" => ""            ]
                         ],
             "alt" => [
                             "type" => "foreign",
