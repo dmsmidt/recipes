@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link media="all" type="text/css" rel="stylesheet" href="/cms/css/normalize.css">
     <link media="all" type="text/css" rel="stylesheet" href="/cms/css/main.css">
-    <link media="all" type="text/css" rel="stylesheet" href="/cms/css/font-awesome.min.css">
+    <link media="all" type="text/css" rel="stylesheet" href="/cms/css/fontawesome-all.css">
     <link media="all" type="text/css" rel="stylesheet" href="/cms/vendor/jquery-ui/jquery-ui.css">
     @if(isset($plugins['css']))
         @foreach($plugins['css'] as $css)

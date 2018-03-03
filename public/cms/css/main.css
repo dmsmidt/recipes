@@ -176,7 +176,7 @@ iframe{
     height:4px;
     background-color: #666699;
 }
-.main_button .fa{
+.main_button i{
     margin-left:15px;
     min-width:30px;
     font-size:16px;
@@ -462,8 +462,8 @@ li .row_btn{
     margin: 7px 2px 2px 2px;
     width: 20px;
 }
-li .row_btn .fa{
-    font-size: 17px;
+li .row_btn > div{
+    font-size: 18px;
 }
 
 .flags{

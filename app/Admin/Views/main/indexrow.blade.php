@@ -20,7 +20,7 @@
                                 title="{{ Lang::get('admin.Drag the row to re-order') }}"
                                 type="button"
                                 class="btnSortable row_btn">
-                                <div class="@if(isset($row['sortable']))fa fa-arrows-v @endif @if(isset($row['nestable']))fa fa-arrows @endif"></div>
+                                <div class="@if(isset($row['sortable']))fas fa-arrows-alt-v @endif @if(isset($row['nestable']))fas fa-arrows-alt @endif"></div>
                             </button>
                         </div>
                     @else
@@ -49,7 +49,7 @@
                             data-id="{{ $row['id'] }}"
                             data-action = "{{ $row['edit']['action'] }}"
                             class="{{ $row['edit']['class'] }} row_btn">
-                            <div class="fa fa-pencil"></div>
+                            <div class="far fa-edit"></div>
                         </button>
                         @endif
 
@@ -63,7 +63,7 @@
                             data-id="{{ $row['id'] }}"
                             data-dialog = "{{ $row['delete']['action'] }}"
                             class="{{ $row['delete']['class'] }} row_btn">
-                            <div class="fa fa-trash-o"></div>
+                            <div class="far fa-trash-alt"></div>
                         </button>
                         @endif
 
@@ -77,7 +77,7 @@
                             data-id="{{ $row['id'] }}"
                             data-action = "{{ $row['activatable']['action'] }}"
                             class="{{ $row['activatable']['class'] }} row_btn">
-                            <div class="fa {{ $row['active'] ? 'fa-toggle-on' : 'fa-toggle-off' }}"></div>
+                            <div class="{{ $row['active'] ? 'fas fa-toggle-on' : 'fas fa-toggle-off' }}"></div>
                         </button>
                         @endif
 
@@ -91,7 +91,7 @@
                             data-id="{{ $row['id'] }}"
                             data-action = "{{ $row['protectable']['action'] }}"
                             class="{{ $row['protectable']['class'] }} row_btn">
-                            <div class="fa {{ $row['protect'] ? 'fa-lock' : 'fa-unlock' }}"></div>
+                            <div class="{{ $row['protect'] ? 'fas fa-lock' : 'fas fa-unlock' }}"></div>
                         </button>
                         @endif
                     </div>

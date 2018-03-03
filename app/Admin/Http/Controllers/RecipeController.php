@@ -30,13 +30,13 @@ class RecipeController  extends AdminController {
             ->with("topbar_buttons",[
                 [
                     "text" => Lang::get('recipes.Delete all backups'),
-                    "icon" => "fa-trash-o",
+                    "icon" => "far fa-trash-alt",
                     "classes" => "btnDeleteBackups big_button",
                     "href" => ""
                 ],
                 [
                     "text" => Lang::get('recipes.Migrate schema\'s'),
-                    "icon" => "fa-database",
+                    "icon" => "fas fa-database",
                     "classes" => "btnMigrate big_button",
                     "href" => ""
                 ]
@@ -466,7 +466,7 @@ class RecipeController  extends AdminController {
             $data['module'] = 'recipes';
             $data['dialog'] = 'attention';
             $data['messages'] = $messages;
-            $data['icon'] = 'fa fa-exclamation-triangle';
+            $data['icon'] = 'fas fa-exclamation-triangle';
             $data['page_refresh'] = $callback == 'refreshWindow' ? true : false;
             return [
                 'callback' => 'openDialog',

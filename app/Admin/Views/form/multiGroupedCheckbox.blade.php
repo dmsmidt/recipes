@@ -10,7 +10,7 @@
 @foreach($field['options'] as $group => $option)
 <div class="parentRow">
 
-    <button type="button" class="btnGroupExpand" data-group="{{ $group }}"><div class="fa fa-plus-square-o"></div></button>
+    <button type="button" class="btnGroupExpand" data-group="{{ $group }}"><div class="far fa-plus-square"></div></button>
 
     <div class="parentTitle">{{ $group }}</div>
 

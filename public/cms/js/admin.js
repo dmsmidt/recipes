@@ -157,15 +157,15 @@ $(function(){
     $('.btnGroupExpand').click(function(){
         var $button = $(this);
         var group = $button.data('group');
-        if($button.find('div').hasClass('fa-plus-square-o')){
+        if($button.find('div').hasClass('far fa-plus-square')){
             $('.group[data-group="'+group+'"]').slideDown('fast',function(){
-                $button.find('div').removeClass('fa-plus-square-o');
-                $button.find('div').addClass('fa-minus-square-o');
+                $button.find('div').removeClass('far fa-plus-square');
+                $button.find('div').addClass('far fa-minus-square');
             });
         }else{
             $('.group[data-group="'+group+'"]').slideUp('fast',function(){
-                $button.find('div').removeClass('fa-minus-square-o');
-                $button.find('div').addClass('fa-plus-square-o');
+                $button.find('div').removeClass('far fa-minus-square');
+                $button.find('div').addClass('far fa-plus-square');
             });
         }
     });

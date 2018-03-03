@@ -10,7 +10,7 @@
              @if(isset($button['href']) && !empty($button['href']))
                 <a href="{{ $button['href'] }}">
              @endif
-                    <button type="button" class="{{ $button['classes'] }}"><i class="fa {{ $button['icon'] }}"></i><span>{{ $button['text'] }}</span></button>
+                    <button type="button" class="{{ $button['classes'] }}"><i class="{{ $button['icon'] }}"></i><span>{{ $button['text'] }}</span></button>
              @if(isset($button['href']) && !empty($button['href']))
                 </a>
              @endif

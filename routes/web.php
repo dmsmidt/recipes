@@ -40,6 +40,9 @@ Route::group(['prefix' => 'admin'], function() {
           
             Route::resource('pages', '\App\Admin\Http\Controllers\PageController');
             Route::resource('images', '\App\Admin\Http\Controllers\ImageController');
+            Route::resource('image_formats', '\App\Admin\Http\Controllers\ImageFormatController');
+            Route::resource('image_templates', '\App\Admin\Http\Controllers\ImageTemplateController');
+            Route::resource('images_lang', '\App\Admin\Http\Controllers\ImagesLangController');
           //<<CMS
         });
         //Ajax request

@@ -12,9 +12,9 @@ class MultiGroupedCheckbox extends FormField{
     {
         if($this->properties['value'])
         {
-            return '<div class="fa fa-check-square-o"></div>';
+            return '<div class="far fa-check-square"></div>';
         }
-        return '<div class="fa fa-square-o"></div>';
+        return '<div class="far fa-square"></div>';
     }
 
     public function input()

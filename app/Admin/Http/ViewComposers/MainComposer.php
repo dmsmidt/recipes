@@ -64,7 +64,7 @@ class MainComposer
             if ((isset($recipe->add) && $recipe->add) || ($this->moduleName == 'recipes')) {
                 $top_bar['buttons'][] = [
                     "text" => Lang::get('admin.Add'),
-                    "icon" => "fa-plus",
+                    "icon" => "fas fa-plus",
                     "classes" => "btnAdd big_button",
                     "href" => "/" . $this->uri . "/create"
                 ];

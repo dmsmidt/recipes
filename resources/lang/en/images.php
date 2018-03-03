@@ -7,4 +7,9 @@ return [
   "Alt text"=>"Alt text",
   "Delete this image?"=>"Delete this image?",
   "Crop image"=>"Crop image",
+  "Name"=>"Name",
+  "Template"=>"Template",
+  "Options"=>"Options",
+  "Filename"=>"Filename",
+  "Alt"=>"Alt",
 ];

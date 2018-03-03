@@ -12,7 +12,7 @@ class Foreign extends FormField {
     {
         return '
         <a href="/admin/'.$this->module.'/'.$this->properties['value'].'/'.$this->properties['name'].'">
-        <button type="button" class="row_btn"><div class="fa fa-external-link-square"></div><span></span>
+        <button type="button" class="row_btn"><div class="fas fa-bars"></div><span></span>
         </button>
         </a>';
     }

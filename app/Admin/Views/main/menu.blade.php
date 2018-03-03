@@ -15,7 +15,7 @@
         @if(isset($mainmenu))
             @foreach($mainmenu as $item)
                 <a href="{{$item->url}}" class="main_button @if($item->current) active @endif" data-module="{{$item->name}}">
-                    <i class="fa {{$item->icon}}"></i><span>{{ucfirst($item->text)}}</span>
+                    <i class="{{$item->icon}}"></i><span>{{ucfirst($item->text)}}</span>
                 </a>
             @endforeach
         @endif

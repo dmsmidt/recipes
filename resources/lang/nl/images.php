@@ -7,4 +7,9 @@ return [
   "Alt text"=>"Alt tekst",
   "Delete this image?"=>"Deze afbeelding verwijderen?",
   "Crop image"=>"Bijsnijden van afbeelding",
+  "Name"=>"Naam",
+  "Template"=>"Sjabloon",
+  "Options"=>"Opties",
+  "Filename"=>"Bestandsnaam",
+  "Alt"=>"Alt",
 ];

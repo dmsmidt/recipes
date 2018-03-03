@@ -6,9 +6,9 @@
     <ul>
         @foreach($data['messages'] as $message)
             <li><i class="
-            @if($message['type'] == 'alert')fa fa-exclamation-triangle @endif
-            @if($message['type'] == 'succes')fa fa-check-circle @endif
-            @if($message['type'] == 'info')fa fa-info-circle @endif
+            @if($message['type'] == 'alert')fas fa-exclamation-triangle @endif
+            @if($message['type'] == 'succes')fas fa-check-circle @endif
+            @if($message['type'] == 'info')fas fa-info-circle @endif
             "></i><span>{{ $message['text'] }}</span></li>
         @endforeach
     </ul>
