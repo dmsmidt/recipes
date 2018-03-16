@@ -209,6 +209,7 @@ $(function(){
             '<td></td>'+
             '<td><input type="text" name="has_many['+row+'][table]" id="has_many_table_'+row+'" value=""></td>'+
             '<td><input type="checkbox" name="has_many['+row+'][inverse]" id="has_many_inverse_'+row+'" value="1"></td>'+
+            '<td><input type="checkbox" name="has_many['+row+'][cascade]" id="has_many_cascade_'+row+'" value="1"></td>'+
             '</tr>';
         $table.find('tbody > tr:last').after(html);
     };
@@ -220,6 +221,7 @@ $(function(){
         '<td></td>'+
         '<td><input type="text" name="many_many['+row+'][table]" id="many_many_table_'+row+'" value=""></td>'+
         '<td>&nbsp;</td>'+
+        '<td><input type="checkbox" name="many_many['+row+'][cascade]" id="many_many_cascade_'+row+'" value="1"></td>'+
         '</tr>';
         $table.find('tbody > tr:last').after(html);
     };
