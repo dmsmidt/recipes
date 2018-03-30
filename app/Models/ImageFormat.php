@@ -14,7 +14,7 @@ class ImageFormat extends Model {
      * Fields allowed for mass assignment
      * @var array
      */
-    protected $fillable = ["image_id","name","x","y","width","height","scaling"];
+    protected $fillable = ["image_id","name","x","y","width","height","scaling","image_template_id"];
 
     /**
      * Fields disallowed for mass assignment
@@ -29,6 +29,15 @@ class ImageFormat extends Model {
     public function image()
     {
         return $this->belongsTo('App\Models\Image', 'image_format_id');
+    }
+
+    /**
+     * Retrieve inverse has_many relationships
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function image_template()
+    {
+        return $this->belongsTo('App\Models\ImageTemplate', 'image_format_id');
     }
 
     /**

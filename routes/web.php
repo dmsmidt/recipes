@@ -37,19 +37,22 @@ Route::group(['prefix' => 'admin'], function() {
             Route::resource('configurations', '\App\Admin\Http\Controllers\ConfigurationController');
             Route::resource('users', '\App\Admin\Http\Controllers\UserController');
             Route::resource('menus.menu_items', '\App\Admin\Http\Controllers\MenuItemController');
-          
             Route::resource('pages', '\App\Admin\Http\Controllers\PageController');
             Route::resource('images', '\App\Admin\Http\Controllers\ImageController');
-            Route::resource('image_formats', '\App\Admin\Http\Controllers\ImageFormatController');
             Route::resource('image_templates', '\App\Admin\Http\Controllers\ImageTemplateController');
+            Route::resource('image_formats', '\App\Admin\Http\Controllers\ImageFormatController');
             Route::resource('images_lang', '\App\Admin\Http\Controllers\ImagesLangController');
           //<<CMS
         });
+
         //Ajax request
         $model = studly_case(str_singular(Request::segment(2)));
         Route::post('{module}/ajax', array('as' => 'ajaxRequest', 'uses' => '\App\Admin\Http\Controllers\\'.$model.'Controller@ajax'))->where('module','.+');
-
+        //Image upload
+        $this->post('images/upload', '\App\Admin\Http\Controllers\ImageController@upload');
     });
+
+
 
     // Authentication Routes...
         $this->get('login', '\App\Admin\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');

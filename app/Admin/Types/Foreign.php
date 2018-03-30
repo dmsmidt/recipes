@@ -3,7 +3,8 @@
 
 class Foreign extends Type{
 
-    public function __construct($name,$schema){
+    public function __construct($name,$schema = null){
+        $this->_name = $name;
         parent::__construct($name,$schema);
     }
 
@@ -13,11 +14,11 @@ class Foreign extends Type{
     }
 
     //Adding row to schema builder
-    public function addSchema($table){
+    public function addSchema($rel){
         $constrain = '         $table->foreign(\''.$this->_name.'_id\')'.PHP_EOL;
-        $constrain .= '               ->references(\'id\')->on(\''.$this->_name.'\')'.PHP_EOL;
-        $constrain .= '               ->onDelete(\'cascade\')';
-        $constrain .= ';'.PHP_EOL;
+        $constrain .= '               ->references(\'id\')->on(\''.$rel['table'].'\')';
+        $constrain .= $rel['cascade'] ? PHP_EOL.'               ->onDelete(\'cascade\');' : ';';
+        $constrain .= PHP_EOL;
         return $constrain;    }
 
     //Returns array with possible options

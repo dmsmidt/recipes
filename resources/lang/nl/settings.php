@@ -45,9 +45,9 @@ return [
   "Image quality (10-100)"=>"Afbeeldingskwaliteit (10-100)",
   "Thumb width (pixels)"=>"Thumb breedte (pixels)",
   "Thumb height (pixels)"=>"Thumb hoogte (pixels)",
-  "Max width (pixels)"=>"Max breedte (pixels)",
-  "Max height (pixels)"=>"Max hoogte (pixels)",
+  "Max. width (pixels)"=>"Max breedte (pixels)",
+  "Max. height (pixels)"=>"Max hoogte (pixels)",
   "Header default width (pixels)"=>"Header standaard breedte (pixels)",
   "Header default height (pixels)"=>"Header standaard hoogte (pixels)",
-  "Max image size (Mb)"=>"Max grootte (Mb)",
+  "Max. image size (Mb)"=>"Max. grootte (Mb)",
 ];

@@ -7,7 +7,7 @@ class User extends Recipe{
     use Ingredients;
 
     public $moduleName = 'users';
-    public $table = 'users';
+    public $parent = '';
     public $fields = [
     
             "id" => [
@@ -22,7 +22,9 @@ class User extends Recipe{
                             "options" => [
                                 "table" => "roles",
                                 "text" => "name",
-                                "value" => "id"            ]
+                                "value" => "id",
+                                "group_by" => "",
+                                "filter_by" => ""            ]
                         ],
             "name" => [
                             "type" => "varchar",
@@ -96,7 +98,8 @@ class User extends Recipe{
     public $has_many = [
             [
                 "table" => "roles",
-                "inverse" => 1
+                "inverse" => true,
+                "cascade" => false
             ],
     ];
 

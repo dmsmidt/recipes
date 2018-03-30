@@ -14,7 +14,7 @@ class Image extends Model {
      * Fields allowed for mass assignment
      * @var array
      */
-    protected $fillable = ["filename","image_template_id"];
+    protected $fillable = ["image_template_id","filename"];
 
     /**
      * Fields disallowed for mass assignment

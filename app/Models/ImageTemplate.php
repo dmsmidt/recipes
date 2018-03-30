@@ -32,6 +32,15 @@ class ImageTemplate extends Model {
     }
 
     /**
+     * Retrieve has_many relationships
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function image_formats()
+    {
+        return $this->hasMany('App\Models\ImageFormat', 'image_template_id');
+    }
+
+    /**
      * Manage fields for creation date and update date
      * @var bool
      */

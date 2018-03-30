@@ -28,7 +28,10 @@ class ImageTemplateRepository extends BaseRepository implements IImageTemplateRe
     public function delete($id){
         $model = ImageTemplate::find($id);
         $model->delete();
-        
+    }
+
+    public function selectFormatsByName($name){
+        return ImageTemplate::where('name', $name)->formats->get();
     }
 
 }

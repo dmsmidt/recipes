@@ -110,11 +110,15 @@ trait Ingredients {
             $input_class = 'App\\Admin\\Form\\'.studly_case($input);
             $_input = new $input_class;
             if(isset($_input->plugins)){
-                foreach($_input->plugins['css'] as $css){
-                    $plugins['css'][] = $css;
+                if(isset($_input->plugins['css'])){
+                    foreach($_input->plugins['css'] as $css){
+                        $plugins['css'][] = $css;
+                    }
                 }
-                foreach($_input->plugins['javascript'] as $javascript){
-                    $plugins['javascript'][] = $javascript;
+                if(isset($input->plugins['javascript'])){
+                    foreach($_input->plugins['javascript'] as $javascript){
+                        $plugins['javascript'][] = $javascript;
+                    }
                 }
             }
         }

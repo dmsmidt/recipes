@@ -21,6 +21,7 @@
             </th>
             <th class="parentRow " style="width:10%">Table</th>
             <th class="parentRow " style="width:5%">Inverse</th>
+            <th class="parentRow " style="width:5%">Cascade</th>
             <th class="parentRow " style="width:calc(85% - 30px)"></th>
         </tr>
         @if(isset($data['recipe']->has_one))

@@ -17,13 +17,18 @@ class ImageFormat extends Recipe{
                             "type" => "integer",
                             "unsigned" => 1,
                             "nullable" => 1,
-                            "label" => "Image",
+                        ],
+            "image_template_id" => [
+                            "type" => "integer",
+                            "unsigned" => 1,
+                            "nullable" => 1,
+                            "label" => "Template",
                             "input" => "select",
                             "options" => [
-                                "table" => "images",
+                                "table" => "image_templates",
                                 "text" => "name",
                                 "value" => "id",
-                                "group_by" => "image_template_id",
+                                "group_by" => "",
                                 "filter_by" => ""            ]
                         ],
             "name" => [
@@ -38,6 +43,7 @@ class ImageFormat extends Recipe{
                             "length" => 15,
                             "decimals" => 10,
                             "default" => "0",
+                            "nullable" => 1,
                             "label" => "X-position",
                             "input" => "text",
                         ],
@@ -46,6 +52,7 @@ class ImageFormat extends Recipe{
                             "length" => 15,
                             "decimals" => 10,
                             "default" => "0",
+                            "nullable" => 1,
                             "label" => "Y-position",
                             "input" => "text",
                         ],
@@ -53,7 +60,6 @@ class ImageFormat extends Recipe{
                             "type" => "double",
                             "length" => 15,
                             "decimals" => 10,
-                            "default" => "0",
                             "label" => "Width",
                             "input" => "text",
                         ],
@@ -61,7 +67,6 @@ class ImageFormat extends Recipe{
                             "type" => "double",
                             "length" => 15,
                             "decimals" => 10,
-                            "default" => "0",
                             "label" => "Height",
                             "input" => "text",
                         ],
@@ -84,13 +89,13 @@ class ImageFormat extends Recipe{
                         ],
     ];
     public $hidden = [];
-    public $summary = ["image_id"];
-    public $fillable = ["image_id","name","x","y","width","height","scaling"];
+    public $summary = ["image_template_id","name","width","height"];
+    public $fillable = ["image_id","image_template_id","name","x","y","width","height","scaling"];
     public $guarded = ["id"];
     public $scoped = [];
     public $add = true;
     public $edit = true;
-    public $delete = false;
+    public $delete = true;
     public $activatable = false;
     public $protectable = false;
     public $sortable = false;
@@ -99,6 +104,10 @@ class ImageFormat extends Recipe{
     public $has_many = [
             [
                 "table" => "images",
+                "inverse" => true,
+                "cascade" => false
+            ],    [
+                "table" => "image_templates",
                 "inverse" => true,
                 "cascade" => false
             ],

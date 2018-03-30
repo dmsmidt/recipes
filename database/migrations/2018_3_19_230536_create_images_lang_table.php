@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateImageFormatsTable extends Migration {
+class CreateImagesLangTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -13,20 +13,19 @@ class CreateImageFormatsTable extends Migration {
 	 */
 	public function up()
 	{
-	    Schema::create('image_formats', function($table)
+	    Schema::create('images_lang', function($table)
 	    {
 		 $table->increments('id');
          $table->integer('image_id')
-                  ->nullable()
                   ->unsigned();
-         $table->string('name', 100);
-         $table->double('x', 15, 10);
-         $table->double('y', 15, 10);
-         $table->double('width', 15, 10);
-         $table->double('height', 15, 10);
-         $table->string('scaling', 10)
-               ->default('fit')
+         $table->integer('language_id')
+                  ->unsigned();
+         $table->string('alt', 255)
                  ->nullable();
+         $table->foreign('image_id')
+               ->references('id')->on('images');
+         $table->foreign('language_id')
+               ->references('id')->on('languages');
 
 		});
 
@@ -40,6 +39,6 @@ class CreateImageFormatsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('image_formats');
+		Schema::drop('images_lang');
 	}
 }

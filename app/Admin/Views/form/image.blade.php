@@ -58,38 +58,42 @@
     </div>
 </div>
 
+<script type="text/javascript" src="/cms/js/dropzone.js"></script>
 
 <script>
+
+Dropzone.autoDiscover = false;
+
 $(document).ready(function(){
     /**
     * DROPZONE IMAGE UPLOAD
     */
     var data = $('.dropzone.{{$field['name']}}').data();
     var img_cnt = $('.thumbs > div').length;
-    Dropzone.autoDiscover = false;
     $('.dropzone.{{$field['name']}}').dropzone({
-        url: "/admin/images",
+        url: "/admin/images/upload",
         maxFilesize: data.maxsize,
         maxFiles: data.maxfiles,
         addRemoveLinks: false,
         dictDefaultMessage: data.message,
         //previewTemplate: $('#preview-template').html(),
         params: {
-            _token: $('meta[name="_token"]').attr('content'),
-            template: data.template,
             maxfiles: data.maxfiles,
             maxsize: data.maxsize,
             filename: 'temp',
             field: data.field
         },
+        accept: function(file, done) {
+                    console.log('accept');
+                    //add further logic for accepting images
+                    $('.image.{{$field['name']}} .input .dropzone .dz-message').hide();
+                    done();
+        },
         sending: function(file, xhr, formData){
+            formData.append('_token', $('meta[name="_token"]').attr('content'));
+            formData.append('image_template_id', $('#image_template_id').val());
             formData.append('row',img_cnt);
             img_cnt++;
-        },
-        accept: function(file, done) {
-            //add further logic for accepting images
-            $('.image.{{$field['name']}} .input .dropzone .dz-message').hide();
-            done();
         },
         success: function(file, response){
             addThumb(response.thumb);

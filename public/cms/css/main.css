@@ -353,11 +353,19 @@ main .overview .headers{
     overflow: hidden;
 }
 .dd-item:hover div{
-    background-color: #fff;
+    /*background-color: #fff;*/
 }
-/*.dd-item.parent_row:hover div{
-    background-color: #C6C0E8;
-}*/
+.dd-item.parent_row{
+    background-color: #aaa59b;
+}
+.dd-item.parent_row .col_text{
+    font-weight: bold;
+}
+.dd-item.parent_row .dd3-content{
+    background-color: transparent;
+    border-top: 1px solid #868178;
+    border-bottom: 1px solid #868178;
+}
 .dd3-content{
     display: block;
     height: 30px;
@@ -448,7 +456,8 @@ li .col_icon > div{
     margin-top: 6px;
     font-size:18px;
 }
-li .col_text{
+li .col_text,
+li .col_select{
     width:200px;
 }
 main .overview .col_options{

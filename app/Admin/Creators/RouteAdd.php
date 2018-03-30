@@ -22,7 +22,7 @@ class RouteAdd {
         $length = abs($start - $end);
         $between = substr($contents, $startIndex, $length);
         //rewrite content
-        $str = $between.$route.PHP_EOL.'          ';
+        $str = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $between).$route.PHP_EOL.'          ';
         $contents = substr_replace($contents, $str, $startIndex, $length);
         //modify and save file
         $file = fopen($path,'w+');

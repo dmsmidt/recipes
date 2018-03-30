@@ -45,9 +45,9 @@ return [
   "Image quality (10-100)"=>"Image quality (10-100)",
   "Thumb width (pixels)"=>"Thumb width (pixels)",
   "Thumb height (pixels)"=>"Thumb height (pixels)",
-  "Max width (pixels)"=>"Max width (pixels)",
-  "Max height (pixels)"=>"Max height (pixels)",
+  "Max. width (pixels)"=>"Max width (pixels)",
+  "Max. height (pixels)"=>"Max height (pixels)",
   "Header default width (pixels)"=>"Header default width (pixels)",
   "Header default height (pixels)"=>"Header default height (pixels)",
-  "Max image size (Mb)"=>"Max image size (Mb)",
+  "Max. image size (Mb)"=>"Max. image size (Mb)",
 ];

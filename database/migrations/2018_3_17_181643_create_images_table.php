@@ -16,9 +16,11 @@ class CreateImagesTable extends Migration {
 	    Schema::create('images', function($table)
 	    {
 		 $table->increments('id');
-         $table->string('filename', 255);
          $table->integer('image_template_id')
                   ->unsigned();
+         $table->string('filename', 255);
+         $table->foreign('image_template_id')
+               ->references('id')->on('image_templates');
          $table->boolean('active')->default(false);
          $table->timestamps();
 

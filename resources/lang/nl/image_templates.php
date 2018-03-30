@@ -2,5 +2,5 @@
 return [
   "Name"=>"Naam",
   "Options"=>"Opties",
-  "Image_templates"=>"dfgtyj",
+    "Image_templates"=>"Afbeelding sjablonen",
 ];

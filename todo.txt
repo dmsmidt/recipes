@@ -1,0 +1,1 @@
+@TODO: Make function to remove the empty lines from routes and config/app providers which remains after removing a route or provider

@@ -201,11 +201,10 @@ return [
         App\Admin\Providers\ConfigurationServiceProvider::class,
         App\Admin\Providers\SettingServiceProvider::class,
         App\Admin\Providers\UserServiceProvider::class,
-        
         App\Admin\Providers\PageServiceProvider::class,
         App\Admin\Providers\ImageServiceProvider::class,
-        App\Admin\Providers\ImageFormatServiceProvider::class,
         App\Admin\Providers\ImageTemplateServiceProvider::class,
+        App\Admin\Providers\ImageFormatServiceProvider::class,
         App\Admin\Providers\ImagesLangServiceProvider::class,
         //<<CMS
 

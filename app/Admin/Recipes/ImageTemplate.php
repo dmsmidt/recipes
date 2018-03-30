@@ -40,6 +40,10 @@ class ImageTemplate extends Recipe{
                 "table" => "images",
                 "inverse" => false,
                 "cascade" => false
+            ],    [
+                "table" => "image_formats",
+                "inverse" => false,
+                "cascade" => true
             ],
     ];
 

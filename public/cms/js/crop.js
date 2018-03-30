@@ -20,7 +20,7 @@ $(function(){
             initCrop();
         });
         $('#dialogblocker').show();
-    }
+    };
 
     /**
      * INIT CROP
@@ -31,7 +31,7 @@ $(function(){
             //boxWidth: 500,
             //boxheight: 250
         });
-    }
+    };
 
     /**
      * CLOSE DIALOG
@@ -41,7 +41,7 @@ $(function(){
         $('#crop').hide();
         $('#dialogblocker').hide();
         $('#dialog .buttons').empty();
-    }
+    };
 
     //CANCEL CROP BUTTON
     $('body').on('click','#btnCropCancel',function(){
