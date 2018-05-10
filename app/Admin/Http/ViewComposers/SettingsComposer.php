@@ -2,9 +2,9 @@
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Route;
+use FormField;
 use Request;
 use Recipe;
-use FormField;
 use Lang;
 
 
@@ -49,15 +49,14 @@ class SettingsComposer {
     }
 
     /**
+     * Build settings row with configuration data
      * @param $row_data
      * @return mixed
      */
     private function buildRow($row_data){
-        //if($row_data['id'] > 1){ dd($row_data); }
         $cols = [];
         $row['id'] = $row_data['id'];
         //needed variables for sortable or nestable rows
-
         $row['parent_id'] = isset($row_data['parent_id']) ? $row_data['parent_id'] : null;
         $row['lft'] = isset($row_data['lft']) ? $row_data['lft'] : null;
         $row['rgt'] = isset($row_data['rgt']) ? $row_data['rgt'] : null;
@@ -72,7 +71,9 @@ class SettingsComposer {
         //get the active value of the row if option exists
         $row['active'] = null;
 
-        //name column
+        /**
+         * Label column for setting name
+         */
         $cols[0]['input'] = 'text';
         $props = [
             "name" => null,
@@ -81,19 +82,20 @@ class SettingsComposer {
         ];
         $cols[0]['value'] = Lang::get('settings.'.FormField::get('text',$props)->view());
 
-        //value column
+        /**
+         * Column with setting values
+         */
         $cols[1]['input'] = $row_data['input_type'];
         $props = [
             "name" => $row_data['name'],
             "label" => null,
             "value" => isset($row_data['value']) ? $row_data['value'] : null
         ];
-        if(!$row_data['is_header']){
-            $cols[1]['value'] = FormField::get($row_data['input_type'],$props)->view();
-        }else{
-            $cols[1]['value'] = '';
-        }
 
+        $cols[1]['value'] = '';
+        if(!$row_data['is_header']){
+            $cols[1]['value'] = FormField::get($row_data['input_type'], $props)->view();
+        }
         $row['columns'] = $cols;
 
         //define row options if not a header row

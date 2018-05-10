@@ -1,10 +1,9 @@
 <?php namespace App\Admin\Form;
 
-
 class Text extends FormField{
 
-    public function __construct($props = null){
-        $this->build($props);
+    public function __construct($formfield){
+        $this->build($formfield);
         return $this;
     }
 

@@ -1,6 +1,6 @@
 <?php namespace App\Admin\Repositories\Contracts;
 
-interface IImageRepository{
+interface _IImageRepository{
 
     public function selectAll();
 

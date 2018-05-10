@@ -11,6 +11,7 @@ class Standard  extends Recipe{
     public $fields = [
         "id"=>[
             "type"=>"increments",
+            "input"=>"hidden"
         ]
     ];
     public $hidden = [];

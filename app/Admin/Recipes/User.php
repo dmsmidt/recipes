@@ -12,6 +12,7 @@ class User extends Recipe{
     
             "id" => [
                             "type" => "increments",
+                            "input" => "hidden",
                         ],
             "role_id" => [
                             "type" => "integer",

@@ -12,6 +12,7 @@ class ImageFormat extends Recipe{
     
             "id" => [
                             "type" => "increments",
+                            "input" => "hidden",
                         ],
             "image_id" => [
                             "type" => "integer",

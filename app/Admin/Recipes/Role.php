@@ -7,11 +7,12 @@ class Role extends Recipe{
     use Ingredients;
 
     public $moduleName = 'roles';
-    public $table = 'roles';
+    public $parent = '';
     public $fields = [
     
             "id" => [
                             "type" => "increments",
+                            "input" => "hidden",
                         ],
             "name" => [
                             "type" => "varchar",
@@ -48,12 +49,14 @@ class Role extends Recipe{
     public $has_many = [
             [
                 "table" => "users",
-                "inverse" => false
+                "inverse" => false,
+                "cascade" => false
             ],
     ];
     public $many_many = [
             [
-                "table" => "menu_items"
+                "table" => "menu_items",
+                "cascade" => false
             ],
     ];
 

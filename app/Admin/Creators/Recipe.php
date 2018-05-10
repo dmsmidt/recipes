@@ -297,10 +297,14 @@ RECIPEOPTIONS;
             $relations = '';
             foreach($_recipe->has_one as $related){
                 $inverse = $related['inverse'] ? 'true' : 'false';
+                $cascade = $related['cascade'] ? 'true' : 'false';
+                $with = $related['with'] ? 'true' : 'false';
                 $relations .= <<<RELATIONS
     [
                 "table" => "{$related['table']}",
-                "inverse" => {$inverse}
+                "inverse" => {$inverse},
+                "cascade" => {$cascade},
+                "with" => {$with}
             ],
 RELATIONS;
 
@@ -318,11 +322,13 @@ HASONE;
             foreach($_recipe->has_many as $related){
                 $inverse = $related['inverse'] ? 'true' : 'false';
                 $cascade = $related['cascade'] ? 'true' : 'false';
+                $with = $related['with'] ? 'true' : 'false';
                 $relations .= <<<RELATIONS
     [
                 "table" => "{$related['table']}",
                 "inverse" => {$inverse},
-                "cascade" => {$cascade}
+                "cascade" => {$cascade},
+                "with" => {$with}
             ],
 RELATIONS;
 
@@ -339,10 +345,12 @@ HASMANY;
             $relations = '';
             foreach($_recipe->many_many as $field => $related){
                 $cascade = $related['cascade'] ? 'true' : 'false';
+                $with = $related['with'] ? 'true' : 'false';
                 $relations .= <<<RELATIONS
     [
                 "table" => "{$related['table']}",
-                "cascade" => {$cascade}
+                "cascade" => {$cascade},
+                "with" => {$with}
             ],
 RELATIONS;
 

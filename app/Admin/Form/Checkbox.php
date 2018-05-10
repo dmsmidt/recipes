@@ -3,9 +3,8 @@
 
 class Checkbox extends FormField{
 
-    public function __construct($props = null){
-        $this->build($props);
-        return $this;
+    public function __construct($formfield){
+        $this->build($formfield);
     }
 
     public function view()

@@ -2,7 +2,7 @@
 
 use App\Admin\Recipes\Traits\Ingredients;
 
-class Image extends Recipe{
+class _Image extends Recipe{
 
     use Ingredients;
 
@@ -24,9 +24,8 @@ class Image extends Recipe{
                                 "text" => "name",
                                 "value" => "id",
                                 "group_by" => "",
-                                "filter_by" => ""
-                            ]
-        ],
+                                "filter_by" => ""            ]
+                        ],
             "filename" => [
                             "type" => "varchar",
                             "length" => 255,
@@ -41,8 +40,8 @@ class Image extends Recipe{
                         ],
     ];
     public $hidden = [];
-    public $summary = ["filename","image_template_id"];
-    public $fillable = ["filename","image_template_id"];
+    public $summary = ["image_template_id","filename"];
+    public $fillable = ["image_template_id","filename"];
     public $guarded = ["id"];
     public $scoped = [];
     public $add = true;

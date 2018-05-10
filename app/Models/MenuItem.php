@@ -52,13 +52,15 @@ class MenuItem extends Node {
      */
     protected $scoped = ["menu_id"];
 
+    protected $with = ['language'];
+
     /**
      * Retrieve has_one relationship
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function menuId()
+    public function menu()
     {
-        return $this->hasOne('App\Models\Menu','id');
+        return $this->hasOne('App\Models\Menu','id', 'menu_id');
     }
 
     /**

@@ -14,7 +14,7 @@
         <option value="icon"  @if(isset($field['input']) && $field['input'] == 'icon') selected @endif>icon</option>
         <option value="image"  @if(isset($field['input']) && $field['input'] == 'image') selected @endif>image</option>
         <option value="images"  @if(isset($field['input']) && $field['input'] == 'images') selected @endif>images</option>
-        <option value="language"  @if(isset($field['input']) && $field['input'] == 'language') selected @endif>language</option>
+        {{--<option value="language"  @if(isset($field['input']) && $field['input'] == 'language') selected @endif>language</option>--}}
         <option value="multiGroupedCheckbox"  @if(isset($field['input']) && $field['input'] == 'multiGroupedCheckbox') selected @endif>multiGroupedCheckbox</option>
         <option value="password"  @if(isset($field['input']) && $field['input'] == 'password') selected @endif>password</option>
         <option value="radio"  @if(isset($field['input']) && $field['input'] == 'radio') selected @endif>radio</option>
@@ -27,5 +27,4 @@
     </select>
     <div class="row fieldrow_{{$row}}"><label class="text">Label</label>
         <input type="text" name="field[{{ $row }}][label]" id="field_label_{{ $row }}"
-               value="@if(isset($field['label'])){{ $field['label'] }}@endif"
-               ></div>
+               value="@if(isset($field['label'])){{ $field['label'] }}@endif"></div>

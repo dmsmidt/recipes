@@ -1,12 +1,13 @@
 <div class="formRow {{$field['name']}} image">
     {!! Form::label($field['name'], Lang::get($moduleName.'.'.$field['label']), ['class' => isset($field['required']) ? 'required' : '']) !!}
-    {{-- dd($field['value']); --}}
     <div class="input">
         <div class="thumbs">
-        @if(isset($field['value']))
+        @if(isset($field['value']) && count($field['value']) > 1)
             @foreach($field['value'] as $key => $thumb)
                 @include('form.thumb',["field" => $field['name'], "row" => $key, "thumb" => $thumb])
             @endforeach
+        @else
+            @include('form.thumb',["field" => $field['name'], "row" => 0, "thumb" => $field['value']])
         @endif
         <?php
                 $thumbs = Session::get('input')[$field['name']];

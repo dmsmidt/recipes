@@ -22,6 +22,8 @@ class Image extends Model {
      */
     protected $quarded = ["id"];
 
+    protected $with = ['image_template'];
+
     /**
      * Retrieve has_many relationships
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -46,7 +48,7 @@ class Image extends Model {
      */
     public function image_template()
     {
-        return $this->belongsTo('App\Models\ImageTemplate', 'image_id');
+        return $this->belongsTo('App\Models\ImageTemplate', 'image_template_id');
     }
 
     /**

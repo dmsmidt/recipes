@@ -4,7 +4,7 @@
 class Translations {
 
     /**
-     * creates the repository and interface
+     * @param $lang
      * @param $name
      * @return bool
      */

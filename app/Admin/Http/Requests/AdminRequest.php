@@ -1,10 +1,11 @@
 <?php namespace App\Admin\Http\Requests;
 
 use PhpParser\Node\Expr\Cast\Object_;
+use App\Admin\Http\Requests\IAdminRequest;
 use Request;
 use Route;
 
-class AdminRequest extends Request {
+class AdminRequest extends Request implements IAdminRequest {
 
 
     /**

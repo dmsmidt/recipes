@@ -7,11 +7,12 @@ class Setting extends Recipe{
     use Ingredients;
 
     public $moduleName = 'settings';
-    public $table = 'settings';
+    public $parent = '';
     public $fields = [
     
             "id" => [
                             "type" => "increments",
+                            "input" => "hidden",
                         ],
             "configuration_id" => [
                             "type" => "integer",
@@ -62,10 +63,12 @@ class Setting extends Recipe{
     public $nestable = false;
     public $timestamps = false;
     public $has_one = [
-        [
-            "table" => "configurations",
-            "inverse" => false
-        ]
+            [
+                "table" => "configurations",
+                "inverse" => false,
+                "cascade" => false,
+                "with" => false
+            ],
     ];
 
     /**

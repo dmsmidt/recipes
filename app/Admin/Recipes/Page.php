@@ -12,16 +12,16 @@ class Page extends Recipe{
     
             "id" => [
                             "type" => "increments",
+                            "input" => "hidden",
                         ],
-        "name" => [
-            "type" => "varchar",
-            "length" => 255,
-            "unique" => 1,
-            "label" => "Name",
-            "input" => "text",
-        ],
-
-        "html" => [
+            "name" => [
+                            "type" => "varchar",
+                            "length" => 255,
+                            "unique" => 1,
+                            "label" => "Name",
+                            "input" => "text",
+                        ],
+            "html" => [
                             "type" => "text",
                             "label" => "Html",
                             "input" => "html",
@@ -29,7 +29,7 @@ class Page extends Recipe{
     ];
     public $hidden = [];
     public $summary = ["name"];
-    public $fillable = ["html","name"];
+    public $fillable = ["name","html"];
     public $guarded = ["id"];
     public $scoped = [];
     public $add = true;

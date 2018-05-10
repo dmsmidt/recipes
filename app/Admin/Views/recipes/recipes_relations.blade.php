@@ -22,6 +22,7 @@
             <th class="parentRow " style="width:10%">Table</th>
             <th class="parentRow " style="width:5%">Inverse</th>
             <th class="parentRow " style="width:5%">Cascade</th>
+            <th class="parentRow " style="width:5%">With</th>
             <th class="parentRow " style="width:calc(85% - 30px)"></th>
         </tr>
         @if(isset($data['recipe']->has_one))
@@ -31,10 +32,12 @@
                 <td></td>
                 {{-- HAS ONE FIELD COLUMN --}}
                 <td><input type="text" name="has_one[{{ $n }}][table]" id="has_one_table_{{ $n }}" value="{{ $relation['table'] }}"></td>
-                {{-- HAS ONE RELATED TABLE FIELD COLUMN --}}
+                {{-- HAS ONE INVERSE --}}
                 <td><input type="checkbox" name="has_one[{{ $n }}][inverse]" id="has_one_inverse_{{ $n }}" value="1" @if($relation['inverse']) checked @endif ></td>
                 {{-- EMPTY COLUMN HEADER --}}
-                <td>&nbsp;</td>
+                <td><input type="checkbox" name="has_one[{{ $n }}][cascade]" id="has_one_cascade_{{ $n }}" value="1" @if($relation['cascade']) checked @endif ></td>
+                {{-- HAS ONE WITH --}}
+                <td><input type="checkbox" name="has_one[{{ $n }}][with]" id="has_one_with_{{ $n }}" value="1" @if($relation['with']) checked @endif ></td>
             </tr>
             <?php $n++; ?>
             @endforeach
@@ -55,6 +58,7 @@
             <th class="parentRow " style="width:10%">Table</th>
             <th class="parentRow " style="width:5%">Inverse</th>
             <th class="parentRow " style="width:5%">Cascade</th>
+            <th class="parentRow " style="width:5%">With</th>
             <th class="parentRow " style="width:calc(85% - 30px)"></th>
         </tr>
         @if(isset($data['recipe']->has_many))
@@ -68,6 +72,8 @@
                 <td><input type="checkbox" name="has_many[{{ $n }}][inverse]" id="has_many_inverse_{{ $n }}" value="1" @if($relation['inverse']) checked @endif ></td>
                 {{-- HAS MANY RELATED TABLE CASCADE --}}
                 <td><input type="checkbox" name="has_many[{{ $n }}][cascade]" id="has_many_cascade_{{ $n }}" value="1" @if(isset($relation['cascade'])&&$relation['cascade']) checked @endif ></td>
+                {{-- HAS MANY WITH --}}
+                <td><input type="checkbox" name="has_many[{{ $n }}][with]" id="has_many_with_{{ $n }}" value="1" @if(isset($relation['with'])&&$relation['with']) checked @endif ></td>
             </tr>
             <?php $n++; ?>
             @endforeach
@@ -88,6 +94,7 @@
             <th class="parentRow " style="width:10%">Table</th>
             <th class="parentRow " style="width:5%">&nbsp;</th>
             <th class="parentRow " style="width:5%">Cascade</th>
+            <th class="parentRow " style="width:5%">With</th>
             <th class="parentRow " style="width:calc(85% - 30px)"></th>
         </tr>
         @if(isset($data['recipe']->many_many))
@@ -101,6 +108,8 @@
                 <td>&nbsp;</td>
                 {{-- MANY MANY RELATED TABLE CASCADE --}}
                 <td><input type="checkbox" name="many_many[{{ $n }}][cascade]" id="many_many_cascade_{{ $n }}" value="1" @if(isset($relation['cascade'])&&$relation['cascade']) checked @endif ></td>
+                {{-- MANY MANY WITH --}}
+                <td><input type="checkbox" name="many_many[{{ $n }}][with]" id="many_many_with_{{ $n }}" value="1" @if(isset($relation['with'])&&$relation['with']) checked @endif ></td>
             </tr>
             <?php $n++; ?>
             @endforeach

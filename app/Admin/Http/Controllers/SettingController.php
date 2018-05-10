@@ -21,7 +21,6 @@ class SettingController extends AdminController {
 	{
         $data = $this->setting->selectTree();
         return view('admin')
-            
             ->nest('center','main.settings',compact('data'));
 	}
 

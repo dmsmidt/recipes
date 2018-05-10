@@ -2,7 +2,7 @@
 
 use App\Admin\Recipes\Traits\Ingredients;
 
-class MenuItem extends Recipe{
+class _MenuItem extends Recipe{
 
     use Ingredients;
 
@@ -66,20 +66,17 @@ class MenuItem extends Recipe{
             [
                 "table" => "menu_items_lang",
                 "inverse" => false,
-                "cascade" => true,
-                "with" => true
+                "cascade" => false
             ],    [
                 "table" => "menus",
                 "inverse" => true,
-                "cascade" => false,
-                "with" => false
+                "cascade" => false
             ],
     ];
     public $many_many = [
             [
                 "table" => "roles",
-                "cascade" => false,
-                "with" => false
+                "cascade" => false
             ],
     ];
 

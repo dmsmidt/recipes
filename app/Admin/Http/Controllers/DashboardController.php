@@ -33,7 +33,7 @@ class DashboardController extends AdminController {
      */
     public function create()
     {
-        //
+        return view('admin')->nest('center','main.form');
     }
 
     /**

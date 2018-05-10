@@ -262,9 +262,8 @@ return [
          * Cms Facades
          */
         'Recipe' => App\Admin\Facades\Recipe::class,
-        'FormField' => App\Admin\Facades\FormField::class,
         'ClassCreator' => App\Admin\Facades\ClassCreator::class,
-        'AdminRequest' => App\Admin\Facades\AdminRequest::class,
+        'FormField' => App\Admin\Facades\FormField::class,
     ],
 
 ];

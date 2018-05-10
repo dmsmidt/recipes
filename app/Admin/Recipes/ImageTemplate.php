@@ -12,6 +12,7 @@ class ImageTemplate extends Recipe{
     
             "id" => [
                             "type" => "increments",
+                            "input" => "hidden",
                         ],
             "name" => [
                             "type" => "varchar",

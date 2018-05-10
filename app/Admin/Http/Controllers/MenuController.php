@@ -2,6 +2,7 @@
 
 use App\Admin\Http\Requests\MenuRequest;
 use App\Admin\Repositories\Contracts\IMenuRepository;
+use App\Models\Menu;
 
 class MenuController extends AdminController {
 

@@ -108,15 +108,15 @@ trait Ingredients {
         $plugins['css'] = [];
         foreach($this->inputs() as $input){
             $input_class = 'App\\Admin\\Form\\'.studly_case($input);
-            $_input = new $input_class;
-            if(isset($_input->plugins)){
-                if(isset($_input->plugins['css'])){
-                    foreach($_input->plugins['css'] as $css){
+            $reflection = new \ReflectionClass($input_class);
+            if(isset($reflection->plugins)){
+                if(isset($reflection->plugins['css'])){
+                    foreach($reflection->plugins['css'] as $css){
                         $plugins['css'][] = $css;
                     }
                 }
                 if(isset($input->plugins['javascript'])){
-                    foreach($_input->plugins['javascript'] as $javascript){
+                    foreach($reflection->plugins['javascript'] as $javascript){
                         $plugins['javascript'][] = $javascript;
                     }
                 }
@@ -130,6 +130,32 @@ trait Ingredients {
             return true;
         }
         return false;
+    }
+
+    public function with(){
+        $with = [];
+        if(isset($this->has_one) && count($this->has_one)){
+            foreach($this->has_one as $value){
+                if(array_key_exists('with',$value)){
+                    $with[] = $value['table'];
+                }
+            }
+        }
+        if(isset($this->has_many) && count($this->has_many)){
+            foreach($this->has_many as $value){
+                if(array_key_exists('with',$value)){
+                    $with[] = $value['table'];
+                }
+            }
+        }
+        if(isset($this->many_many) && count($this->many_many)){
+            foreach($this->many_many as $value){
+                if(array_key_exists('with',$value)){
+                    $with[] = $value['table'];
+                }
+            }
+        }
+        return $with;
     }
 
 } 

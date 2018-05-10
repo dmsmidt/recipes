@@ -7,11 +7,12 @@ class Menu extends Recipe{
     use Ingredients;
 
     public $moduleName = 'menus';
-    public $table = 'menus';
+    public $parent = '';
     public $fields = [
     
             "id" => [
                             "type" => "increments",
+                            "input" => "hidden",
                         ],
             "name" => [
                             "type" => "varchar",
@@ -62,10 +63,12 @@ class Menu extends Recipe{
     public $nestable = false;
     public $timestamps = false;
     public $has_many = [
-        [
-            "table" => "menu_items",
-            "inverse" => false
-        ]
+            [
+                "table" => "menu_items",
+                "inverse" => false,
+                "cascade" => false,
+                "with" => true
+            ],
     ];
 
     /**

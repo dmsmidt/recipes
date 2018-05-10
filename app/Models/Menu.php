@@ -47,10 +47,16 @@ class Menu extends Node {
     protected $quarded = ["id"];
 
     /**
+     * Querying relations
+     * @var array
+     */
+    protected $with = ["menu_items"];
+
+    /**
      * Retrieve has_many relationships
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function menuItems()
+    public function menu_items()
     {
         return $this->hasMany('App\Models\MenuItem', 'menu_id');
     }

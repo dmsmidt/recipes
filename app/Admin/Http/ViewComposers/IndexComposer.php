@@ -2,25 +2,27 @@
 
 use Illuminate\View\View;
 use Illuminate\Routing\Route;
-use AdminRequest;
+use App\Admin\Http\Requests\IAdminRequest;
 use Recipe;
 use FormField;
 
+
 class IndexComposer {
 
+    protected $admin_request;
     protected $module;
     protected $childRecipe;
     protected $parent_id;
     protected $recipe;
     protected $data;
-    /*protected $items;*/
     protected $levels;
 
-    public function __construct(Route $route){
-        $this->module = AdminRequest::module();
-        if(AdminRequest::hasChilds()){
-            $this->childRecipe = AdminRequest::recipe();
-            $this->parent_id = AdminRequest::segments()[2];
+    public function __construct(Route $route, IAdminRequest $adminRequest){
+        $this->admin_request = $adminRequest;
+        $this->module = $adminRequest->module();
+        if($adminRequest->hasChilds()){
+            $this->childRecipe = $adminRequest->recipe();
+            $this->parent_id = $adminRequest->segments()[2];
         }else{
             $this->childRecipe = null;
             $this->parent_id = null;
@@ -118,7 +120,6 @@ class IndexComposer {
         foreach($summary as $field){
             if(array_key_exists($field,$row_data)){
                 $input = $this->recipe->fields[$field]['input'];
-                //get the input label if it exists
                 $label = array_key_exists('label',$this->recipe->fields[$field]) ? $this->recipe->fields[$field]['label'] : null;
                 $cols[$c]['input'] = $input;
                 $props = [
@@ -126,36 +127,36 @@ class IndexComposer {
                     "label" => $label,
                     "value" => $row_data[$field]
                 ];
-                $cols[$c]['value'] = FormField::get($input,$props)->view();
+                if($input == 'foreign'){
+                    $value = $row_data['id'];
+                }else{
+                    $value = $row_data[$field];
+                }
+                $cols[$c]['value'] = FormField::get($input, $props)->view();
             }
 
             /*
              * Search in the recipe if there is a has_many relation with table name = field name
              */
-            elseif(isset($this->recipe->has_many)){
+            /*elseif(isset($this->recipe->has_many)){
                 $has_many_relations = [];
                 foreach($this->recipe->has_many as $relation){
                     $has_many_relations[] = $relation['table'];
                 }
                 //@todo: NOT checking out has_many related table exists as a field name, but input is multiple
-                if(in_array($field, $has_many_relations)){
+                if(in_array($field, $has_many_relations)){*/
                     /* in this case the input has multiple related child data
                      * therefore a button is added to the row to open a window
                      * for editing the child data
                      * the value is the parents id
                      */
-                    $input = $this->recipe->fields[$field]['input'];
-                    $label = array_key_exists('label',$this->recipe->fields[$field]) ? $this->recipe->fields[$field]['label'] : null;
+                    /*$input = $this->recipe->fields[$field]['input'];
                     $cols[$c]['input'] = $input;
-                    $props = [
-                        "name" => $field,
-                        "label" => $label,
-                        "value" => $row['id']
-                    ];
-                    $cols[$c]['value'] = FormField::get($input,$props)->view();
-
+                    $input_class = 'App\Admin\Form\\'.studly_case($input).'';
+                    $form_field = new $input_class($this->recipe->moduleName, $field, $row_data['id']);
+                    $cols[$c]['value'] = $form_field->view();
                 }
-            }
+            }*/
             $c++;
         }
         $row['columns'] = $cols;

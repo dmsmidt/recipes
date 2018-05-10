@@ -52,9 +52,9 @@ class AdminController extends Controller
      * @return array
      */
     public function switchLanguage($data, $callback){
-        $language = Language::where('abbr',$data['lang'])->get()->first()->toArray();
-        Session::put('language.default_id',$language['id']);
-        Session::put('language.default_abbr',$language['abbr']);
+        $language = Language::where('abbr',$data['lang'])->get()->first();
+        Session::put('language.default_id',$language->id);
+        Session::put('language.default_abbr',$language->abbr);
         return [
             "callback" => $callback,
             "args" => $data['lang']

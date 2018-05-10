@@ -128,11 +128,12 @@ FILLABLE;
 GUARDED;
         }
 
-        if(isset($recipe->with) && count($recipe->with)){
-            $with = implode('","',$recipe->with);
+        $with = $recipe->with();
+        if(isset($with) && count($with)){
+            $with = implode('","',$with);
             $str .= PHP_EOL.<<<WITH
     /**
-     * Fields disallowed for mass assignment
+     * Querying relations
      * @var array
      */
     protected \$with = ["{$with}"];
@@ -145,8 +146,8 @@ WITH;
             foreach($has_one as $field){
                 $func_name = str_singular($field['table']);
                 $relModel = studly_case(str_singular($field['table']));
-                $reference = str_singular($recipe->moduleName).'_id';
                 if(!$field['inverse']){
+                    $reference = str_singular($recipe->moduleName).'_id';
                     $str .= PHP_EOL.<<<HAS_ONE
     /**
      * Retrieve has_one relationship
@@ -159,6 +160,7 @@ WITH;
 
 HAS_ONE;
                 }else{
+                    $reference = str_singular($field['table']).'_id';
                     $str .= PHP_EOL.<<<HAS_ONE_INVERSE
     /**
      * Retrieve inverse has_one relationship
@@ -178,8 +180,8 @@ HAS_ONE_INVERSE;
             $has_many = $recipe->has_many;
             foreach($has_many as $field){
                 $relModel = studly_case(str_singular($field['table']));
-                $reference = str_singular($recipe->moduleName).'_id';
                 if(!$field['inverse']){
+                    $reference = str_singular($recipe->moduleName).'_id';
                     $func_name = $field['table'];
                     $str .= PHP_EOL.<<<HAS_MANY
     /**
@@ -194,6 +196,7 @@ HAS_ONE_INVERSE;
 HAS_MANY;
 
                 }else{
+                    $reference = str_singular($field['table']).'_id';
                     $func_name = str_singular($field['table']);
                     $str .= PHP_EOL.<<<HAS_MANY_INVERSE
     /**

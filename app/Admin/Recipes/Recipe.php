@@ -243,7 +243,13 @@ class Recipe {
         if(isset($formdata['has_one']) && count($formdata['has_one'])){
             $recipe['has_one'] = [];
             foreach($formdata['has_one'] as $related){
-                $recipe['has_one'][] = ["table" => $related['table'], "inverse" => $related['inverse']];
+                if(!isset($related['inverse'])){ $related['inverse'] = 0; }
+                if(!isset($related['cascade'])){ $related['cascade'] = 0; }
+                if(!isset($related['with'])){ $related['with'] = 0; }
+                $recipe['has_one'][] = ["table" => $related['table'],
+                                      "inverse" => $related['inverse'] ? 1 : 0,
+                                      "cascade" => $related['cascade'] ? 1 : 0,
+                                      "with"    => $related['with'] ? 1 : 0];
             }
         }
         //has_many
@@ -256,6 +262,8 @@ class Recipe {
                     $recipe['has_many'][$key]['inverse'] = $inverse;
                     $cascade = isset($related['cascade']) && $related['cascade'] ? 1 : 0;
                     $recipe['has_many'][$key]['cascade'] = $cascade;
+                    $with = isset($related['with']) && $related['with'] ? 1 : 0;
+                    $recipe['has_many'][$key]['with'] = $with;
                 }
             }
         }
@@ -267,6 +275,8 @@ class Recipe {
                     $recipe['many_many'][$key]['table'] = $related['table'];
                     $cascade = isset($related['cascade']) && $related['cascade'] ? 1 : 0;
                     $recipe['many_many'][$key]['cascade'] = $cascade;
+                    $with = isset($related['with']) && $related['with'] ? 1 : 0;
+                    $recipe['many_many'][$key]['with'] = $with;
                 }
             }
         }

@@ -2,7 +2,7 @@
 
 use Illuminate\View\View;
 use Illuminate\Routing\Route;
-use AdminRequest;
+use App\Admin\Http\Requests\IAdminRequest;
 use DB;
 use Recipe;
 use Lang;
@@ -12,17 +12,19 @@ use Session;
 class MainComposer
 {
 
+    protected $admin_request;
     protected $moduleName;
     protected $action;
     protected $uri;
     protected $lang;
     protected $role_id;
 
-    public function __construct(Route $route)
+    public function __construct(Route $route, IAdminRequest $adminRequest)
     {
-        $this->moduleName = AdminRequest::module();
-        $this->action = AdminRequest::action();
-        $this->uri = AdminRequest::path();
+        $this->admin_request = $adminRequest;
+        $this->moduleName = $adminRequest->module();
+        $this->action = $adminRequest->action();
+        $this->uri = $adminRequest->path();
     }
 
     /**
@@ -75,11 +77,11 @@ class MainComposer
         }
 
         //define the topbar title
-        if (AdminRequest::hasChilds()) {
-            $child_module = AdminRequest::childModule();
+        if ($this->admin_request->hasChilds()) {
+            $child_module = $this->admin_request->childModule();
             $repository = 'App\\Admin\\Repositories\\' . str_singular(studly_case($this->moduleName)) . 'Repository';
             $repo = new $repository;
-            $module_item_id = AdminRequest::moduleItemId();
+            $module_item_id = $this->admin_request->moduleItemId();
             $model = $repo->selectById($module_item_id);
             $parent_name = $model->name;
             $top_bar["title"] = Lang::get($this->moduleName . '.' . ucfirst($this->moduleName)) . ' ' . $parent_name . ': ' . ucfirst(str_replace('_', ' ', $child_module));
@@ -88,8 +90,8 @@ class MainComposer
         }
 
         //define related child title if creating or editing a child item
-        if (AdminRequest::hasChilds()) {
-            $top_bar["sub_title"] = AdminRequest::recipe();
+        if ($this->admin_request->hasChilds()) {
+            $top_bar["sub_title"] = $this->admin_request->recipe();
         }
 
         //select the active languages to show the flag buttons
@@ -108,7 +110,7 @@ class MainComposer
     public function bottomBar()
     {
         $bottom_bar = [];
-        $arr_path = AdminRequest::segments();
+        $arr_path = $this->admin_request->segments();
         if ($this->action == 'create' || $this->action == 'edit') {
             if ($arr_path[count($arr_path) - 1] == 'edit') {
                 $return = '/' . implode('/', array_slice($arr_path, 0, count($arr_path) - 2));
@@ -121,7 +123,7 @@ class MainComposer
             $bottom_bar['cancel'] = [
                 "href" => $return
             ];
-        } elseif($this->action == 'index' && AdminRequest::hasChilds()) {
+        } elseif($this->action == 'index' && $this->admin_request->hasChilds()) {
             $bottom_bar['cancel'] = [
                 "href" => '/' . implode('/', array_slice($arr_path, 0, count($arr_path) - 2))
             ];

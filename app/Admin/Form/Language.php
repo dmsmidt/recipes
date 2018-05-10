@@ -3,13 +3,13 @@
 use Auth;
 use DB;
 use App\Models\Language as LangModel;
+use Session;
 
 
 class Language extends FormField{
 
-    public function __construct($props = null){
-        $this->build($props);
-        return $this;
+    public function __construct($formfield){
+        $this->build($formfield);
     }
 
     public function view()
@@ -27,13 +27,17 @@ class Language extends FormField{
         }else{
             return null;
         }
-
     }
 
-    /*public function input()
+    public function input()
     {
-        return view('cms.form.checkbox',['field' => $this->properties])
-            ->render();
-    }*/
+        dd($this);
+        /**
+         * Select the active languages
+         */
+        $active_languages = Session::get('language.active');
+        $input = view('form.language',['field' => $this->properties])->render();
+        return $input;
+    }
 
 }

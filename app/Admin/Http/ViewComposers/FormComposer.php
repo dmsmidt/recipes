@@ -2,7 +2,7 @@
 
 use Illuminate\Contracts\View\View;
 use Route;
-use AdminRequest;
+use App\Admin\Http\Requests\IAdminRequest;
 use Recipe;
 use FormField;
 use Session;
@@ -11,7 +11,7 @@ use App\Admin\Services\AdminConfig;
 
 class FormComposer {
 
-    protected $module;
+    protected $admin_request;
     protected $recipe;
     protected $action; //the basic action (create or edit)
     protected $method; //the form method (POST or PUT)
@@ -19,32 +19,23 @@ class FormComposer {
     protected $id; //If model editing, the id is id of the model
     protected $config;
 
-    public function __construct(Route $route){
+    public function __construct(Route $route, IAdminRequest $adminRequest){
 
         /**
          * Define the controller action (edit or create) and request method (POST or PUT)
          */
-        if(AdminRequest::action() == 'create'){
+        $this->admin_request = $adminRequest;
+        if($adminRequest->action() == 'create'){
             $this->action = 'create';
             $this->method = 'post';
         }else{
             $this->action = 'edit';
             $this->method = 'put';
         }
-        $this->module = AdminRequest::module();
-        $this->recipe = Recipe::get(AdminRequest::recipe());
-
-        //via resource route
-        /*$route_name = $route->getName();
-        $uri_parts = explode(".",$route_name);
-        if(count($uri_parts) > 3){
-            $this->module = $uri_parts[1];
-            $this->recipe = Recipe::get($uri_parts[1]);
-        }else{
-            $this->module = $uri_parts[0];
-            $this->recipe = Recipe::get($uri_parts[0]);
-        }*/
-
+        $this->recipe = Recipe::get($adminRequest->recipe());
+        $form_action = $adminRequest->formAction();
+        $this->url = $form_action->url;
+        $this->id = $form_action->id;
         $this->config = new AdminConfig();
     }
 
@@ -66,23 +57,17 @@ class FormComposer {
      */
     public function form($data){
         $formfields = [];
+
+        /**
+         * Define the forms method and action url
+         */
         $form['method'] = $this->method;
-        $form['url'] = AdminRequest::formAction()->url;
+        $form['url'] = $this->url;
 
         /**
          * Select the active languages
          */
         $active_languages = Session::get('language.active');
-
-        /**
-         * Add a hidden id field to the form
-         */
-        $props = [
-            "name" => 'id',
-            "value" => AdminRequest::formAction()->id,
-        ];
-        $Input = FormField::get('hidden',$props)->input();
-        $formfields["id"]["field"] = $Input;
 
         /**
          * For module 'settings'
@@ -95,7 +80,7 @@ class FormComposer {
              */
             $fields = $this->recipe->fields;
             foreach($fields as $name => $field){
-                if(isset($field['input'])&&!empty($field['input'])){
+                if(isset($field['input']) && !empty($field['input'])){
 
                     /**
                      * Filter out the role selection (module users only) if not developer or administrator
@@ -106,116 +91,32 @@ class FormComposer {
                     }
 
                     /**
-                     * Generate language fields if exist
+                     * Generate all other form fields
                      */
-                    if($field['input'] == 'language'){
+                    $label = isset($field['label']) ? $field['label'] : null;
+                    $value = isset($data[$name]) ? $data[$name] : null;
+                    $props = [
+                        "name" => $name,
+                        "label" => $label,
+                        "value" => $value
+                    ];
+                    /**
+                     * Add extra properties for image fields
+                     */
+                    /*if($field['input'] == 'images' || $field['input'] == 'image'){
+                       $props['maxfiles'] = $this->config->get(str_singular($this->recipe->moduleName).'_max_images');
+                       $props['maxsize'] = $this->config->get('images_max_size');
+                       $props['active_languages'] = $active_languages;
+                    }*/
 
-                        /**
-                         * If the input type is 'language', instantiate the related
-                         * translation recipe, usually the base models recipe name with suffix '_lang'
-                         */
-                        $recipe_lang = Recipe::get(AdminRequest::recipe().'_lang');
-
-                        /**
-                         * Get the fields of the language recipe as instantiated above
-                         */
-                        $recipe_lang_fields = $recipe_lang->fields;
-
-                         /**
-                         * If action = 'edit' select the translations
-                         */
-                        if($this->action == 'edit'){
-                            $class = (new \ReflectionClass($this->recipe));
-                            $model = 'App\\Models\\'.$class->getShortName();
-                            $translations = $model::find($data['id'])->language->toArray();
-                            //set array keys to language id
-                            $translation_arr = [];
-                            foreach($translations as $translation){
-                                $translation_arr[$translation['language_id']] = $translation;
-                            }
-                        }
-
-                        /**
-                         * generate the form field for the default translation and hidden fields for active languages
-                         */
-                        foreach($active_languages as $language){
-
-                            /**
-                             * Generate the hidden fields for all active languages
-                             * The label $label is used to mark the hidden field as language field inside the template
-                             * therefore it is not provided here
-                             */
-                            if(isset($translation_arr[$language['id']])){
-                                $value = $translation_arr[$language['id']][$name];
-                            }else{
-                                $value = null;
-                            }
-                            $props = [
-                                "name" => $name.'_'.$language['abbr'],
-                                "value" => $value,
-                                "class" => "language"
-                            ];
-                            $Input = FormField::get('hidden',$props)->input();
-                            $formfields[$name.'_'.$language['abbr']]['field'] = $Input;
-
-                            /**
-                             * Generate the default language field
-                             */
-                            if($language['default']){
-                                $lang = Session::get('language.default_id');
-                                $lang_abbr = Session::get('language.default_abbr');
-                                if(isset($translation_arr[$lang])){
-                                    $value = $translation_arr[$lang][$name];
-                                }else{
-                                    $value = null;
-                                }
-                                $label = isset($recipe_lang_fields[$name]['label']) ? $recipe_lang_fields[$name]['label'] : null;
-                                $props = [
-                                    "name" => $name,
-                                    "label" => $label,
-                                    "value" => $value,
-                                    "language" => true
-                                ];
-                                $Input = FormField::get($recipe_lang_fields[$name]['input'],$props)->input();
-                                $formfields[$name]['field'] = $Input;
-                            }
-                            //TODO: Make possible to not use langauge fields in cms
-                        }
-
-                    }else{
-
-                        /**
-                         * Generate all other form fields
-                         */
-                        $label = isset($field['label']) ? $field['label'] : null;
-                        $value = isset($data[$name]) ? $data[$name] : null;
-                        $props = [
-                            "name" => $name,
-                            "label" => $label,
-                            "value" => $value
-                        ];
-                        /**
-                         * Add extra properties for image fields
-                         */
-                        if($field['input'] == 'images'){
-                           $props['maxfiles'] = $this->config->get(str_singular($this->recipe->module).'_max_images');
-                           $props['maxsize'] = $this->config->get('images_max_size');
-                           $props['active_languages'] = $active_languages;
-                        }
-
-                        /**
-                         * Generate hidden id_fields for relationships
-                         * These fields contain a hidden input and _id in the name
-                         */
-                        if($field['input'] == 'hidden' && strpos($name,'_id') !== false && count(AdminRequest::segments()) >= 5){
-                            $parent_id = AdminRequest::parent_id();
-                            $props['value'] = $parent_id;
-                        }
-
-                        $Input = FormField::get($field['input'],$props)->input();
-                        $formfields[$name]['field'] = $Input;
+                    /**
+                     * Generate hidden id_fields for relationships
+                     * These fields contain a hidden input and _id in the name
+                     */
+                    if($field['input'] == 'hidden' && strpos($name,'_id') !== false && count($this->admin_request->segments()) >= 5){
+                        $value = $this->admin_request->parent_id();
                     }
-
+                    $formfields[$name]['field'] = FormField::get($field['input'], $props)->input();
 
                 }
             }
@@ -225,9 +126,11 @@ class FormComposer {
     }
 
     /**
-     * Define fields for settings
+     * Define fields for the settings in configuration
+     *
      */
     private function getSettingsFields($data){
+
         /**
          * Generate the form field from the configuration
          */

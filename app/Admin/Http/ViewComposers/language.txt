@@ -1,0 +1,82 @@
+if($field['input'] == 'language'){
+
+                        /**
+                         * If the input type is 'language', instantiate the related
+                         * translation recipe, usually the base models recipe name with suffix '_lang'
+                         */
+                        $recipe_lang = Recipe::get($this->admin_request->recipe().'_lang');
+
+                        /**
+                         * Get the fields of the language recipe as instantiated above
+                         */
+                        $recipe_lang_fields = $recipe_lang->fields;
+
+                         /**
+                         * If action = 'edit' select the translations
+                         */
+                        if($this->action == 'edit'){
+                            $class = (new \ReflectionClass($this->recipe));
+                            $model = 'App\\Models\\'.$class->getShortName();
+                            $translations = $model::find($data['id'])->language->toArray();
+                            //set array keys to language id
+                            $translation_arr = [];
+                            foreach($translations as $translation){
+                                $translation_arr[$translation['language_id']] = $translation;
+                            }
+                        }
+
+                        /**
+                         * generate the form field for the default translation and hidden fields for active languages
+                         */
+                        foreach($active_languages as $language){
+
+                            /**
+                             * Generate the hidden fields for all active languages
+                             * The label $label is used to mark the hidden field as language field inside the template
+                             * therefore it is not provided here
+                             */
+                            if(isset($translation_arr[$language['id']])){
+                                $value = $translation_arr[$language['id']][$name];
+                            }else{
+                                $value = null;
+                            }
+                            /*$props = [
+                                "name" => $name.'_'.$language['abbr'],
+                                "value" => $value,
+                                "class" => "language"
+                            ];
+                            $Input = $formfield->get('hidden',$props)->input();*/
+                            $input = $this->recipe->fields[$name]['input'];
+                            $input_class = 'App\Admin\Form\\'.studly_case($input).'';
+                            $Input = new $input_class($this->recipe->moduleName, $name, $value);
+
+                            $formfields[$name.'_'.$language['abbr']]['field'] = $Input;
+
+                            /**
+                             * Generate the default language field
+                             */
+                            if($language['default']){
+                                $lang = Session::get('language.default_id');
+                                $lang_abbr = Session::get('language.default_abbr');
+                                if(isset($translation_arr[$lang])){
+                                    $value = $translation_arr[$lang][$name];
+                                }else{
+                                    $value = null;
+                                }
+                                $label = isset($recipe_lang_fields[$name]['label']) ? $recipe_lang_fields[$name]['label'] : null;
+                                /*$props = [
+                                    "name" => $name,
+                                    "label" => $label,
+                                    "value" => $value,
+                                    "language" => true
+                                ];
+                                $Input = $formfield->get($recipe_lang_fields[$name]['input'],$props)->input();*/
+                                $input = $recipe_lang_fields[$name]['input'];
+                                $input_class = 'App\Admin\Form\\'.studly_case($input).'';
+                                $Input = new $input_class($this->recipe->moduleName, $name, $value);
+                                $formfields[$name]['field'] = $Input;
+                            }
+                            //TODO: Make possible to not use langauge fields in cms
+                        }
+
+                    }else{

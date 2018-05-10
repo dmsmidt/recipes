@@ -25,8 +25,6 @@ class CreateMenusTable extends Migration {
          $table->boolean('active')->default(false);
          $table->boolean('protect')->default(false);
 		});
-
-		
 	}
 
 	/**

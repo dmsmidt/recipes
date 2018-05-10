@@ -14,6 +14,7 @@
         <option value="timestamp" @if(isset($field['type']) && $field['type'] == 'timestamp') selected @endif>timestamp</option>
         <option value="enum" @if(isset($field['type']) && $field['type'] == 'enum') selected @endif>enum</option>
         <option value="foreign" @if(isset($field['type']) && $field['type'] == 'foreign') selected @endif>foreign</option>
+        <option value="translation" @if(isset($field['type']) && $field['type'] == 'translation') selected @endif>translation</option>
         <option value="longtext" @if(isset($field['type']) && $field['type'] == 'longtext') selected @endif>longtext</option>
         <option value="text" @if(isset($field['type']) && $field['type'] == 'text') selected @endif>text</option>
         <option value="email" @if(isset($field['type']) && $field['type'] == 'email') selected @endif>email</option>

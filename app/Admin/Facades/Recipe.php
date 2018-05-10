@@ -6,4 +6,4 @@ class Recipe extends Facade{
 
     protected static function getFacadeAccessor() { return 'recipe'; }
 
-} 
+}

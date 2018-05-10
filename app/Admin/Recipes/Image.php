@@ -36,7 +36,7 @@ class Image extends Recipe{
             "alt" => [
                             "type" => "foreign",
                             "label" => "Alt",
-                            "input" => "language",
+                            "input" => "text",
                         ],
     ];
     public $hidden = [];
@@ -56,15 +56,18 @@ class Image extends Recipe{
             [
                 "table" => "image_formats",
                 "inverse" => false,
-                "cascade" => true
+                "cascade" => true,
+                "with" => false
             ],    [
                 "table" => "images_lang",
                 "inverse" => false,
-                "cascade" => false
+                "cascade" => false,
+                "with" => false
             ],    [
                 "table" => "image_templates",
                 "inverse" => true,
-                "cascade" => false
+                "cascade" => false,
+                "with" => false
             ],
     ];
 
