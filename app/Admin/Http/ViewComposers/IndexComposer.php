@@ -128,9 +128,9 @@ class IndexComposer {
                     "value" => $row_data[$field]
                 ];
                 if($input == 'foreign'){
-                    $value = $row_data['id'];
+                    $props['value'] = $row_data['id'];
                 }else{
-                    $value = $row_data[$field];
+                    $props['value'] = $row_data[$field];
                 }
                 $cols[$c]['value'] = FormField::get($input, $props)->view();
             }
