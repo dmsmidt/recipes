@@ -5,6 +5,7 @@ class Foreign extends FormField {
 
     public function __construct($formfield){
         $this->build($formfield);
+        return $this;
     }
 
     public function view()

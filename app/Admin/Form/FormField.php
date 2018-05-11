@@ -18,6 +18,9 @@ class FormField {
 
     public function build($props){
         $input_class = (new \ReflectionClass($this))->getShortName();
+       // if($input_class == 'Foreign'){
+            dd('props: ',$props);
+       // }
         $AdminRequest = new AdminRequest();
         $this->moduleName = $AdminRequest->module();
         $this->recipe = Recipe::get($AdminRequest->recipe());
