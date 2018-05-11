@@ -23,7 +23,7 @@ class DashboardRequest extends Request {
 	 */
 	public function rules()
 	{
-	    $this->recipe = Recipe::get('dashboard');
+	    $this->recipe = Recipe::get('Dashboards');
 		$this->sanitize();
 		Session::flash('input', $this->input());
         $rules =  $this->recipe->rules();

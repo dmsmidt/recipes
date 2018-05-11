@@ -58,6 +58,10 @@ class IndexComposer {
         $view->with('index',$this->index());
     }
 
+    /**
+     * Compose the index with headers and item rows
+     * @return object
+     */
     public function index(){
         $content['headers'] = $this->getHeaders();
         $content['levels'] = $this->levels;
@@ -65,6 +69,10 @@ class IndexComposer {
         return (object)$content;
     }
 
+    /**
+     * Compose the headers for the index overview
+     * @return array
+     */
     private function getHeaders(){
         $tableHeaders = [];
         $n = 0;
@@ -78,6 +86,12 @@ class IndexComposer {
         return $tableHeaders;
     }
 
+    /**
+     * Compose the item rows
+     * @param $items
+     * @param int $n
+     * @return array
+     */
     private function getRows($items, $n = 0){
         $rows = [];
         foreach($items as $item){
@@ -91,6 +105,7 @@ class IndexComposer {
     }
 
     /**
+     * Compose the row with option buttons
      * @param $row_data
      * @return mixed
      */
@@ -134,29 +149,6 @@ class IndexComposer {
                 }
                 $cols[$c]['value'] = FormField::get($input, $props)->view();
             }
-
-            /*
-             * Search in the recipe if there is a has_many relation with table name = field name
-             */
-            /*elseif(isset($this->recipe->has_many)){
-                $has_many_relations = [];
-                foreach($this->recipe->has_many as $relation){
-                    $has_many_relations[] = $relation['table'];
-                }
-                //@todo: NOT checking out has_many related table exists as a field name, but input is multiple
-                if(in_array($field, $has_many_relations)){*/
-                    /* in this case the input has multiple related child data
-                     * therefore a button is added to the row to open a window
-                     * for editing the child data
-                     * the value is the parents id
-                     */
-                    /*$input = $this->recipe->fields[$field]['input'];
-                    $cols[$c]['input'] = $input;
-                    $input_class = 'App\Admin\Form\\'.studly_case($input).'';
-                    $form_field = new $input_class($this->recipe->moduleName, $field, $row_data['id']);
-                    $cols[$c]['value'] = $form_field->view();
-                }
-            }*/
             $c++;
         }
         $row['columns'] = $cols;
@@ -179,7 +171,6 @@ class IndexComposer {
             "activatable" => "",
             "protectable" => ""
         ];
-
 
         //define row options
         foreach($options as $option => $value){

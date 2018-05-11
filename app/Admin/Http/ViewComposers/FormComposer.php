@@ -103,11 +103,11 @@ class FormComposer {
                     /**
                      * Add extra properties for image fields
                      */
-                    /*if($field['input'] == 'images' || $field['input'] == 'image'){
+                    if($field['input'] == 'images' || $field['input'] == 'image'){
                        $props['maxfiles'] = $this->config->get(str_singular($this->recipe->moduleName).'_max_images');
                        $props['maxsize'] = $this->config->get('images_max_size');
                        $props['active_languages'] = $active_languages;
-                    }*/
+                    }
 
                     /**
                      * Generate hidden id_fields for relationships

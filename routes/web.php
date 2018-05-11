@@ -27,7 +27,7 @@ Route::group(['prefix' => 'admin'], function() {
         Route::get('/',function(){
             return Redirect::to('admin/dashboard');
         });
-        Route::resource('dashboard', '\App\Admin\Http\Controllers\DashboardController');
+      
         Route::group(['middleware' => 'role'], function(){
             //>>CMS
             Route::resource('recipes', '\App\Admin\Http\Controllers\RecipeController');
@@ -42,6 +42,7 @@ Route::group(['prefix' => 'admin'], function() {
             Route::resource('image_templates', '\App\Admin\Http\Controllers\ImageTemplateController');
             Route::resource('image_formats', '\App\Admin\Http\Controllers\ImageFormatController');
             Route::resource('images_lang', '\App\Admin\Http\Controllers\ImagesLangController');
+            Route::resource('dashboard', '\App\Admin\Http\Controllers\DashboardController');
           //<<CMS
         });
 
