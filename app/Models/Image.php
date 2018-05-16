@@ -22,7 +22,7 @@ class Image extends Model {
      */
     protected $quarded = ["id"];
 
-    protected $with = ['image_template'];
+    protected $with = ['image_template','images_lang'];
 
     /**
      * Retrieve has_many relationships

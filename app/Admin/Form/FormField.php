@@ -17,6 +17,7 @@ class FormField {
     }
 
     public function build($props){
+        if($props['name'] == 'text'){dd($props);}
         $input_class = (new \ReflectionClass($this))->getShortName();
         $AdminRequest = new AdminRequest();
         $this->moduleName = $AdminRequest->module();
@@ -41,6 +42,10 @@ class FormField {
         $this->properties['maxfiles'] = isset($props['maxfiles']) ? $props['maxfiles'] : null;
         //maxsize for images fields
         $this->properties['maxsize'] = isset($props['maxsize']) ? $props['maxsize'] : null;
+        //template for image fields
+        $this->properties['image_template'] = isset($props['image_template']) ? $props['image_template'] : null;
+        //filename for image fields
+        $this->properties['filename'] = isset($props['filename']) ? $props['filename'] : null;
 
         //active languages for
         $this->properties['active_languages'] = isset($props['active_languages']) ? $props['active_languages'] : null;

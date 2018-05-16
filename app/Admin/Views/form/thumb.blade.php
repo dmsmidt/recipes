@@ -1,8 +1,8 @@
 {{-- THUMB --}}
 <div class="thumb thumb_{{$row}}">
-    <div class="image_holder"><img src="/uploads/{{$thumb['template']}}/thumb/{{$thumb['filename']}}" alt="{{$thumb['filename']}}">
+    <div class="image_holder"><img src="/uploads/{{$thumb['image_template']}}/thumb/{{$thumb['filename']}}" alt="{{$thumb['filename']}}">
         <div class="details">
-            <div class="size">{{$thumb['filesize']}}</div>
+            {{--<div class="size">{{$thumb['filesize']}}</div>--}}
             <div class="filename">{{$thumb['filename']}}</div>
             <?php
                 $thumb['language'] = true; //TODO: dynamisch maken!
@@ -10,8 +10,8 @@
             {!! Form::hidden($field."[id][".$row."]", $thumb['id']) !!}
             {!! Form::hidden($field."[field][".$row."]", $field) !!}
             {!! Form::hidden($field."[filename][".$row."]", $thumb['filename']) !!}
-            {!! Form::hidden($field."[template][".$row."]", $thumb['template']) !!}
-            {!! Form::hidden($field."[filesize][".$row."]", $thumb['filesize']) !!}
+            {!! Form::hidden($field."[image_template][".$row."]", $thumb['image_template']) !!}
+            {{--}}!! Form::hidden($field."[filesize][".$row."]", $thumb['filesize']) !!}--}}
         </div>
     </div>
     <div class="imageRow text">
@@ -43,7 +43,7 @@
                                                        data-url="/admin/images/{{$thumb['id']}}"
                                                        data-filename="{{$thumb['filename']}}"
                                                        data-module="{{$moduleName}}"
-                                                       data-template="{{$thumb['template']}}"><div class="icon-crop"></div></button>
+                                                       data-template="{{$thumb['image_template']}}"><div class="icon-crop"></div></button>
         <button type="button" class="btnImageDelete row_btn" data-field="{{$field}}"
                                                              data-id="{{$thumb['id']}}"
                                                              data-url="/admin/images/{{$thumb['id']}}"

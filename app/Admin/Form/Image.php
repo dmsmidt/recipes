@@ -30,6 +30,7 @@ class Image extends FormField{
 
     public function input()
     {
+        //dd($this->properties);
         return view('form.image',['field' => $this->properties])
             ->render();
     }

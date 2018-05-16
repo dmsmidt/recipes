@@ -34,7 +34,7 @@ class Image extends Recipe{
                             "rule" => "required",
                         ],
             "alt" => [
-                            "type" => "foreign",
+                            "type" => "translation",
                             "label" => "Alt",
                             "input" => "text",
                         ],
@@ -62,12 +62,12 @@ class Image extends Recipe{
                 "table" => "images_lang",
                 "inverse" => false,
                 "cascade" => false,
-                "with" => false
+                "with" => true
             ],    [
                 "table" => "image_templates",
                 "inverse" => true,
                 "cascade" => false,
-                "with" => false
+                "with" => true
             ],
     ];
 

@@ -2,12 +2,18 @@
     {!! Form::label($field['name'], Lang::get($moduleName.'.'.$field['label']), ['class' => isset($field['required']) ? 'required' : '']) !!}
     <div class="input">
         <div class="thumbs">
-        @if(isset($field['value']) && count($field['value']) > 1)
+        {{-- Multiple images field --}}
+
+        @if(is_array($field['value']))
             @foreach($field['value'] as $key => $thumb)
                 @include('form.thumb',["field" => $field['name'], "row" => $key, "thumb" => $thumb])
             @endforeach
         @else
-            @include('form.thumb',["field" => $field['name'], "row" => 0, "thumb" => $field['value']])
+                {{-- dd($field) --}}
+
+        {{-- Single image --}}
+
+            @include('form.thumb',["field" => $field['name'], "row" => 0, "thumb" => $field])
         @endif
         <?php
                 $thumbs = Session::get('input')[$field['name']];
@@ -24,8 +30,9 @@
                         $input[$row]['id'] = $thumb['id'];
                         $input[$row]['filename'] = $thumb['filename'];
                         $input[$row]['filesize'] = $thumb['filesize'];
-                        $input[$row]['template'] = $thumb['template'];
+                        $input[$row]['image_template'] = $thumb['image_template'];
                         $input[$row]['alt'] = $thumb['alt'];
+                        $input[$row]['languages'] = $languages;
                         $input[$row]['languages'] = $languages;
                         if(isset($languages)){
                             foreach($languages as $language){

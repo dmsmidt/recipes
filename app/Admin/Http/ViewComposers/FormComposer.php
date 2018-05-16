@@ -56,6 +56,9 @@ class FormComposer {
      * @return object
      */
     public function form($data){
+
+        //dd($data);
+
         $formfields = [];
 
         /**
@@ -79,7 +82,12 @@ class FormComposer {
              * Generate the form fields from the recipe
              */
             $fields = $this->recipe->fields;
+            //dd($fields);
             foreach($fields as $name => $field){
+                /*if($name == 'text'){
+                    dd($data[$name]);
+                }*/
+
                 if(isset($field['input']) && !empty($field['input'])){
 
                     /**
@@ -104,9 +112,10 @@ class FormComposer {
                      * Add extra properties for image fields
                      */
                     if($field['input'] == 'images' || $field['input'] == 'image'){
-                       $props['maxfiles'] = $this->config->get(str_singular($this->recipe->moduleName).'_max_images');
-                       $props['maxsize'] = $this->config->get('images_max_size');
+                       //$props['maxfiles'] = $this->config->get(str_singular($this->recipe->moduleName).'_max_images');
+                       $props['maxsize'] = $this->config->get('max_image_size');
                        $props['active_languages'] = $active_languages;
+                       $props['image_template'] = 1;
                     }
 
                     /**
@@ -114,7 +123,7 @@ class FormComposer {
                      * These fields contain a hidden input and _id in the name
                      */
                     if($field['input'] == 'hidden' && strpos($name,'_id') !== false && count($this->admin_request->segments()) >= 5){
-                        $value = $this->admin_request->parent_id();
+                        $props['value'] = $this->admin_request->parent_id();
                     }
                     $formfields[$name]['field'] = FormField::get($field['input'], $props)->input();
 

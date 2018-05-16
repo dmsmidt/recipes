@@ -133,6 +133,7 @@ class IndexComposer {
 
         //get the summary columns
         foreach($summary as $field){
+            //$cols[$c]['value'] = FormField::get($input, $this->getProperties($field))->view();
             if(array_key_exists($field,$row_data)){
                 $input = $this->recipe->fields[$field]['input'];
                 $label = array_key_exists('label',$this->recipe->fields[$field]) ? $this->recipe->fields[$field]['label'] : null;
