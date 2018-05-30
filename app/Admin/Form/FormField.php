@@ -1,9 +1,10 @@
 <?php namespace App\Admin\Form;
 
-use Recipe;
-use Route;
 use DB;
+use Session;
 use App\Admin\Http\Requests\AdminRequest;
+use App\Admin\Services\AdminConfig;
+
 
 class FormField {
 
@@ -11,65 +12,74 @@ class FormField {
     protected $recipe;
     protected $properties;
 
-    public function get($input,$props){
-        $_field = __NAMESPACE__.'\\'.studly_case($input);
+    public function get($props){
+        $_field = __NAMESPACE__.'\\'.studly_case($props['input']);
         return new $_field($props);
     }
 
-    public function build($props){
-        if($props['name'] == 'text'){dd($props);}
-        $input_class = (new \ReflectionClass($this))->getShortName();
+    /**
+     * @param $field (Recipe->field)
+     * @param $name {Name of field)
+     * @param $data (Model data)
+     * @return array
+     */
+    public function getProperties($field, $name, $data){
+        $this->properties = [];
+        $Config = new AdminConfig();
         $AdminRequest = new AdminRequest();
         $this->moduleName = $AdminRequest->module();
-        $this->recipe = Recipe::get($AdminRequest->recipe());
+
+        //moduleName
+        $this->properties['moduleName'] = $this->moduleName;
+
+        //get the fields type
+        $this->properties['type'] = isset($field['type']) ? $field['type'] : null;
+
+        //get the fields input type
+        $this->properties['input'] = $field['input'];
 
         //define the field label
-        $this->properties['label'] = isset($props['label']) ? $props['label'] : null;
+        $this->properties['label'] = isset($field['label']) ? $field['label'] : null;
 
         //define the field name
-        $this->properties['name'] = isset($props['name']) ? $props['name'] : null;
+        $this->properties['name'] = isset($name) ? $name : null;
 
         //get the default value of the form field according to recipe if set
-        $default = isset($this->recipe->fields[$this->properties['name']]['default']) ? $this->recipe->fields[$this->properties['name']]['default'] : null;
+        $default = isset($field['default']) ? $field['default'] : null;
 
-        //set the fields value if known or put a default value if set
-        $this->properties['value'] = isset($props['value']) ? $props['value'] : $default;
+        if($field['input'] == 'foreign' || is_array($data[$name])){
+            $this->properties['value'] = $data['id'];
+        }else{
+            $this->properties['value'] = isset($data[$name]) ? $data[$name] : $default;
+        }
 
         //disable the field if set disabled
-        $this->properties['disabled'] = isset($props['disabled']) ? $props['disabled'] : null;
-
-        //maxfiles and maxsize for images fields
-        $this->properties['maxfiles'] = isset($props['maxfiles']) ? $props['maxfiles'] : null;
-        //maxsize for images fields
-        $this->properties['maxsize'] = isset($props['maxsize']) ? $props['maxsize'] : null;
-        //template for image fields
-        $this->properties['image_template'] = isset($props['image_template']) ? $props['image_template'] : null;
-        //filename for image fields
-        $this->properties['filename'] = isset($props['filename']) ? $props['filename'] : null;
-
-        //active languages for
-        $this->properties['active_languages'] = isset($props['active_languages']) ? $props['active_languages'] : null;
+        $this->properties['disabled'] = isset($field['disabled']) ? $field['disabled'] : null;
 
         //set the fields id equal as name
         $this->properties['id'] = $this->properties['name'];
 
         //get the options for the form field according to recipe if set
-        $options = isset($this->recipe->fields[$this->properties['name']]['options']) ? $this->recipe->fields[$this->properties['name']]['options'] : [];
+        $options = isset($field['options']) ? $field['options'] : [];
         if(count($options)){
             $this->properties['options'] = [];
+
             //options withdrawn from table
             if(array_key_exists('table',$options)){
                 $table = $options['table'];
                 $text = $options['text'];
                 $value = $options['value'];
+
                 //if the items need to be grouped for multiple checkbox or radio groups
                 if(array_key_exists('group_by',$options) && !empty($options['group_by'])){
+
                     //if a dot exists in the string the options are grouped by a field in a related table
                     if(strpos($options['group_by'],'.') !== false){
                         $arrRelation = explode('.',$options['group_by']);
                         $rel_table = $arrRelation[0];
                         $rel_field = $arrRelation[1];
                         $id = str_singular($rel_table).'_id';
+
                         //setup filter if it exists
                         $where = '';
                         if(isset($options['filter_by']) && !empty($options['filter_by'])){
@@ -78,6 +88,7 @@ class FormField {
                             $filterFindIn = $filterFindArr['0'];
                             $filterFindWhat = $filterFindArr['1'];
                             $filterFindEqual = $filterArr['1'];
+
                             // works only if the referenced table is the same as the related table
                             if($rel_table == $filterFindIn){
                                 $where = "WHERE ".$rel_table.".".$filterFindWhat." = '".$filterFindEqual."'";
@@ -94,8 +105,8 @@ class FormField {
                                           ".$where."
                                           ORDER BY ".$rel_table.".".$rel_field.", ".$table.".".$text.""));
                         foreach($result as $row){
-                            if(is_array($this->properties['value'])){
-                                if(isset($this->properties['value']) && in_array($row->value,$this->properties['value'])){
+                            if(is_array($data[$name])){
+                                if(isset($this->properties['value']) && in_array($row->value,$data[$name])){
                                     $checked = 'checked';
                                 }else{
                                     $checked = '';
@@ -115,6 +126,7 @@ class FormField {
                                 "class" => "locker"
                             ];
                         }
+
                     }else{
                         /**
                          * @todo build a group and filter feature for local table (no dots(.) in the group_by)
@@ -127,10 +139,12 @@ class FormField {
                     foreach($result as $option){
                         $this->properties['options'][$option->$value] = $option->$text;
                     }
+
                     //in case of role selection filter out certain options at certain user roles
                     if(\Session::get('user.role_id') > 1 && $this->moduleName == 'users'){
                         unset($this->properties['options'][1]);
                     }
+
                     //if an empty selection is needed
                     if(isset($options['null_option']) && $options['null_option']){
                         $this->properties['options'][0] = '';
@@ -138,6 +152,7 @@ class FormField {
                 }
 
             }else{
+
                 //options from array
                 foreach($options as $option){
                     $this->properties['options'][$option['value']] = $option['text'];
@@ -145,31 +160,46 @@ class FormField {
             }
         }
 
-        //set the error key of the form field, needed to show the validation error with equal key
-        $this->properties['error'] = $this->properties['name'];
-
-        //Determine if the field is required to mark the field label
-        $rules = $this->recipe->rules();
-
-        //If the field is required set required
-        if(array_key_exists($this->properties['name'],$rules)){
-            $this->properties['required'] = (strpos($rules[$this->properties['name']],'required') !== false) ? true : false;
+        //special field properties for image and images input
+        if($field['input'] == 'images' || $field['input'] == 'image'){
+            $this->properties['maxsize'] = $Config->get('max_image_size');
+            $this->properties['image_template'] = 1;
+            $this->properties['filename'] = isset($data['filename']) ? $data['filename'] : null;
         }
 
+        //set the error key of the form field, needed to show the validation error with equal key
+        $this->properties['error'] = $name;
+
+        //If the field is required set required
+        $rules = isset($field['rule']) ? $field['rule'] : '';
+        $this->properties['required'] = (strpos($rules,'required') !== false) ? true : false;
+
         //Remove required mark when it is a password field and action is edit
-        $action_arr = explode('@',Route::current()->getActionName());
-        if($input_class == 'Password' && $action_arr[1] == 'edit'){
+        $action = $AdminRequest->action();
+        if($field['input'] == 'password' && $action == 'edit'){
             $this->properties['required'] = false;
         }
 
         //add extra classes
         $this->properties['class'] = isset($props['class']) ? $props['class'] : null;
 
-        //add flag
-        $this->properties['language'] = isset($props['language']) ? $props['language'] : null;
+        //translations
+        $this->properties['language'] = false;
+        if($this->properties['type'] == 'translation'){
+            $this->properties['active_languages'] = Session::get('language.active');
+            $this->properties['value'] = $data->language;
+            $this->properties['language'] = true;
+        }
 
-
-
+        /**
+         * Generate hidden id_fields for relationships
+         * These fields contain a hidden input and _id in the name
+         */
+        if($field['input'] == 'hidden' && strpos($name,'_id') !== false && count($AdminRequest->segments()) >= 5){
+            $this->properties['value'] = $AdminRequest->parent_id();
+        }
+        //if($this->properties['name'] == 'text'){dd($this->properties);}
+        return $this->properties;
     }
 
-} 
+}

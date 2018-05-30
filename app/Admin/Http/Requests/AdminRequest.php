@@ -1,11 +1,9 @@
 <?php namespace App\Admin\Http\Requests;
 
-use PhpParser\Node\Expr\Cast\Object_;
-use App\Admin\Http\Requests\IAdminRequest;
 use Request;
 use Route;
 
-class AdminRequest extends Request implements IAdminRequest {
+class AdminRequest extends Request {
 
 
     /**
@@ -30,8 +28,13 @@ class AdminRequest extends Request implements IAdminRequest {
      * @return string
      */
     public function module(){
-        $request_arr = Request::segments();
-        return $request_arr[1];
+        $segments = $this->segments();
+        /*if($segments > 5){
+            return $segments[3];
+        }else{
+            return $segments[1];
+        }*/
+        return $segments[1];
     }
 
     /**

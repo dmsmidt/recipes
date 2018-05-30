@@ -2,7 +2,7 @@
 
 use Illuminate\View\View;
 use Illuminate\Routing\Route;
-use App\Admin\Http\Requests\IAdminRequest;
+use App\Admin\Http\Requests\AdminRequest;
 use DB;
 use Recipe;
 use Lang;
@@ -19,7 +19,7 @@ class MainComposer
     protected $lang;
     protected $role_id;
 
-    public function __construct(Route $route, IAdminRequest $adminRequest)
+    public function __construct(Route $route, AdminRequest $adminRequest)
     {
         $this->admin_request = $adminRequest;
         $this->moduleName = $adminRequest->module();

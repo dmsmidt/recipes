@@ -8,14 +8,15 @@ use Session;
 
 class Language extends FormField{
 
-    public function __construct($formfield){
-        $this->build($formfield);
+    public function __construct($props){
+        $this->properties = $props;
+        return $this;
     }
 
     public function view()
     {
-        $translate_tabel = $this->recipe->moduleName.'_lang';
-        $relation = str_singular($this->recipe->moduleName).'_id';
+        $translate_tabel = $this->properties['moduleName'].'_lang';
+        $relation = str_singular($this->properties['moduleName']).'_id';
         $field = $this->properties['name'];
         $value = $this->properties['value'];
         $translation = DB::select(DB::raw("SELECT ".$field."
@@ -31,7 +32,6 @@ class Language extends FormField{
 
     public function input()
     {
-        dd($this);
         /**
          * Select the active languages
          */

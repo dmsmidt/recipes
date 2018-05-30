@@ -2,7 +2,7 @@
 
 use Illuminate\View\View;
 use Illuminate\Routing\Route;
-use App\Admin\Http\Requests\IAdminRequest;
+use App\Admin\Http\Requests\AdminRequest;
 use Recipe;
 use FormField;
 
@@ -17,7 +17,7 @@ class IndexComposer {
     protected $data;
     protected $levels;
 
-    public function __construct(Route $route, IAdminRequest $adminRequest){
+    public function __construct(Route $route, AdminRequest $adminRequest){
         $this->admin_request = $adminRequest;
         $this->module = $adminRequest->module();
         if($adminRequest->hasChilds()){
@@ -135,20 +135,22 @@ class IndexComposer {
         foreach($summary as $field){
             //$cols[$c]['value'] = FormField::get($input, $this->getProperties($field))->view();
             if(array_key_exists($field,$row_data)){
-                $input = $this->recipe->fields[$field]['input'];
-                $label = array_key_exists('label',$this->recipe->fields[$field]) ? $this->recipe->fields[$field]['label'] : null;
-                $cols[$c]['input'] = $input;
-                $props = [
-                    "name" => $field,
-                    "label" => $label,
-                    "value" => $row_data[$field]
-                ];
+                $field_data = $this->recipe->fields[$field];
+                $cols[$c]['input'] = $field_data['input'];
+
+                /* @TODO: place below code inside FormField::getProperties()
                 if($input == 'foreign'){
                     $props['value'] = $row_data['id'];
                 }else{
                     $props['value'] = $row_data[$field];
                 }
-                $cols[$c]['value'] = FormField::get($input, $props)->view();
+                */
+
+                /**
+                 * Generate the summary field
+                 */
+                $props = FormField::getProperties($field_data, $field, $row_data);
+                $cols[$c]['value'] = FormField::get($props)->view();
             }
             $c++;
         }

@@ -12,6 +12,7 @@ class Image extends Recipe{
     
             "id" => [
                             "type" => "increments",
+                            "input" => "hidden",
                         ],
             "image_template_id" => [
                             "type" => "integer",

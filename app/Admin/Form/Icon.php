@@ -2,8 +2,9 @@
 
 class Icon extends FormField{
 
-    public function __construct($formfield){
-        $this->build($formfield);
+    public function __construct($props){
+        $this->properties = $props;
+        return $this;
     }
 
     public function view()

@@ -2,11 +2,10 @@
 
 use Illuminate\Contracts\View\View;
 use Route;
-use App\Admin\Http\Requests\IAdminRequest;
+use App\Admin\Http\Requests\AdminRequest;
 use Recipe;
 use FormField;
 use Session;
-use App\Admin\Services\AdminConfig;
 
 
 class FormComposer {
@@ -17,9 +16,8 @@ class FormComposer {
     protected $method; //the form method (POST or PUT)
     protected $url; //the action url of the form
     protected $id; //If model editing, the id is id of the model
-    protected $config;
 
-    public function __construct(Route $route, IAdminRequest $adminRequest){
+    public function __construct(Route $route, AdminRequest $adminRequest){
 
         /**
          * Define the controller action (edit or create) and request method (POST or PUT)
@@ -36,7 +34,6 @@ class FormComposer {
         $form_action = $adminRequest->formAction();
         $this->url = $form_action->url;
         $this->id = $form_action->id;
-        $this->config = new AdminConfig();
     }
 
     /**
@@ -68,11 +65,6 @@ class FormComposer {
         $form['url'] = $this->url;
 
         /**
-         * Select the active languages
-         */
-        $active_languages = Session::get('language.active');
-
-        /**
          * For module 'settings'
          */
         if($this->recipe->moduleName == 'settings'){
@@ -82,12 +74,7 @@ class FormComposer {
              * Generate the form fields from the recipe
              */
             $fields = $this->recipe->fields;
-            //dd($fields);
             foreach($fields as $name => $field){
-                /*if($name == 'text'){
-                    dd($data[$name]);
-                }*/
-
                 if(isset($field['input']) && !empty($field['input'])){
 
                     /**
@@ -101,34 +88,14 @@ class FormComposer {
                     /**
                      * Generate all other form fields
                      */
-                    $label = isset($field['label']) ? $field['label'] : null;
-                    $value = isset($data[$name]) ? $data[$name] : null;
-                    $props = [
-                        "name" => $name,
-                        "label" => $label,
-                        "value" => $value
-                    ];
-                    /**
-                     * Add extra properties for image fields
-                     */
-                    if($field['input'] == 'images' || $field['input'] == 'image'){
-                       //$props['maxfiles'] = $this->config->get(str_singular($this->recipe->moduleName).'_max_images');
-                       $props['maxsize'] = $this->config->get('max_image_size');
-                       $props['active_languages'] = $active_languages;
-                       $props['image_template'] = 1;
-                    }
+                    $props = FormField::getProperties($field, $name, $data);
 
-                    /**
-                     * Generate hidden id_fields for relationships
-                     * These fields contain a hidden input and _id in the name
-                     */
-                    if($field['input'] == 'hidden' && strpos($name,'_id') !== false && count($this->admin_request->segments()) >= 5){
-                        $props['value'] = $this->admin_request->parent_id();
-                    }
-                    $formfields[$name]['field'] = FormField::get($field['input'], $props)->input();
+                    //echo '<pre>'.print_r($props,true).'</pre>';
+                    $formfields[$name]['field'] = FormField::get($props)->input();
 
                 }
             }
+            //die();
             $form['formfields'] = $formfields;
         }
         return (object)$form;

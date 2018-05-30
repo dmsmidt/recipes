@@ -28,7 +28,6 @@
                     @endif
 
                 </div>
-
                 <div class="dd3-content">
                 <?php $n = 0; ?>
                     @foreach($row['columns'] as $column)
