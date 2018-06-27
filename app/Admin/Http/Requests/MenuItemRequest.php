@@ -25,6 +25,7 @@ class MenuItemRequest extends Request {
 	{
 	    $this->recipe = Recipe::get('MenuItems');
 		$this->sanitize();
+        //@Todo: is het flashen naar de sessie echt nodig hieronder?
 		Session::flash('input', $this->input());
         $rules =  $this->recipe->rules();
         switch($this->method()){

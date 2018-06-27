@@ -1,6 +1,8 @@
 <?php namespace App\Admin\Form;
 
-class Hidden extends FormField{
+class Hidden{
+
+    protected $properties;
 
     public function __construct($props){
         $this->properties = $props;

@@ -16,9 +16,7 @@ class CreateImageFormatsTable extends Migration {
 	    Schema::create('image_formats', function($table)
 	    {
 		 $table->increments('id');
-         $table->integer('image_id')
-                  ->nullable()
-                  ->unsigned();
+         $table->string('image_template', 255);
          $table->string('name', 100);
          $table->double('x', 15, 10)
                   ->nullable();
@@ -29,13 +27,12 @@ class CreateImageFormatsTable extends Migration {
          $table->string('scaling', 10)
                ->default('fit')
                  ->nullable();
-         $table->integer('image_template_id')
+         $table->integer('image_id')
                   ->nullable()
                   ->unsigned();
          $table->foreign('image_id')
-               ->references('id')->on('images');
-         $table->foreign('image_template_id')
-               ->references('id')->on('image_templates');
+               ->references('id')->on('images')
+               ->onDelete('cascade');
 
 		});
 

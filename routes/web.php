@@ -37,12 +37,11 @@ Route::group(['prefix' => 'admin'], function() {
             Route::resource('configurations', '\App\Admin\Http\Controllers\ConfigurationController');
             Route::resource('users', '\App\Admin\Http\Controllers\UserController');
             Route::resource('menus.menu_items', '\App\Admin\Http\Controllers\MenuItemController');
-            Route::resource('pages', '\App\Admin\Http\Controllers\PageController');
+            Route::resource('dashboard', '\App\Admin\Http\Controllers\DashboardController');
             Route::resource('images', '\App\Admin\Http\Controllers\ImageController');
-            Route::resource('image_templates', '\App\Admin\Http\Controllers\ImageTemplateController');
             Route::resource('image_formats', '\App\Admin\Http\Controllers\ImageFormatController');
             Route::resource('images_lang', '\App\Admin\Http\Controllers\ImagesLangController');
-            Route::resource('dashboard', '\App\Admin\Http\Controllers\DashboardController');
+            Route::resource('slideshows', '\App\Admin\Http\Controllers\SlideshowController');
           //<<CMS
         });
 
@@ -50,7 +49,7 @@ Route::group(['prefix' => 'admin'], function() {
         $model = studly_case(str_singular(Request::segment(2)));
         Route::post('{module}/ajax', array('as' => 'ajaxRequest', 'uses' => '\App\Admin\Http\Controllers\\'.$model.'Controller@ajax'))->where('module','.+');
         //Image upload
-        $this->post('images/upload', '\App\Admin\Http\Controllers\ImageController@upload');
+        $this->post('upload/{type}', '\App\Admin\Http\Controllers\UploadController@upload');
     });
 
 

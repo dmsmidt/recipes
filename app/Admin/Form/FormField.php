@@ -9,13 +9,12 @@ use App\Admin\Services\AdminConfig;
 class FormField {
 
     protected $moduleName;
-    protected $recipe;
     protected $properties;
 
-    public function get($props){
+    /*public function get($props){
         $_field = __NAMESPACE__.'\\'.studly_case($props['input']);
         return new $_field($props);
-    }
+    }*/
 
     /**
      * @param $field (Recipe->field)
@@ -24,6 +23,7 @@ class FormField {
      * @return array
      */
     public function getProperties($field, $name, $data){
+        //dd($data);
         $this->properties = [];
         $Config = new AdminConfig();
         $AdminRequest = new AdminRequest();
@@ -47,8 +47,11 @@ class FormField {
         //get the default value of the form field according to recipe if set
         $default = isset($field['default']) ? $field['default'] : null;
 
-        if($field['input'] == 'foreign' || is_array($data[$name])){
+        //dd($data);
+        if($field['input'] == 'foreign' || ( isset($data[$name]) && is_array($data[$name]) )) {
             $this->properties['value'] = $data['id'];
+        }elseif(isset($data->value)){
+            $this->properties['value'] = $data->value;
         }else{
             $this->properties['value'] = isset($data[$name]) ? $data[$name] : $default;
         }
@@ -60,7 +63,7 @@ class FormField {
         $this->properties['id'] = $this->properties['name'];
 
         //get the options for the form field according to recipe if set
-        $options = isset($field['options']) ? $field['options'] : [];
+        $options = isset($field['options']) && !empty($field['options']) ? $field['options'] : [];
         if(count($options)){
             $this->properties['options'] = [];
 
@@ -163,7 +166,7 @@ class FormField {
         //special field properties for image and images input
         if($field['input'] == 'images' || $field['input'] == 'image'){
             $this->properties['maxsize'] = $Config->get('max_image_size');
-            $this->properties['image_template'] = 1;
+            $this->properties['image_template'] = isset($field['image_template']) ? $field['image_template'] : $data['image_template'];
             $this->properties['filename'] = isset($data['filename']) ? $data['filename'] : null;
         }
 
@@ -171,13 +174,17 @@ class FormField {
         $this->properties['error'] = $name;
 
         //If the field is required set required
-        $rules = isset($field['rule']) ? $field['rule'] : '';
-        $this->properties['required'] = (strpos($rules,'required') !== false) ? true : false;
+        $rules = isset($field['rule']) && !empty($field['rule']) ? $field['rule'] : '';
+
+        $this->properties['required'] = null;
+        if(strpos($rules,'required') !== false){
+            $this->properties['required'] = true;
+        }
 
         //Remove required mark when it is a password field and action is edit
         $action = $AdminRequest->action();
         if($field['input'] == 'password' && $action == 'edit'){
-            $this->properties['required'] = false;
+            $this->properties['required'] = null;
         }
 
         //add extra classes
@@ -186,8 +193,10 @@ class FormField {
         //translations
         $this->properties['language'] = false;
         if($this->properties['type'] == 'translation'){
-            $this->properties['active_languages'] = Session::get('language.active');
-            $this->properties['value'] = $data->language;
+            $input = $this->properties['input'];
+            $this->properties['form_input'] = $input;
+            $this->properties['input'] = 'language';
+            $this->properties['value'] = $data['language'];
             $this->properties['language'] = true;
         }
 
@@ -198,7 +207,7 @@ class FormField {
         if($field['input'] == 'hidden' && strpos($name,'_id') !== false && count($AdminRequest->segments()) >= 5){
             $this->properties['value'] = $AdminRequest->parent_id();
         }
-        //if($this->properties['name'] == 'text'){dd($this->properties);}
+
         return $this->properties;
     }
 

@@ -30,8 +30,8 @@ class ImageFormatRepository extends BaseRepository implements IImageFormatReposi
         $model->delete();
     }
 
-    public function selectByTemplateId($template_id){
-        return ImageFormat::where('image_template_id', $template_id)->get();
+    public function selectByTemplate($template){
+        return ImageFormat::where('image_template', $template)->get();
     }
 
 }

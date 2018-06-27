@@ -1,7 +1,9 @@
 <?php namespace App\Admin\Form;
 
 
-class Radio extends FormField{
+class Radio{
+
+    protected $properties;
 
     public function __construct($props){
         $this->properties = $props;

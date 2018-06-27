@@ -2,13 +2,13 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class ImageTemplate extends Model {
+class Slideshow extends Model {
 
     /**
      * The table to get the data from
      * @var string
      */
-    protected $table = 'image_templates';
+    protected $table = 'slideshows';
 
     /**
      * Fields allowed for mass assignment
@@ -23,21 +23,18 @@ class ImageTemplate extends Model {
     protected $quarded = ["id"];
 
     /**
-     * Retrieve has_many relationships
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * Querying relations
+     * @var array
+     */
+    protected $with = ["images"];
+
+    /**
+     * Retrieve many_many relationships
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function images()
     {
-        return $this->hasMany('App\Models\Image', 'image_template_id');
-    }
-
-    /**
-     * Retrieve has_many relationships
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function image_formats()
-    {
-        return $this->hasMany('App\Models\ImageFormat', 'image_template_id');
+        return $this->belongsToMany('App\Models\Image');
     }
 
     /**
@@ -62,7 +59,7 @@ class ImageTemplate extends Model {
      * Manage active field to turn on/off the model item
      * @var bool
      */
-    public $activatable = false;
+    public $activatable = true;
 
     /**
      * Manage protect field to lock modifications by user roles except for developer

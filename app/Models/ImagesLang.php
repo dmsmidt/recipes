@@ -28,7 +28,7 @@ class ImagesLang extends Model {
      */
     public function image()
     {
-        return $this->belongsTo('App\Models\Image', 'images_lang_id');
+        return $this->belongsTo('App\Models\Image', 'image_id');
     }
 
     /**
@@ -37,7 +37,7 @@ class ImagesLang extends Model {
      */
     public function language()
     {
-        return $this->belongsTo('App\Models\Language', 'images_lang_id');
+        return $this->belongsTo('App\Models\Language', 'language_id');
     }
 
     /**

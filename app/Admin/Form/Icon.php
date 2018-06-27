@@ -1,6 +1,8 @@
 <?php namespace App\Admin\Form;
 
-class Icon extends FormField{
+class Icon{
+
+    protected $properties;
 
     public function __construct($props){
         $this->properties = $props;

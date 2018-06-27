@@ -1,7 +1,9 @@
 <?php namespace App\Admin\Form;
 
 
-class Images extends FormField{
+class Images{
+
+    protected $properties;
 
     /**
      * Add plugin assets needed for the form element here
@@ -9,7 +11,7 @@ class Images extends FormField{
     public $plugins = [
         'javascript' => [
             //add javascript plugin paths here
-            '/cms/js/dropzone.js',
+            //'/cms/js/dropzone.js',
             '/cms/vendor/jcrop/js/jquery.Jcrop.min.js'
         ],
         'css' => [

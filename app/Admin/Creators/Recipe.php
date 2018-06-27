@@ -135,6 +135,12 @@ PRIMARY;
                             "label" => "{$field['label']}",
 LABEL;
             }
+            if (isset($field['image_template']) && !empty($field['image_template'])) {
+                $str .= <<<IMAGE_TEMPLATE
+
+                            "image_template" => "{$field['image_template']}",
+IMAGE_TEMPLATE;
+            }
             if (isset($field['input']) && !empty($field['input'])) {
                 $str .= <<<INPUT
 
@@ -296,10 +302,11 @@ RECIPEOPTIONS;
         if(isset($_recipe->has_one) && count($_recipe->has_one)){
             $relations = '';
             foreach($_recipe->has_one as $related){
-                $inverse = $related['inverse'] ? 'true' : 'false';
-                $cascade = $related['cascade'] ? 'true' : 'false';
-                $with = $related['with'] ? 'true' : 'false';
-                $relations .= <<<RELATIONS
+                if(isset($related['table']) && !empty($related['table'])){
+                    $inverse = $related['inverse'] ? 'true' : 'false';
+                    $cascade = $related['cascade'] ? 'true' : 'false';
+                    $with = $related['with'] ? 'true' : 'false';
+                    $relations .= <<<RELATIONS
     [
                 "table" => "{$related['table']}",
                 "inverse" => {$inverse},
@@ -308,6 +315,7 @@ RECIPEOPTIONS;
             ],
 RELATIONS;
 
+                }
             }
             $str .= <<<HASONE
 
@@ -320,10 +328,11 @@ HASONE;
         if(isset($_recipe->has_many) && count($_recipe->has_many)){
             $relations = '';
             foreach($_recipe->has_many as $related){
-                $inverse = $related['inverse'] ? 'true' : 'false';
-                $cascade = $related['cascade'] ? 'true' : 'false';
-                $with = $related['with'] ? 'true' : 'false';
-                $relations .= <<<RELATIONS
+                if(isset($related['table']) && !empty($related['table'])){
+                    $inverse = $related['inverse'] ? 'true' : 'false';
+                    $cascade = $related['cascade'] ? 'true' : 'false';
+                    $with = $related['with'] ? 'true' : 'false';
+                    $relations .= <<<RELATIONS
     [
                 "table" => "{$related['table']}",
                 "inverse" => {$inverse},
@@ -332,6 +341,7 @@ HASONE;
             ],
 RELATIONS;
 
+                }
             }
             $str .= <<<HASMANY
 
@@ -344,9 +354,10 @@ HASMANY;
         if(isset($_recipe->many_many) && count($_recipe->many_many)){
             $relations = '';
             foreach($_recipe->many_many as $field => $related){
-                $cascade = $related['cascade'] ? 'true' : 'false';
-                $with = $related['with'] ? 'true' : 'false';
-                $relations .= <<<RELATIONS
+                if(isset($related['table']) && !empty($related['table'])) {
+                    $cascade = $related['cascade'] ? 'true' : 'false';
+                    $with = $related['with'] ? 'true' : 'false';
+                    $relations .= <<<RELATIONS
     [
                 "table" => "{$related['table']}",
                 "cascade" => {$cascade},
@@ -354,6 +365,7 @@ HASMANY;
             ],
 RELATIONS;
 
+                }
             }
             $str .= <<<MANYMANY
 

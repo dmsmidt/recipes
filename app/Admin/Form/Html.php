@@ -1,6 +1,8 @@
 <?php namespace App\Admin\Form;
 
-class Html extends FormField{
+class Html{
+
+    protected $properties;
 
     /**
      * Add plugin assets needed for the form element here

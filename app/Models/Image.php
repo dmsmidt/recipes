@@ -14,7 +14,7 @@ class Image extends Model {
      * Fields allowed for mass assignment
      * @var array
      */
-    protected $fillable = ["image_template_id","filename"];
+    protected $fillable = ["image_template","filename"];
 
     /**
      * Fields disallowed for mass assignment
@@ -22,7 +22,11 @@ class Image extends Model {
      */
     protected $quarded = ["id"];
 
-    protected $with = ['image_template','images_lang'];
+    /**
+     * Querying relations
+     * @var array
+     */
+    protected $with = ["image_formats","language"];
 
     /**
      * Retrieve has_many relationships
@@ -37,18 +41,9 @@ class Image extends Model {
      * Retrieve has_many relationships
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function images_lang()
+    public function language()
     {
         return $this->hasMany('App\Models\ImagesLang', 'image_id');
-    }
-
-    /**
-     * Retrieve inverse has_many relationships
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function image_template()
-    {
-        return $this->belongsTo('App\Models\ImageTemplate', 'image_template_id');
     }
 
     /**

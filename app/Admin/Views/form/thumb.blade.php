@@ -1,4 +1,5 @@
 {{-- THUMB --}}
+{{--dd($thumb)--}}
 <div class="thumb thumb_{{$row}}">
     <div class="image_holder"><img src="/uploads/{{$thumb['image_template']}}/thumb/{{$thumb['filename']}}" alt="{{$thumb['filename']}}">
         <div class="details">
@@ -28,10 +29,10 @@
                 @endforeach
             @endforeach
         @else
-            {!! Form::text($field."[alt][".$row."]", $thumb['alt'], ['id' => $field."[alt][".$row."]", 'class' => 'image_input']) !!}
+            {{--{!! Form::text($field."[alt][".$row."]", $thumb['alt'], ['id' => $field."[alt][".$row."]", 'class' => 'image_input']) !!}-->
             @foreach($thumb['languages'] as $language)
                 {!! Form::hidden($field."[alt_".$language."][".$row."]", $thumb['alt_'.$language], ['class' => 'language']) !!}
-            @endforeach
+            @endforeach--}}
         @endif
         @if(isset($thumb['language']) && $thumb['language'])
             <div class="lang_attr flag-{{ Session::get('language.default_abbr') }}"></div>
@@ -43,7 +44,7 @@
                                                        data-url="/admin/images/{{$thumb['id']}}"
                                                        data-filename="{{$thumb['filename']}}"
                                                        data-module="{{$moduleName}}"
-                                                       data-template="{{$thumb['image_template']}}"><div class="icon-crop"></div></button>
+                                                       data-image_template="{{$thumb['image_template']}}"><div class="icon-crop"></div></button>
         <button type="button" class="btnImageDelete row_btn" data-field="{{$field}}"
                                                              data-id="{{$thumb['id']}}"
                                                              data-url="/admin/images/{{$thumb['id']}}"

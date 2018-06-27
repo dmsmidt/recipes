@@ -86,7 +86,7 @@ class ImageFormat extends Recipe{
     ];
     public $hidden = [];
     public $summary = ["image_template","name","width","height"];
-    public $fillable = ["image_template","name","x","y","width","height","scaling"];
+    public $fillable = ["image_template","name","x","y","width","height","scaling","image_id"];
     public $guarded = ["id"];
     public $scoped = [];
     public $add = true;
@@ -97,14 +97,6 @@ class ImageFormat extends Recipe{
     public $sortable = false;
     public $nestable = false;
     public $timestamps = false;
-    public $has_many = [
-            [
-                "table" => "images",
-                "inverse" => true,
-                "cascade" => true,
-                "with" => false
-            ],
-    ];
 
     /**
      * @return mixed

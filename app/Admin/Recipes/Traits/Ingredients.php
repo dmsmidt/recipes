@@ -84,7 +84,7 @@ trait Ingredients {
     public function languageFields(){
         $fields = [];
         foreach($this->fields as $name => $data){
-            if(array_key_exists('input',$data) && $data['input'] == 'language'){
+            if(array_key_exists('type',$data) && $data['type'] == 'translation'){
                 $fields[] = $name;
             }
         }
@@ -107,16 +107,17 @@ trait Ingredients {
         $plugins['javascript'] = [];
         $plugins['css'] = [];
         foreach($this->inputs() as $input){
-            $input_class = 'App\\Admin\\Form\\'.studly_case($input);
-            $reflection = new \ReflectionClass($input_class);
-            if(isset($reflection->plugins)){
-                if(isset($reflection->plugins['css'])){
-                    foreach($reflection->plugins['css'] as $css){
+            $input = 'App\\Admin\\Form\\'.studly_case($input);
+            $input_class = new $input([]);
+            if(isset($input_class->plugins)){
+                $_plugins = $input_class->plugins;
+                if(isset($_plugins['css'])){
+                    foreach($_plugins['css'] as $css){
                         $plugins['css'][] = $css;
                     }
                 }
-                if(isset($input->plugins['javascript'])){
-                    foreach($reflection->plugins['javascript'] as $javascript){
+                if(isset($_plugins['javascript'])){
+                    foreach($_plugins['javascript'] as $javascript){
                         $plugins['javascript'][] = $javascript;
                     }
                 }
@@ -136,21 +137,21 @@ trait Ingredients {
         $with = [];
         if(isset($this->has_one) && count($this->has_one)){
             foreach($this->has_one as $value){
-                if(array_key_exists('with',$value)){
+                if(array_key_exists('with',$value) && $value['with'] == true){
                     $with[] = $value['table'];
                 }
             }
         }
         if(isset($this->has_many) && count($this->has_many)){
             foreach($this->has_many as $value){
-                if(array_key_exists('with',$value)){
+                if(array_key_exists('with',$value) && $value['with'] == true){
                     $with[] = $value['table'];
                 }
             }
         }
         if(isset($this->many_many) && count($this->many_many)){
             foreach($this->many_many as $value){
-                if(array_key_exists('with',$value)){
+                if(array_key_exists('with',$value) && $value['with'] == true){
                     $with[] = $value['table'];
                 }
             }

@@ -172,7 +172,7 @@ $(function(){
 
     redirectToUrl = function(url){
         window.location = url;
-    }
+    };
 
     switchLanguage = function(new_lang){
         //get the active language
@@ -189,13 +189,14 @@ $(function(){
         });
         //add active class to clicked flag button
         $('.flags').find("[data-lang='"+new_lang+"']").addClass('active');
+        //switch flag at default input field
         $('.lang_attr').removeClass('flag-'+current_lang)
             .addClass('flag-'+new_lang);
         //exchange language field values, loop through language fields in form
         $('input.language').each(function(key,field){
             var name = $(this).prop('name');
             //Determine if the input field name has an array format
-            if(name.indexOf('[') > 0){
+            /*if(name.indexOf('[') > 0){
                 //If array formatted field name
                 var arrFieldName = name.split('[');
                 var rel_inputName = arrFieldName[0]; //Scope name of relation fields
@@ -216,7 +217,7 @@ $(function(){
                     }
                     $current_language_hidden.val(current_val);
                 }
-            }else{
+            }else{*/
                 //If normal field name
                 if(name.indexOf(current_lang) > 0){
                     var fieldName = extractLanguageField(name);
@@ -230,6 +231,28 @@ $(function(){
                     }
                     $('input[name='+fieldName+'_'+current_lang+']').val(current_val);
                 }
+            //}
+        });
+    };
+
+    /**
+     * update hidden language fields on change of default language field
+     */
+    if($('.translation').length){
+        $('.translation').change(function(){
+            var $this = $(this);
+            var field_name = $this.attr('name');
+            var current_lang = $('.flags .active').data('lang');
+            if(field_name.indexOf('[') > 0){
+                //the field name is an array type
+                //@TODO array field name type
+            }else{
+                if($this.parent().hasClass('html')){
+                    var value = tinyMCE.get(field_name).getContent();
+                }else{
+                    var value = $this.val();
+                }
+                $('input[name="'+field_name+'_'+current_lang+'"]').val(value);
             }
         });
     }
@@ -250,7 +273,7 @@ $(function(){
             return fieldName.substring(0, fieldName.length - 1);
         }
         return arrFieldParts[0];
-    }
+    };
 
     /**
      * CALL AJAX REQUEST
@@ -283,14 +306,14 @@ $(function(){
             console.log(data);
             alert('Ajax request failed');
         });
-    }
+    };
 
     /**
      * REFRESH BROWSER WINDOW
      */
     refreshWindow = function(){
         window.location = window.location;
-    }
+    };
 
     /**
      * NESTABLE/SORTABLE

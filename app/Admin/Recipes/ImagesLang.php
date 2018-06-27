@@ -48,11 +48,13 @@ class ImagesLang extends Recipe{
             [
                 "table" => "images",
                 "inverse" => true,
-                "cascade" => false
+                "cascade" => true,
+                "with" => false
             ],    [
                 "table" => "languages",
                 "inverse" => true,
-                "cascade" => false
+                "cascade" => true,
+                "with" => false
             ],
     ];
 

@@ -1,7 +1,9 @@
 <?php namespace App\Admin\Form;
 
 
-class Password extends FormField{
+class Password{
+
+    protected $properties;
 
     public function __construct($props){
         $this->properties = $props;

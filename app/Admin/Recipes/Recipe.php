@@ -157,6 +157,9 @@ class Recipe {
                 if(isset($field['label']) && !empty($field['label'])){
                     $recipe['fields'][$field['name']]['label'] = $field['label'];
                 }
+                if(isset($field['image_template']) && !empty($field['image_template'])){
+                    $recipe['fields'][$field['name']]['image_template'] = $field['image_template'];
+                }
                 if(isset($field['input']) && !empty($field['input'])){
                     $recipe['fields'][$field['name']]['input'] = $field['input'];
                 }

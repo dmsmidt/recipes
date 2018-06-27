@@ -16,19 +16,18 @@ class ImageRepository extends BaseRepository implements IImageRepository{
     public function add($input){
         $model = new Image;
         $model->fill($input)->save();
-        $this->saveTranslations('images',$input, $model->id);
+        return $model;
     }
 
     public function update($input, $id){
         $model = Image::find($id);
         $model->fill($input)->save();
-        $this->saveTranslations('images',$input, $model->id);
+        return $model;
     }
 
     public function delete($id){
         $model = Image::find($id);
         $model->delete();
-        $this->deleteTranslations('images',$id);
     }
 
 }

@@ -155,11 +155,16 @@ class MainComposer
             }
         }
         //get javascript and css plugins from the recipes inputs
-        $recipe = Recipe::get($this->moduleName);
+        if($this->admin_request->hasChilds()){
+            $moduleName = $this->admin_request->childModule();
+        }else {
+            $moduleName = $this->moduleName;
+        }
+        $recipe = Recipe::get($moduleName);
         $recipe_plugins = $recipe->plugins();
         //if language inputs exists in the recipe, get the inputs from the related language recipe
         if ($recipe->hasTranslations()) {
-            $lang_plugins = Recipe::get($this->moduleName . '_lang')->plugins();
+            $lang_plugins = Recipe::get($moduleName . '_lang')->plugins();
             $plugins = array_merge_recursive($plugins, $recipe_plugins, $lang_plugins);
         } else {
             $plugins = array_merge_recursive($plugins, $recipe_plugins);

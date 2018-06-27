@@ -4,7 +4,7 @@ use Recipe;
 use Session;
 
 
-class ImageTemplateRequest extends Request {
+class SlideshowRequest extends Request {
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class ImageTemplateRequest extends Request {
 	 */
 	public function rules()
 	{
-	    $this->recipe = Recipe::get('ImageTemplates');
+	    $this->recipe = Recipe::get('Slideshows');
 		$this->sanitize();
 		Session::flash('input', $this->input());
         $rules =  $this->recipe->rules();

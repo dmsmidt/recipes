@@ -24,7 +24,7 @@ class ImageRequest extends Request {
 	public function rules()
 	{
 	    $this->recipe = Recipe::get('Images');
-		//$this->sanitize();
+		$this->sanitize();
 		Session::flash('input', $this->input());
         $rules =  $this->recipe->rules();
         switch($this->method()){

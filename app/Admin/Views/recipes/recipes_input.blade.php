@@ -27,4 +27,11 @@
     </select>
     <div class="row fieldrow_{{$row}}"><label class="text">Label</label>
         <input type="text" name="field[{{ $row }}][label]" id="field_label_{{ $row }}"
-               value="@if(isset($field['label'])){{ $field['label'] }}@endif"></div>
+               value="@if(isset($field['label'])){{ $field['label'] }}@endif">
+    </div>
+    @if((isset($field['input']) && $field['input'] == 'image') || (isset($field['input']) && $field['input'] == 'images'))
+       <div class="row fieldrow_{{$row}}"><label class="text">Template</label>
+            <input type="text" name="field[{{ $row }}][image_template]" id="field_image_template_{{ $row }}"
+                   value="@if(isset($field['image_template'])){{ $field['image_template'] }}@endif">
+       </div>
+   @endif

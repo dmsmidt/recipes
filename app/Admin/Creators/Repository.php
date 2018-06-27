@@ -18,7 +18,13 @@ class Repository {
             $save_translations = "\$this->saveTranslations('".$name."',\$input, \$model->id);";
             $delete_translations = "\$this->deleteTranslations('".$name."',\$id);";
         }
-        $selectAll = $recipe->nestable || $recipe->sortable ? 'selectTree()' : 'selectAll()';
+        if($recipe->hasParent()){
+            $selectAll = $recipe->nestable || $recipe->sortable ? 'selectTree($parent_id = null)' : 'selectAll($parent_id = null)';
+            $query = 'where(\''.str_singular($recipe->parent).'_id\', $parent_id)->get()';
+        }else{
+            $selectAll = $recipe->nestable || $recipe->sortable ? 'selectTree()' : 'selectAll()';
+            $query = 'all()';
+        }
         $hierarchy = $recipe->nestable || $recipe->sortable ? '->toHierarchy()->toArray()' : '->toArray()';
         $path = app_path().'/Admin/Repositories/'.$repository.'Repository.php';
         $file = fopen($path,'w+');
@@ -36,7 +42,7 @@ START;
 
         $str .= PHP_EOL.<<<ALL
     public function {$selectAll}{
-        return {$repository}::all(){$hierarchy};
+        return {$repository}::{$query}{$hierarchy};
     }
 
 ALL;

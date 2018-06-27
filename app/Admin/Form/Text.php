@@ -1,6 +1,8 @@
 <?php namespace App\Admin\Form;
 
-class Text extends FormField{
+class Text{
+
+    protected $properties;
 
     public function __construct($props){
         $this->properties = $props;

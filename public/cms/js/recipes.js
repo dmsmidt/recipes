@@ -78,8 +78,16 @@ $(function(){
         var row = $this.data('row');
         var input = $this.val();
         var $inputoptions_selector = $('#field_inputoptions_'+row);
+        if($('#field_image_template_'+row).length){
+            $('#field_image_template_'+row).parent().remove();
+        }
         if(input == 'select' || input == 'checkbox' || input == 'radio'){
-            $inputoptions_selector.prop('disabled',false);
+            $inputoptions_selector.prop('disabled', false);
+        }else if(input == 'image' || input == 'images'){
+            var template_input = '<div class="row fieldrow_'+row+' image_template"><label class="text">Template</label>' +
+            '<input type="text" name="field['+row+'][image_template]" id="field_image_template_'+row+'"></div>';
+            $this.parent().append(template_input);
+            $('.fieldrow_'+row+'.image_template').show();
         }else{
             $inputoptions_selector.prop('disabled',true);
             $('.inputoptionrow_'+row+' input').val('');
@@ -198,6 +206,8 @@ $(function(){
             '<td></td>'+
             '<td><input type="text" name="has_one['+row+'][table]" id="has_one_table_'+row+'" value=""></td>'+
             '<td><input type="checkbox" name="has_one['+row+'][inverse]" id="has_one_inverse_'+row+'" value="1"></td>'+
+            '<td><input type="checkbox" name="has_one['+row+'][cascade]" id="has_one_cascade_'+row+'" value="1"></td>'+
+            '<td><input type="checkbox" name="has_one['+row+'][with]" id="has_one_with_'+row+'" value="1"></td>'+
             '</tr>';
         $table.find('tbody > tr:last').after(html);
     };
@@ -210,6 +220,7 @@ $(function(){
             '<td><input type="text" name="has_many['+row+'][table]" id="has_many_table_'+row+'" value=""></td>'+
             '<td><input type="checkbox" name="has_many['+row+'][inverse]" id="has_many_inverse_'+row+'" value="1"></td>'+
             '<td><input type="checkbox" name="has_many['+row+'][cascade]" id="has_many_cascade_'+row+'" value="1"></td>'+
+            '<td><input type="checkbox" name="has_many['+row+'][with]" id="has_many_with_'+row+'" value="1"></td>'+
             '</tr>';
         $table.find('tbody > tr:last').after(html);
     };
@@ -222,6 +233,7 @@ $(function(){
         '<td><input type="text" name="many_many['+row+'][table]" id="many_many_table_'+row+'" value=""></td>'+
         '<td>&nbsp;</td>'+
         '<td><input type="checkbox" name="many_many['+row+'][cascade]" id="many_many_cascade_'+row+'" value="1"></td>'+
+        '<td><input type="checkbox" name="many_many['+row+'][with]" id="many_many_with_'+row+'" value="1"></td>'+
         '</tr>';
         $table.find('tbody > tr:last').after(html);
     };

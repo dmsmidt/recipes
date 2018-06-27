@@ -2,11 +2,11 @@
 
 use App\Admin\Recipes\Traits\Ingredients;
 
-class ImageTemplate extends Recipe{
+class Slideshow extends Recipe{
 
     use Ingredients;
 
-    public $moduleName = 'image_templates';
+    public $moduleName = 'slideshows';
     public $parent = '';
     public $fields = [
     
@@ -20,7 +20,12 @@ class ImageTemplate extends Recipe{
                             "unique" => 1,
                             "label" => "Name",
                             "input" => "text",
-                            "rule" => "required",
+                        ],
+            "images" => [
+                            "type" => "foreign",
+                            "label" => "Images",
+                            "image_template" => "slideshow",
+                            "input" => "image",
                         ],
     ];
     public $hidden = [];
@@ -31,20 +36,19 @@ class ImageTemplate extends Recipe{
     public $add = true;
     public $edit = true;
     public $delete = true;
-    public $activatable = false;
+    public $activatable = true;
     public $protectable = false;
     public $sortable = false;
     public $nestable = false;
     public $timestamps = false;
     public $has_many = [
+        
+    ];
+    public $many_many = [
             [
                 "table" => "images",
-                "inverse" => false,
-                "cascade" => false
-            ],    [
-                "table" => "image_formats",
-                "inverse" => false,
-                "cascade" => true
+                "cascade" => true,
+                "with" => true
             ],
     ];
 

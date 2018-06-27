@@ -1,9 +1,8 @@
 <?php namespace App\Admin\Http\ViewComposers;
 
-use Illuminate\Contracts\View\View;
+use Illuminate\View\View;
 use Illuminate\Routing\Route;
-use FormField;
-use Request;
+//use FormField;
 use Recipe;
 use Lang;
 
@@ -39,12 +38,14 @@ class SettingsComposer {
     private function getRows($items, $n = 0){
         $rows = [];
         foreach($items as $item){
+            //echo '<pre>'.print_r($item,true).'</pre>';
             $rows[$n] = $this->buildRow($item);
             if (isset($item['children']) && count($item['children'])) {
                 $rows[$n]['children'] = $this->getRows($item['children']);
             }
             $n++;
         }
+        //die();
         return $rows;
     }
 
@@ -75,26 +76,30 @@ class SettingsComposer {
          * Label column for setting name
          */
         $cols[0]['input'] = 'text';
-        $props = [
-            "name" => null,
-            "label" => null,
-            "value" => $row_data['label']
-        ];
-        $cols[0]['value'] = Lang::get('settings.'.FormField::get('text',$props)->view());
+        $row_data['input'] = 'text';
+
+        //modify props
+        $label_props = $row_data;
+        $label_props['value'] = $row_data['label'];
+
+        $input = 'App\\Admin\\Form\\Text';
+        $inputClass = new $input($label_props);
+        $cols[0]['value'] = Lang::get('settings.'.$inputClass->view());
 
         /**
          * Column with setting values
          */
         $cols[1]['input'] = $row_data['input_type'];
-        $props = [
-            "name" => $row_data['name'],
-            "label" => null,
-            "value" => isset($row_data['value']) ? $row_data['value'] : null
-        ];
 
         $cols[1]['value'] = '';
         if(!$row_data['is_header']){
-            $cols[1]['value'] = FormField::get($row_data['input_type'], $props)->view();
+            $value_props = $row_data;
+            $value_props['value'] = $row_data['value'];
+            $value_props['input'] = $row_data['input_type'];
+
+            $input = 'App\\Admin\\Form\\'.studly_case($row_data['input_type']);
+            $inputClass = new $input($value_props);
+            $cols[1]['value'] = $inputClass->view();
         }
         $row['columns'] = $cols;
 

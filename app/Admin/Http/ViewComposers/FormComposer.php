@@ -1,5 +1,6 @@
 <?php namespace App\Admin\Http\ViewComposers;
 
+use App\Admin\Form\Checkbox;
 use Illuminate\Contracts\View\View;
 use Route;
 use App\Admin\Http\Requests\AdminRequest;
@@ -88,14 +89,14 @@ class FormComposer {
                     /**
                      * Generate all other form fields
                      */
+                    if($field['input'] == 'image'){}
                     $props = FormField::getProperties($field, $name, $data);
-
-                    //echo '<pre>'.print_r($props,true).'</pre>';
-                    $formfields[$name]['field'] = FormField::get($props)->input();
+                    $input = 'App\\Admin\\Form\\'.studly_case($props['input']);
+                    $inputClass = new $input($props);
+                    $formfields[$name]['field'] = $inputClass->input();
 
                 }
             }
-            //die();
             $form['formfields'] = $formfields;
         }
         return (object)$form;
@@ -110,13 +111,18 @@ class FormComposer {
         /**
          * Generate the form field from the configuration
          */
-        $props = [
+        $field = [
             "name" => $data->name,
             "label" => $data->label,
-            "value" => $data->value
+            "value" => $data->value,
+            "input" => $data->input_type,
+            "required" => $data->required
         ];
-        $Input = FormField::get($data->input_type,$props)->input();
-        $formfields[$data->name]['field'] = $Input;
+        $props = FormField::getProperties($field, $field['name'], $data);
+        $input = 'App\\Admin\\Form\\'.studly_case($props['input']);
+        $InputClass = new $input($props);
+        $formfields[$data->name]['field'] = $InputClass->input();
+
         /**
          * Generate the form field for the configurations value type
          */
@@ -124,8 +130,10 @@ class FormComposer {
             "name" => 'value_type',
             "value" => $data->value_type,
         ];
-        $Input = FormField::get('hidden',$props)->input();
-        $formfields['value_type']['field'] = $Input;
+        $input = 'App\\Admin\\Form\\Hidden';
+        $InputClass = new $input($props);
+        $formfields['value_type']['field'] = $InputClass->input();
+
         /**
          * Generate the form field for the configurations field
          */
@@ -133,8 +141,9 @@ class FormComposer {
             "name" => 'name',
             "value" => $data->name,
         ];
-        $Input = FormField::get('hidden',$props)->input();
-        $formfields['name']['field'] = $Input;
+        $input = 'App\\Admin\\Form\\Hidden';
+        $InputClass = new $input($props);
+        $formfields['name']['field'] = $InputClass->input();
         return $formfields;
     }
 }

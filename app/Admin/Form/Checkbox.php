@@ -1,7 +1,9 @@
 <?php namespace App\Admin\Form;
 
 
-class Checkbox extends FormField{
+class Checkbox{
+
+    protected $properties;
 
     public function __construct($props){
         $this->properties = $props;

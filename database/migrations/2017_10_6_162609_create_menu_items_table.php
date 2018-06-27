@@ -28,7 +28,6 @@ class CreateMenuItemsTable extends Migration {
          $table->integer('level')->nullable()->index();
          $table->boolean('active')->default(false);
          $table->boolean('protect')->default(false);
-
 		});
 
 	}

@@ -1,7 +1,9 @@
 <?php namespace App\Admin\Form;
 
 
-class Nestable extends FormField {
+class Nestable {
+
+    protected $properties;
 
     public function __construct($props){
         $this->properties = $props;

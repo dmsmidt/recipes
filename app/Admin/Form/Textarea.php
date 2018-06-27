@@ -1,7 +1,9 @@
 <?php namespace App\Admin\Form;
 
 
-class Textarea extends FormField{
+class Textarea{
+
+    protected $properties;
 
     public function __construct($props){
         $this->properties = $props;

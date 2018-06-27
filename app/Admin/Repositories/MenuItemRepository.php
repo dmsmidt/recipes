@@ -16,13 +16,14 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository{
     public function add($input){
         $model = new MenuItem;
         $model->fill($input)->save();
-        $this->saveTranslations('menu_items',$input, $model->id);
+        $input['id'] = $model->id;
+        $this->saveTranslations('menu_items',$input);
     }
 
     public function update($input, $id){
         $model = MenuItem::find($id);
         $model->fill($input)->save();
-        $this->saveTranslations('menu_items',$input, $model->id);
+        $this->saveTranslations('menu_items',$input);
     }
 
     public function delete($parent_id, $id){

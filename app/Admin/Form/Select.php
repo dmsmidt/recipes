@@ -1,7 +1,9 @@
 <?php namespace App\Admin\Form;
 
 
-class Select extends FormField{
+class Select{
+
+    protected $properties;
 
     public function __construct($props){
         $this->properties = $props;

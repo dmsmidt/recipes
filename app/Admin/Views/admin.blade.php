@@ -59,7 +59,6 @@
 <script type="text/javascript" src="/cms/vendor/jquery-ui/jquery-ui.js"></script>
 <script type="text/javascript" src="/cms/js/admin.js"></script>
 <script type="text/javascript" src="/cms/js/dialog.js"></script>
-<script type="text/javascript" src="/cms/js/crop.js"></script>
 @if(isset($plugins['javascript']))
     @foreach($plugins['javascript'] as $javascript)
         <script type="text/javascript" src="{!! $javascript !!}"></script>

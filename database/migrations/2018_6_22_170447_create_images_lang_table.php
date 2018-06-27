@@ -23,10 +23,11 @@ class CreateImagesLangTable extends Migration {
          $table->string('alt', 255)
                  ->nullable();
          $table->foreign('image_id')
-               ->references('id')->on('images');
+               ->references('id')->on('images')
+               ->onDelete('cascade');
          $table->foreign('language_id')
-               ->references('id')->on('languages');
-
+               ->references('id')->on('languages')
+               ->onDelete('cascade');
 		});
 
 		

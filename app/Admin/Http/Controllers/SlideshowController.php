@@ -1,14 +1,14 @@
 <?php namespace App\Admin\Http\Controllers;
 
-use App\Admin\Http\Requests\PageRequest;
-use App\Admin\Repositories\Contracts\IPageRepository;
+use App\Admin\Http\Requests\SlideshowRequest;
+use App\Admin\Repositories\Contracts\ISlideshowRepository;
 
-class PageController extends AdminController {
+class SlideshowController extends AdminController {
 
-    protected $page;
+    protected $slideshow;
 
-    public function __construct(IPageRepository $page){
-        $this->page = $page;
+    public function __construct(ISlideshowRepository $slideshow){
+        $this->slideshow = $slideshow;
         parent::__construct();
     }
 
@@ -18,7 +18,7 @@ class PageController extends AdminController {
 	 */
 	public function index()
 	{
-        $data = $this->page->selectAll();
+        $data = $this->slideshow->selectAll();
         return view('admin')
             
             ->nest('center','main.index',compact('data'));
@@ -34,13 +34,13 @@ class PageController extends AdminController {
 	}
 
 	/**
-     * @param PageRequest $request
+     * @param SlideshowRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(PageRequest $request)
+    public function store(SlideshowRequest $request)
 	{
-        $this->page->add($request->input());
-        return redirect('admin/pages');
+        $this->slideshow->add($request->input());
+        return redirect('admin/slideshows');
 	}
 
     /**
@@ -62,20 +62,20 @@ class PageController extends AdminController {
 	 */
 	public function edit($id)
 	{
-        $data = $this->page->selectById($id);
+        $data = $this->slideshow->selectById($id);
         return view('admin')->nest('center','main.form',compact('data'));
 	}
 
 	/**
      * Update the specified resource in storage.
-     * @param PageRequest $request
+     * @param SlideshowRequest $request
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(PageRequest $request, $id)
+    public function update(SlideshowRequest $request, $id)
 	{
-        $this->page->update($request->input(), $id);
-        return redirect('admin/pages');
+        $this->slideshow->update($request->input(), $id);
+        return redirect('admin/slideshows');
 	}
 
 	/**
@@ -86,7 +86,7 @@ class PageController extends AdminController {
 	 */
 	public function destroy($id)
 	{
-        $this->page->delete($id);
+        $this->slideshow->delete($id);
         return redirect()->back();
 	}
 

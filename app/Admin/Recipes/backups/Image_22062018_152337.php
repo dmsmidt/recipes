@@ -2,7 +2,7 @@
 
 use App\Admin\Recipes\Traits\Ingredients;
 
-class _Image extends Recipe{
+class Image extends Recipe{
 
     use Ingredients;
 
@@ -12,19 +12,14 @@ class _Image extends Recipe{
     
             "id" => [
                             "type" => "increments",
+                            "input" => "hidden",
                         ],
-            "image_template_id" => [
-                            "type" => "integer",
-                            "unsigned" => 1,
+            "image_template" => [
+                            "type" => "varchar",
+                            "length" => 255,
                             "label" => "Template",
-                            "input" => "select",
+                            "input" => "hidden",
                             "rule" => "required",
-                            "options" => [
-                                "table" => "image_templates",
-                                "text" => "name",
-                                "value" => "id",
-                                "group_by" => "",
-                                "filter_by" => ""            ]
                         ],
             "filename" => [
                             "type" => "varchar",
@@ -34,14 +29,14 @@ class _Image extends Recipe{
                             "rule" => "required",
                         ],
             "alt" => [
-                            "type" => "foreign",
+                            "type" => "translation",
                             "label" => "Alt",
-                            "input" => "language",
+                            "input" => "text",
                         ],
     ];
     public $hidden = [];
-    public $summary = ["image_template_id","filename"];
-    public $fillable = ["image_template_id","filename"];
+    public $summary = ["image_template","filename"];
+    public $fillable = ["image_template","filename"];
     public $guarded = ["id"];
     public $scoped = [];
     public $add = true;
@@ -56,15 +51,13 @@ class _Image extends Recipe{
             [
                 "table" => "image_formats",
                 "inverse" => false,
-                "cascade" => true
+                "cascade" => true,
+                "with" => true
             ],    [
                 "table" => "images_lang",
                 "inverse" => false,
-                "cascade" => false
-            ],    [
-                "table" => "image_templates",
-                "inverse" => true,
-                "cascade" => false
+                "cascade" => false,
+                "with" => true
             ],
     ];
 

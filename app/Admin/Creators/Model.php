@@ -130,6 +130,11 @@ GUARDED;
 
         $with = $recipe->with();
         if(isset($with) && count($with)){
+            foreach($with as $k => $rel){
+                if(strpos($rel, '_lang') !== false){
+                    $with[$k] = 'language';
+                }
+            }
             $with = implode('","',$with);
             $str .= PHP_EOL.<<<WITH
     /**
@@ -182,7 +187,7 @@ HAS_ONE_INVERSE;
                 $relModel = studly_case(str_singular($field['table']));
                 if(!$field['inverse']){
                     $reference = str_singular($recipe->moduleName).'_id';
-                    $func_name = $field['table'];
+                    $func_name = strpos($field['table'],'_lang') !== false ? 'language' : $field['table'];
                     $str .= PHP_EOL.<<<HAS_MANY
     /**
      * Retrieve has_many relationships

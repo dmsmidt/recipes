@@ -1,7 +1,9 @@
 <?php namespace App\Admin\Form;
 
 
-class Foreign extends FormField {
+class Foreign{
+
+    protected $properties;
 
     public function __construct($props){
         $this->properties = $props;

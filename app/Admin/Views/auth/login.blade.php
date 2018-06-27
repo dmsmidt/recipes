@@ -18,7 +18,7 @@
 
             <label for="password">{{ Lang::get('admin.Password') }}: </label><input name="password" type="password" id="password" />
 
-            <button style="margin-left:153px; margin-top:4px;" class="form_button" type="submit"><i class="fas fa-unlock-alt"></i>{{ Lang::get('admin.Login') }}</button>
+            <button style="margin-left:153px; margin-top:4px;" class="form_button" type="submit"><i class="fas fa-unlock-alt"></i> {{ Lang::get('admin.Login') }}</button>
             <br /><div id="error_msg" style="text-align:center; padding:5px; color:#FF0000;"></div>
         </div>
         </form>

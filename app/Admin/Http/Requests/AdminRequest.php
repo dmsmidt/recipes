@@ -28,13 +28,7 @@ class AdminRequest extends Request {
      * @return string
      */
     public function module(){
-        $segments = $this->segments();
-        /*if($segments > 5){
-            return $segments[3];
-        }else{
-            return $segments[1];
-        }*/
-        return $segments[1];
+        return $this->segments()[1];
     }
 
     /**
@@ -117,9 +111,46 @@ class AdminRequest extends Request {
         return (object)$form_action;
     }
 
+    /**
+     * Returns the moduleName of the parent module if exists otherwise returns null
+     * @return mixed
+     */
+    public function parentModule(){
+        if($this->hasChilds()){
+            $segments = $this->segments();
+            $filter_arr = ['admin','edit','create'];
+            $modules = [];
+            foreach($segments as $segment){
+                if(!in_array($segment,$filter_arr) && !is_numeric($segment)){
+                    $modules[] = $segment;
+                }else{
+                    continue;
+                }
+            }
+            return $modules[0];
+        }
+        return null;
+    }
+
+    /**
+     * Returns the moduleName of the child module otherwise returns null
+     * @return mixed
+     */
     public function childModule(){
-        $segments = $this->segments();
-        return end($segments);
+        if($this->hasChilds()){
+            $segments = $this->segments();
+            $filter_arr = ['admin','edit','create'];
+            $modules = [];
+            foreach($segments as $segment){
+                if(!in_array($segment,$filter_arr) && !is_numeric($segment)){
+                    $modules[] = $segment;
+                }else{
+                    continue;
+                }
+            }
+            return last($modules);
+        }
+        return null;
     }
 
     public function moduleItemId(){

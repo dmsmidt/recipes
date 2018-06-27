@@ -1,6 +1,8 @@
 <?php namespace App\Admin\Form;
 
-class Email extends FormField{
+class Email{
+
+    protected $properties;
 
     public function __construct($props){
         $this->properties = $props;

@@ -24,7 +24,7 @@ class Migration {
         $schema_rows = '';
         //define table field schema or foreign relation
         foreach($fields as $key=>$fielddata){
-            if(isset($fielddata['type']) && !empty($fielddata['type']) && $fielddata['type'] != 'foreign')
+            if(isset($fielddata['type']) && !empty($fielddata['type']) && $fielddata['type'] != 'foreign' && $fielddata['type'] != 'translation')
             {
                 //fields
                 $field_type = $fielddata['type'] == 'string' ? 'Varchar' : studly_case(($fielddata['type']));
@@ -62,8 +62,8 @@ class Migration {
             foreach($recipe->many_many as $key => $value){
                 $tables = [];
                 //collect related tables
-                $tables[] = $value['table'];
-                $tables[] = $recipe->moduleName;
+                $tables[] = str_singular($value['table']);
+                $tables[] = str_singular($recipe->moduleName);
                 sort($tables);
                 $pivot_table = implode('_', $tables);
                 $reference = str_singular($recipe->moduleName).'_id';

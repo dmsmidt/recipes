@@ -1,7 +1,9 @@
 <?php namespace App\Admin\Form;
 
 
-class MultiGroupedCheckbox extends FormField{
+class MultiGroupedCheckbox{
+
+    protected $properties;
 
     public function __construct($props){
         $this->properties = $props;

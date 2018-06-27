@@ -9,8 +9,7 @@ use FormField;
 
 class IndexComposer {
 
-    protected $admin_request;
-    protected $module;
+    protected $moduleName;
     protected $childRecipe;
     protected $parent_id;
     protected $recipe;
@@ -18,8 +17,7 @@ class IndexComposer {
     protected $levels;
 
     public function __construct(Route $route, AdminRequest $adminRequest){
-        $this->admin_request = $adminRequest;
-        $this->module = $adminRequest->module();
+        $this->moduleName = $adminRequest->module();
         if($adminRequest->hasChilds()){
             $this->childRecipe = $adminRequest->recipe();
             $this->parent_id = $adminRequest->segments()[2];
@@ -37,14 +35,14 @@ class IndexComposer {
      */
     public function compose(View $view){
         $this->data = $view->data;
-        $this->recipe = isset($this->childRecipe) ? Recipe::get($this->childRecipe) : Recipe::get($this->module);
+        $this->recipe = isset($this->childRecipe) ? Recipe::get($this->childRecipe) : Recipe::get($this->moduleName);
 
         //define the nesting levels if sortable or nestable
         if($this->recipe->sortable){
             $this->levels = 1; // a sortable has always one level
         }elseif($this->recipe->nestable){
             // a nestable has always a parent which is retrieved here
-            $parent_recipe = Recipe::get($this->module);
+            $parent_recipe = Recipe::get($this->moduleName);
             // select the parent from db
             $parent = \DB::table($parent_recipe->moduleName)->where('id',$this->parent_id)->first();
             if(isset($parent->levels)){
@@ -133,24 +131,17 @@ class IndexComposer {
 
         //get the summary columns
         foreach($summary as $field){
-            //$cols[$c]['value'] = FormField::get($input, $this->getProperties($field))->view();
             if(array_key_exists($field,$row_data)){
                 $field_data = $this->recipe->fields[$field];
                 $cols[$c]['input'] = $field_data['input'];
-
-                /* @TODO: place below code inside FormField::getProperties()
-                if($input == 'foreign'){
-                    $props['value'] = $row_data['id'];
-                }else{
-                    $props['value'] = $row_data[$field];
-                }
-                */
 
                 /**
                  * Generate the summary field
                  */
                 $props = FormField::getProperties($field_data, $field, $row_data);
-                $cols[$c]['value'] = FormField::get($props)->view();
+                $input = 'App\\Admin\\Form\\'.$field_data['input'];
+                $inputClass = new $input($props);
+                $cols[$c]['value'] = $inputClass->view();
             }
             $c++;
         }
@@ -160,11 +151,11 @@ class IndexComposer {
         $actions = ["edit" => "get", "delete" => "delete", "sortable" => "", "nestable" => "", "activatable" => "", "protectable" => ""];
         //define the action urls
         if(isset($this->childRecipe)){
-            $edit_url = "/admin/".$this->module."/".$this->parent_id."/".$this->childRecipe."/".$row_data['id']."/edit";
-            $delete_url = "/admin/".$this->module."/".$this->parent_id."/".$this->childRecipe."/".$row_data['id'];
+            $edit_url = "/admin/".$this->moduleName."/".$this->parent_id."/".$this->childRecipe."/".$row_data['id']."/edit";
+            $delete_url = "/admin/".$this->moduleName."/".$this->parent_id."/".$this->childRecipe."/".$row_data['id'];
         }else{
-            $edit_url = "/admin/".$this->module."/".$row_data['id']."/edit";
-            $delete_url = "/admin/".$this->module."/".$row_data['id'];
+            $edit_url = "/admin/".$this->moduleName."/".$row_data['id']."/edit";
+            $delete_url = "/admin/".$this->moduleName."/".$row_data['id'];
         }
         $urls = [
             "edit" => $edit_url,
@@ -177,7 +168,7 @@ class IndexComposer {
 
         //define row options
         foreach($options as $option => $value){
-            $module_name = isset($this->childRecipe) ? $this->childRecipe : $this->module;
+            $module_name = isset($this->childRecipe) ? $this->childRecipe : $this->moduleName;
             //the add option is filtered out because it has no use in the item row
             if($option !== 'add'){
                 if($value){

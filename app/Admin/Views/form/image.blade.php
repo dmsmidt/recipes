@@ -1,5 +1,6 @@
 <div class="formRow {{$field['name']}} image">
     {!! Form::label($field['name'], Lang::get($moduleName.'.'.$field['label']), ['class' => isset($field['required']) ? 'required' : '']) !!}
+    {!! Form::hidden('_field', $field['name'])!!}
     <div class="input">
         <div class="thumbs">
         {{-- Multiple images field --}}
@@ -11,9 +12,9 @@
         @else
                 {{-- dd($field) --}}
 
-        {{-- Single image --}}
+        {{-- Single image
 
-            @include('form.thumb',["field" => $field['name'], "row" => 0, "thumb" => $field])
+            @include('form.thumb',["field" => $field['name'], "row" => 0, "thumb" => $field])--}}
         @endif
         <?php
                 $thumbs = Session::get('input')[$field['name']];
@@ -30,7 +31,7 @@
                         $input[$row]['id'] = $thumb['id'];
                         $input[$row]['filename'] = $thumb['filename'];
                         $input[$row]['filesize'] = $thumb['filesize'];
-                        $input[$row]['image_template'] = $thumb['image_template'];
+                        $input[$row]['image_template'] = $field['image_template'];
                         $input[$row]['alt'] = $thumb['alt'];
                         $input[$row]['languages'] = $languages;
                         $input[$row]['languages'] = $languages;
@@ -42,17 +43,16 @@
                     }
                 }
             ?>
-
-            @if(isset($input))
+            {{--@if(isset($input))
                 @foreach($input as $key => $thumb)
                     @include('form.thumb',["field" => $field['name'], "row" => $key, "thumb" => $thumb])
                 @endforeach
-            @endif
+            @endif--}}
 
         </div>
         <div class="dropzone {{$field['name']}}"
              data-field="{{$field['name']}}"
-             data-template="{{ str_singular($moduleName) }}"
+             data-image_template="{{$field['image_template']}}"
              data-maxfiles="@if(isset($field['maxfiles'])){{ $field['maxfiles'] }}@else{{1}}@endif"
              data-maxsize="@if(isset($field['maxsize'])){{ $field['maxsize'] }}@else{{5}}@endif"
              @if(isset($field['maxfiles']) && $field['maxfiles'] > 1)
@@ -77,15 +77,17 @@ $(document).ready(function(){
     * DROPZONE IMAGE UPLOAD
     */
     var data = $('.dropzone.{{$field['name']}}').data();
+    console.log(data);
     var img_cnt = $('.thumbs > div').length;
     $('.dropzone.{{$field['name']}}').dropzone({
-        url: "/admin/images/upload",
+        url: "/admin/upload/images",
         maxFilesize: data.maxsize,
         maxFiles: data.maxfiles,
         addRemoveLinks: false,
         dictDefaultMessage: data.message,
         //previewTemplate: $('#preview-template').html(),
         params: {
+            image_template: data.image_template,
             maxfiles: data.maxfiles,
             maxsize: data.maxsize,
             filename: 'temp',
@@ -99,7 +101,7 @@ $(document).ready(function(){
         },
         sending: function(file, xhr, formData){
             formData.append('_token', $('meta[name="_token"]').attr('content'));
-            formData.append('image_template_id', $('#image_template_id').val());
+            formData.append('template', $('#image_template').val());
             formData.append('row',img_cnt);
             img_cnt++;
         },
