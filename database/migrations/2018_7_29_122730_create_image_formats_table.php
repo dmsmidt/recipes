@@ -30,6 +30,8 @@ class CreateImageFormatsTable extends Migration {
          $table->integer('image_id')
                   ->nullable()
                   ->unsigned();
+         $table->boolean('constraint')
+                  ->nullable();
          $table->foreign('image_id')
                ->references('id')->on('images')
                ->onDelete('cascade');

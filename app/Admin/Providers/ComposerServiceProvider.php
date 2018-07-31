@@ -20,7 +20,7 @@ class ComposerServiceProvider extends ServiceProvider {
         //view()->composer('cms.includes.nestable', 'App\Admin\Http\ViewComposers\NestableComposer');
         view()->composer('main.settings', 'App\Admin\Http\ViewComposers\SettingsComposer');
         view()->composer('dialogs.dialog', 'App\Admin\Http\ViewComposers\DialogComposer');
-        view()->composer('dialogs.crop', 'App\Admin\Http\ViewComposers\CropComposer');
+        view()->composer('main.crop', 'App\Admin\Http\ViewComposers\CropComposer');
 	}
 
 }

@@ -1,3 +1,4 @@
+{{-- dd($field) --}}
 <div class="formRow {{$field['name']}} image">
     {!! Form::label($field['name'], Lang::get($moduleName.'.'.$field['label']), ['class' => isset($field['required']) ? 'required' : '']) !!}
     {!! Form::hidden('_field', $field['name'])!!}
@@ -5,16 +6,12 @@
         <div class="thumbs">
         {{-- Multiple images field --}}
 
-        @if(is_array($field['value']))
+        @if(is_object($field['value']))
             @foreach($field['value'] as $key => $thumb)
                 @include('form.thumb',["field" => $field['name'], "row" => $key, "thumb" => $thumb])
             @endforeach
         @else
-                {{-- dd($field) --}}
-
-        {{-- Single image
-
-            @include('form.thumb',["field" => $field['name'], "row" => 0, "thumb" => $field])--}}
+            @include('form.thumb',["field" => $field['name'], "row" => 0, "thumb" => $field])
         @endif
         <?php
                 $thumbs = Session::get('input')[$field['name']];
@@ -43,22 +40,20 @@
                     }
                 }
             ?>
-            {{--@if(isset($input))
-                @foreach($input as $key => $thumb)
-                    @include('form.thumb',["field" => $field['name'], "row" => $key, "thumb" => $thumb])
-                @endforeach
-            @endif--}}
-
         </div>
         <div class="dropzone {{$field['name']}}"
              data-field="{{$field['name']}}"
              data-image_template="{{$field['image_template']}}"
-             data-maxfiles="@if(isset($field['maxfiles'])){{ $field['maxfiles'] }}@else{{1}}@endif"
+             data-max_files="@if(isset($field['max_files'])){{ $field['max_files'] }}@else{{1}}@endif"
              data-maxsize="@if(isset($field['maxsize'])){{ $field['maxsize'] }}@else{{5}}@endif"
-             @if(isset($field['maxfiles']) && $field['maxfiles'] > 1)
-                data-message="{{ \Lang::get('Images.Click or drop images here to upload') }}"
+             @if(isset($field['max_files']) && $field['max_files'] > 1)
+                 @if(count($field['value']) >= $field['max_files'] )
+                    data-message="{{ \Lang::get('images.Maximum number of images reached, you can not upload any more.') }}"
+                 @else
+                    data-message="{{ \Lang::get('images.Click or drop images here to upload') }}"
+                 @endif
              @else
-                data-message="{{ \Lang::get('Images.Click or drop an image here to upload') }}"
+                data-message="{{ \Lang::get('images.Click or drop an image here to upload') }}"
              @endif
              >
         </div>
@@ -77,18 +72,18 @@ $(document).ready(function(){
     * DROPZONE IMAGE UPLOAD
     */
     var data = $('.dropzone.{{$field['name']}}').data();
-    console.log(data);
     var img_cnt = $('.thumbs > div').length;
     $('.dropzone.{{$field['name']}}').dropzone({
         url: "/admin/upload/images",
         maxFilesize: data.maxsize,
-        maxFiles: data.maxfiles,
+        maxFiles: data.max_files - $('.'+data.field+' .thumbs .thumb').length,
         addRemoveLinks: false,
         dictDefaultMessage: data.message,
+        dictMaxFilesExceeded: 'images.Maximum number of images reached, you can not upload any more.',
         //previewTemplate: $('#preview-template').html(),
         params: {
             image_template: data.image_template,
-            maxfiles: data.maxfiles,
+            max_files: data.max_files,
             maxsize: data.maxsize,
             filename: 'temp',
             field: data.field
@@ -111,10 +106,16 @@ $(document).ready(function(){
         queuecomplete: function(file){
             $('.image.{{$field['name']}} .input .dropzone .dz-preview').remove();
             $('.image.{{$field['name']}} .input .dropzone .dz-message').show();
+            if(img_cnt >= data.max_files){
+                $('.image.{{$field['name']}} .input .dropzone .dz-message').html('<span>{{\Lang::get('images.Maximum number of images reached, you can not upload any more.')}}</span>');
+            }else{
+                console.log('Number images okay!');
+            }
+            console.log('data.maxFiles: ',data.max_files );
         },
         init: function(){
             this.on('error',function(dz, data){
-                console.log(data);
+                console.log('error data: ',data);
             });
         }
     });

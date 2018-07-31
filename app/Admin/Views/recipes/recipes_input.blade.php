@@ -30,6 +30,12 @@
                value="@if(isset($field['label'])){{ $field['label'] }}@endif">
     </div>
     @if((isset($field['input']) && $field['input'] == 'image') || (isset($field['input']) && $field['input'] == 'images'))
+       @if($field['input'] == 'images')
+           <div class="row fieldrow_{{$row}} max_files"><label class="text">Max images</label>
+                <input type="text" name="field[{{ $row }}][max_files]" id="field_max_files_{{ $row }}"
+                       value="@if(isset($field['max_files'])){{ $field['max_files'] }}@endif">
+           </div>
+       @endif
        <div class="row fieldrow_{{$row}}"><label class="text">Template</label>
             <input type="text" name="field[{{ $row }}][image_template]" id="field_image_template_{{ $row }}"
                    value="@if(isset($field['image_template'])){{ $field['image_template'] }}@endif">

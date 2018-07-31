@@ -4,8 +4,8 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Route;
 use Lang;
-use App\Admin\Repositories\ImageTemplateRepository as ImageTemplate;
 use App\Admin\Services\AdminConfig as AdminConfig;
+use App\Admin\Repositories\ImageFormatRepository;
 
 
 
@@ -25,15 +25,15 @@ class CropComposer {
      */
     public function compose(View $view)
     {
+        //dd($view->data);
         $data = $view->data;
         //get the true size of the preview image
-        $size = getimagesize(public_path().'/uploads/'.$data['template'].'/preview/'.$data['filename']);
+        $size = getimagesize(base_path().'/storage/app/public/uploads/'.$data['image_template'].'/preview/'.$data['filename']);
         $data['preview_size'] = ['width' => $size[0], 'height' => $size[1]];
-        $data['default_size'] = ['width' => $this->config->get($data['template'].'_default_width'), 'height' => $this->config->get($data['template'].'_default_height')];
-        //retrieve the crop formats
-        $crop_formats = ImageTemplate::selectFormatsByName($data['template']);
-        $data['crop_formats'] = $crop_formats;
-        $view->nest('content','main.crop',compact('data'));
+        //get the formats
+        $image_format_repo = new ImageFormatRepository();
+        $data['image_formats'] = $image_format_repo->selectByImage($data['image_template'], $data['id']);
+        $view->nest('content','dialogs.crop',compact('data'));
     }
 
 }

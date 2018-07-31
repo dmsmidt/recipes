@@ -135,6 +135,12 @@ PRIMARY;
                             "label" => "{$field['label']}",
 LABEL;
             }
+            if (isset($field['max_files']) && !empty($field['max_files'])) {
+                $str .= <<<MAX_FILES
+
+                            "max_files" => "{$field['max_files']}",
+MAX_FILES;
+            }
             if (isset($field['image_template']) && !empty($field['image_template'])) {
                 $str .= <<<IMAGE_TEMPLATE
 

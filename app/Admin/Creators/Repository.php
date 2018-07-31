@@ -18,6 +18,9 @@ class Repository {
             $save_translations = "\$this->saveTranslations('".$name."',\$input, \$model->id);";
             $delete_translations = "\$this->deleteTranslations('".$name."',\$id);";
         }
+        /**
+         * Determine select all methods if for nestable(Baum) or standard(Eloquent)
+         */
         if($recipe->hasParent()){
             $selectAll = $recipe->nestable || $recipe->sortable ? 'selectTree($parent_id = null)' : 'selectAll($parent_id = null)';
             $query = 'where(\''.str_singular($recipe->parent).'_id\', $parent_id)->get()';
@@ -25,6 +28,26 @@ class Repository {
             $selectAll = $recipe->nestable || $recipe->sortable ? 'selectTree()' : 'selectAll()';
             $query = 'all()';
         }
+        /**
+         * Attach multiple if recipe has many_many relationships with an equal field name and
+         * type is 'foreign' and input not is 'foreign'
+         */
+        $attach_multiple = '';
+        if(isset($recipe->many_many) && count($recipe->many_many)){
+            foreach($recipe->many_many as $relation){
+                $related = $relation['table'];
+                if(array_key_exists($related,$recipe->fields)){
+                    if($recipe->fields[$related]['type']  == 'foreign' && $recipe->fields[$related]['input'] != 'foreign'){
+                        $attach_multiple .= '$foreign_ids = [];'.PHP_EOL;
+                        $attach_multiple .= '        foreach($this->multipleToArray($input) as $foreign){'.PHP_EOL;
+                        $attach_multiple .= '           $foreign_ids[] = $foreign[\'id\'];'.PHP_EOL;
+                        $attach_multiple .= '        }'.PHP_EOL;
+                        $attach_multiple .= '        $model->'.$related.'()->sync($foreign_ids);'.PHP_EOL;
+                    }
+                }
+            }
+        }
+
         $hierarchy = $recipe->nestable || $recipe->sortable ? '->toHierarchy()->toArray()' : '->toArray()';
         $path = app_path().'/Admin/Repositories/'.$repository.'Repository.php';
         $file = fopen($path,'w+');
@@ -58,7 +81,9 @@ BYID;
     public function add(\$input){
         \$model = new {$repository};
         \$model->fill(\$input)->save();
+        {$attach_multiple}
         {$save_translations}
+        return \$model;
     }
 
 ADD;
@@ -67,7 +92,9 @@ ADD;
     public function update(\$input, \$id){
         \$model = {$repository}::find(\$id);
         \$model->fill(\$input)->save();
+        {$attach_multiple}
         {$save_translations}
+        return \$model;
     }
 
 UPDATE;

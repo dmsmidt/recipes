@@ -630,14 +630,14 @@ footer{
     width: 96%;
     /* height: 96%; */
     max-width: 1054px;
-    max-height: 863px;
+    /*max-height: 863px;*/
     /* margin-top: calc(6% - 98%); */
     left: 0;
     right: 0;
     margin-left: auto;
     margin-right: auto;
     top: 2%;
-    background-color: #E6E6FF;
+    background-color: #C2BBAF;
     -webkit-box-shadow: 0 0 10px 2px rgba(0,0,0,0.5);
     box-shadow: 0 0 10px 1px rgba(0,0,0,0.4);
     z-index: 999;
@@ -816,6 +816,18 @@ footer{
     clear:left;
     position: relative;
     overflow:hidden;
+}
+.formRow.image .image_holder .button_holder{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 999;
+    padding:1px;
+    margin: 2px;
+}
+.formRow.image .image_holder .button_holder button div{
+    color: #FF0000;
+    font-size:18px;
 }
 .formRow input[type=text], .formRow textarea,.formRow input[type=password],.formRow input[type=email]{
     background-color: #ffffff;

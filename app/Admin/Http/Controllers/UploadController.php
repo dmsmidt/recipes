@@ -25,7 +25,7 @@ class UploadController extends AdminController {
         $template = Request::input('image_template');
         $name = substr($filename,0,strpos($filename,'.'));
         $filename = $name.'_'.rand(11111,99999).'.'.strtolower($extension);
-        $upload_success = Request::file('file')->move('uploads',$filename);
+        $upload_success = Request::file('file')->move('storage/uploads',$filename);
         if($upload_success) {
             $_imageCreator = new ImageCreator($template,$filename);
             $img = $_imageCreator->create();

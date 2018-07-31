@@ -12,4 +12,7 @@ return [
   "Options"=>"Options",
   "Filename"=>"Filename",
   "Alt"=>"Alt",
+  "Delete image"=>"Delete image",
+  "Delete this image"=>"Delete this image",
+  "Maximum number of images reached, you can not upload any more."=>"Maximum number of images reached, you can not upload any more.",
 ];

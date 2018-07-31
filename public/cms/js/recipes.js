@@ -81,12 +81,25 @@ $(function(){
         if($('#field_image_template_'+row).length){
             $('#field_image_template_'+row).parent().remove();
         }
+        if($('#field_max_files_'+row).length){
+            $('#field_max_files_'+row).parent().remove();
+        }
         if(input == 'select' || input == 'checkbox' || input == 'radio'){
             $inputoptions_selector.prop('disabled', false);
         }else if(input == 'image' || input == 'images'){
+            if(input == 'images'){
+                var max_files_input = '<div class="row fieldrow_'+row+' max_files"><label class="text">Max images</label>' +
+                    '<input type="text" name="field['+row+'][max_files]" id="field_max_files_'+row+'"></div>';
+            }else{
+                var max_files_input = '';
+            }
+
             var template_input = '<div class="row fieldrow_'+row+' image_template"><label class="text">Template</label>' +
             '<input type="text" name="field['+row+'][image_template]" id="field_image_template_'+row+'"></div>';
-            $this.parent().append(template_input);
+            $this.parent().append(max_files_input + '' + template_input);
+
+                $('.fieldrow_'+row+'.max_files').show();
+
             $('.fieldrow_'+row+'.image_template').show();
         }else{
             $inputoptions_selector.prop('disabled',true);

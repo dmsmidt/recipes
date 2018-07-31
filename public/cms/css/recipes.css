@@ -66,11 +66,11 @@
     width: calc(98% - 75px);
 }
 .fields label{
-    margin-left:10px;
+    margin-left:2px;
 }
 .fields label.text{
     display: inline-block;
-    width:60px;
+    width:70px;
 }
 .fields .checkbox_text_label{
     vertical-align: sub;

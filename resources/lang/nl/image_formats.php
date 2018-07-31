@@ -6,4 +6,8 @@ return [
   "Height"=>"Hoogte",
   "Template"=>'Sjabloon',
   "Options"=>"Opties",
+    "X-position"=>"X-positie",
+    "Y-position"=>"Y-positie",
+  "Cropping and scaling"=>"Bijsnijden en verschalen",
+  "Constraint proportions"=>"Verhouding behouden",
 ];

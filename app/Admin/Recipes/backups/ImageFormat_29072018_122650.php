@@ -65,7 +65,7 @@ class ImageFormat extends Recipe{
                             "length" => 10,
                             "default" => "fit",
                             "nullable" => 1,
-                            "label" => "Cropping and scaling",
+                            "label" => "Scaling",
                             "input" => "select",
                             "options" => [
                                 [
@@ -86,7 +86,7 @@ class ImageFormat extends Recipe{
             "constraint" => [
                             "type" => "boolean",
                             "nullable" => 1,
-                            "label" => "Constraint proportions",
+                            "label" => "Constraint",
                             "input" => "checkbox",
                         ],
     ];

@@ -88,7 +88,7 @@ $(function(){
     });
 
     //DELETE IMAGE BUTTON
-    $('.btnImageDelete').click(function()
+    $('.input .thumbs').on('click','.btnImageDelete', function()
     {
         /**
          * PHP: CmsController->dialog
@@ -196,28 +196,6 @@ $(function(){
         $('input.language').each(function(key,field){
             var name = $(this).prop('name');
             //Determine if the input field name has an array format
-            /*if(name.indexOf('[') > 0){
-                //If array formatted field name
-                var arrFieldName = name.split('[');
-                var rel_inputName = arrFieldName[0]; //Scope name of relation fields
-                var rel_fieldName = arrFieldName[1].substring(0,arrFieldName[1].length -1); //the language field's name with language abbr postfix
-                var rel_fieldIndex = arrFieldName[2].substring(0,arrFieldName[2].length -1); //the index number of the related language field
-                if(rel_fieldName.indexOf(current_lang) > 0){
-                    var fieldName = extractLanguageField(rel_fieldName);
-                    var $main_input = $('input[name="'+rel_inputName+'['+fieldName+']['+rel_fieldIndex+']"], textarea[name="'+rel_inputName+'['+fieldName+']['+rel_fieldIndex+']"]');
-                    var $current_language_hidden = $('input[name="'+rel_inputName+'['+rel_fieldName+']['+rel_fieldIndex+']"]');
-                    var $new_language_hidden = $('input[name="'+rel_inputName+'['+fieldName+'_'+new_lang+']['+rel_fieldIndex+']"]');
-                    var new_val = $new_language_hidden.val();
-                    if($main_input.parent().hasClass('html')){
-                        var current_val = tinyMCE.get(fieldName).getContent();
-                        tinyMCE.get(fieldName).setContent(new_val);
-                    }else{
-                        var current_val = $main_input.val();
-                        $main_input.val(new_val);
-                    }
-                    $current_language_hidden.val(current_val);
-                }
-            }else{*/
                 //If normal field name
                 if(name.indexOf(current_lang) > 0){
                     var fieldName = extractLanguageField(name);

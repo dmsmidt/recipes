@@ -1,6 +1,6 @@
 {!! Form::open(["method" => 'delete', "url" => $data['url']]) !!}
     <div class="title">
-        {!! Lang::get($data['urlModule'].'.Delete '.str_singular($data['module'])) !!}
+        {!! Lang::get('images.Delete '.str_singular($data['module'])) !!}
     </div>
     <div class="content">
         <p><b>{{$data['filename']}}</b></p>

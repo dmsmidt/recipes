@@ -2,6 +2,7 @@
 
 use App\Admin\Repositories\Contracts\IImageRepository;
 use App\Models\Image;
+use App\Admin\Http\Requests\AdminRequest;
 
 class ImageRepository extends BaseRepository implements IImageRepository{
 
@@ -27,6 +28,8 @@ class ImageRepository extends BaseRepository implements IImageRepository{
 
     public function delete($id){
         $model = Image::find($id);
+        $dir_name = $model->image_template;
+        $this->deleteImage($model);
         $model->delete();
     }
 

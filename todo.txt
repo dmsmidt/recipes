@@ -1,1 +1,2 @@
-@TODO: Make function to remove the empty lines from routes and config/app providers which remains after removing a route or provider
+@TODO: Make function to remove the empty lines from routes and config/app providers which remains after removing a route or provider - Done
+@TODO: In Repository Creation Class -> add and update methods should return the affected model - Done

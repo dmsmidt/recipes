@@ -12,6 +12,7 @@ class Image{
         'javascript' => [
             //add javascript plugin paths here
             //'/cms/js/dropzone.js',
+            '/cms/js/crop.js',
             '/cms/vendor/jcrop/js/jquery.Jcrop.min.js'
         ],
         'css' => [

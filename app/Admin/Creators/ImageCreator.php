@@ -49,7 +49,7 @@ class ImageCreator {
      * @return bool
      */
     protected function savePreview(){
-        $img = Image::make(base_path().'/public/uploads/'.$this->filename);
+        $img = Image::make(base_path().'/storage/app/public/uploads/'.$this->filename);
         $width = $img->width();
         $height = $img->height();
         $maxwidth = $this->config->get('images_max_width');
@@ -66,8 +66,8 @@ class ImageCreator {
         }else{
             //
         }
-        if($this->checkPath(base_path().'/public/uploads/'.$this->template.'/preview')){
-            if($img->save(base_path().'/public/uploads/'.$this->template.'/preview/'.$this->filename,$quality)){
+        if($this->checkPath(base_path().'/storage/app/public/uploads/'.$this->template.'/preview')){
+            if($img->save(base_path().'/storage/app/public/uploads/'.$this->template.'/preview/'.$this->filename,$quality)){
                 return true;
             }else{
                 return false;
@@ -81,13 +81,13 @@ class ImageCreator {
      * @return bool
      */
     protected function saveThumb(){
-        $img = Image::make(base_path().'/public/uploads/'.$this->filename);
+        $img = Image::make(base_path().'/storage/app/public/uploads/'.$this->filename);
         $thumb_width = $this->config->get('thumb_width');
         $thumb_height = $this->config->get('thumb_height');
         $quality = $this->config->get('image_quality');
         $img->fit($thumb_width, $thumb_height);
-        if($this->checkPath(base_path().'/public/uploads/'.$this->template.'/thumb')){
-            if($img->save(base_path().'/public/uploads/'.$this->template.'/thumb/'.$this->filename,$quality)){
+        if($this->checkPath(base_path().'/storage/app/public/uploads/'.$this->template.'/thumb')){
+            if($img->save(base_path().'/storage/app/public/uploads/'.$this->template.'/thumb/'.$this->filename,$quality)){
                 return $img;
             }else{
                 return false;
@@ -103,7 +103,7 @@ class ImageCreator {
     protected function saveTemplate(){
         $errors = false;
         $defaults_filter = ['preview','thumb'];
-        $img = Image::make(base_path().'/public/uploads/'.$this->filename);
+        $img = Image::make(base_path().'/storage/app/public/uploads/'.$this->filename);
         $image_format = new ImageFormat;
         $formats = $image_format->selectByTemplate($this->template);
         foreach($formats as $format){
@@ -112,8 +112,8 @@ class ImageCreator {
                 $default_height = $format->height;
                 $quality = $this->config->get('image_quality');
                 $img->fit($default_width, $default_height);
-                if($this->checkPath(base_path().'/public/uploads/'.$this->template.'/'.$format->name)){
-                    if($img->save(base_path().'/public/uploads/'.$this->template.'/'.$format->name.'/'.$this->filename,$quality)){
+                if($this->checkPath(base_path().'/storage/app/public/uploads/'.$this->template.'/'.$format->name)){
+                    if($img->save(base_path().'/storage/app/public/uploads/'.$this->template.'/'.$format->name.'/'.$this->filename,$quality)){
                         //
                     }else{
                         $errors = true;

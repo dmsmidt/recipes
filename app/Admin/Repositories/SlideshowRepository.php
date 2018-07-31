@@ -2,7 +2,6 @@
 
 use App\Admin\Repositories\Contracts\ISlideshowRepository;
 use App\Models\Slideshow;
-use App\Models\Image;
 
 class SlideshowRepository extends BaseRepository implements ISlideshowRepository{
 
@@ -17,24 +16,28 @@ class SlideshowRepository extends BaseRepository implements ISlideshowRepository
     public function add($input){
         $model = new Slideshow;
         $model->fill($input)->save();
+        $foreign_ids = [];
+        foreach($this->multipleToArray($input) as $foreign){
+           $foreign_ids[] = $foreign['id'];
+        }
+        $model->images()->sync($foreign_ids);
         return $model;
     }
 
     public function update($input, $id){
         $model = Slideshow::find($id);
         $model->fill($input)->save();
-        foreach($this->multipleToArray($input) as $image){
-            if(isset($image['id'])){
-                $model->images()->attach($image['id']);
-            }
+        $foreign_ids = [];
+        foreach($this->multipleToArray($input) as $foreign){
+           $foreign_ids[] = $foreign['id'];
         }
+        $model->images()->sync($foreign_ids);
         return $model;
     }
 
     public function delete($id){
         $model = Slideshow::find($id);
         $model->delete();
-        
     }
 
 }

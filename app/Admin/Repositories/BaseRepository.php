@@ -47,18 +47,13 @@ class BaseRepository {
      * Deleting related images and language
      * @param $images
      */
-    public function deleteImages($images){
-        foreach($images as $image){
-            $model = Image::find($image->id);
-            $uploads_path = base_path().'/public_html/uploads/';
-            $image_paths = array_diff(scandir($uploads_path.$model->template), array('..', '.'));
-            foreach($image_paths as $path){
-                unlink($uploads_path.$model->template.'/'.$path.'/'.$model->filename);
-            }
-            unlink($uploads_path.$model->filename);
-            $model->alt()->delete();
-            $model->delete();
+    public function deleteImage($image){
+        $uploads_path = base_path().'/storage/app/public/uploads/';
+        $image_paths = array_diff(scandir($uploads_path.$image->image_template), array('..', '.'));
+        foreach($image_paths as $path){
+            unlink($uploads_path.$image->image_template.'/'.$path.'/'.$image->filename);
         }
+        unlink($uploads_path.$image->filename);
     }
 
     /**

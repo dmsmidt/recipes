@@ -1,6 +1,6 @@
 <?php namespace App\Admin\Repositories\Contracts;
 
-interface IImageFormatRepository{
+interface ISlideshowRepository{
 
     public function selectAll();
 
@@ -11,9 +11,5 @@ interface IImageFormatRepository{
     public function update($input, $id);
 
     public function delete($id);
-
-    public function selectByTemplate($template);
-
-    public function selectByImage($template, $id);
 
 }

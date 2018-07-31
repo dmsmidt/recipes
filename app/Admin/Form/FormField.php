@@ -166,6 +166,7 @@ class FormField {
         //special field properties for image and images input
         if($field['input'] == 'images' || $field['input'] == 'image'){
             $this->properties['maxsize'] = $Config->get('max_image_size');
+            $this->properties['max_files'] = isset($field['max_files']) ? $field['max_files'] : $data['max_files'];
             $this->properties['image_template'] = isset($field['image_template']) ? $field['image_template'] : $data['image_template'];
             $this->properties['filename'] = isset($data['filename']) ? $data['filename'] : null;
         }

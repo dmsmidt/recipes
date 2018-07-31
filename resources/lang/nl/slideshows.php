@@ -5,4 +5,5 @@ return [
   "Slideshows"=>"Diashows",
   "Options"=>"Opties",
   "Images"=>"Afbeeldingen",
+  "Delete this image?"=>"Deze afbeelding verwijderen?",
 ];

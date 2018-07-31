@@ -61,7 +61,7 @@
                         type="button"
                         data-recipe="{{$row['name']}}"
                         class="btnBackupRecipe row_btn">
-                        <i class="far fa-copy"></i>
+                        <div class="far fa-copy"></div>
                     </button>
                     {{-- EDIT --}}
                     <button
@@ -72,7 +72,7 @@
                         data-id=""
                         data-action = "get"
                         class="btnEdit row_btn">
-                        <i class="far fa-edit"></i>
+                        <div class="far fa-edit"></div>
                     </button>
                     {{-- DELETE CLASSES --}}
                     <button
@@ -80,7 +80,7 @@
                         type="button"
                         data-recipe="{{$row['name']}}"
                         class="btnDeleteClasses row_btn">
-                        <i class="far fa-trash-alt"></i>
+                        <div class="far fa-trash-alt"></div>
                     </button>
 
                 </div>

@@ -147,10 +147,10 @@ class AdminController extends Controller
         ];
     }
 
-    public function crop($data,$callback){
+    public function crop($data, $callback){
         return [
             "callback" => $callback,
-            "args" => view('dialogs.crop',["data" => $data])->render()
+            "args" => view('main.crop',["data" => $data])->render()
         ];
     }
 }

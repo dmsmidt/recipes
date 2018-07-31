@@ -24,9 +24,8 @@ class Slideshow extends Recipe{
             "images" => [
                             "type" => "foreign",
                             "label" => "Images",
-                            "max_files" => "10",
                             "image_template" => "slideshow",
-                            "input" => "images",
+                            "input" => "image",
                         ],
     ];
     public $hidden = [];
@@ -42,6 +41,9 @@ class Slideshow extends Recipe{
     public $sortable = false;
     public $nestable = false;
     public $timestamps = false;
+    public $has_many = [
+        
+    ];
     public $many_many = [
             [
                 "table" => "images",
