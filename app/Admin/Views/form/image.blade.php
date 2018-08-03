@@ -11,7 +11,10 @@
                 @include('form.thumb',["field" => $field['name'], "row" => $key, "thumb" => $thumb])
             @endforeach
         @else
-            @include('form.thumb',["field" => $field['name'], "row" => 0, "thumb" => $field])
+            @if(isset($field['value']) && !empty($field['value']))
+                {{--dd($field)--}}
+                @include('form.thumb',["field" => $field['name'], "row" => 0, "thumb" => $field])
+            @endif
         @endif
         <?php
                 $thumbs = Session::get('input')[$field['name']];
@@ -27,7 +30,7 @@
                         $input[$row]['row'] = $row;
                         $input[$row]['id'] = $thumb['id'];
                         $input[$row]['filename'] = $thumb['filename'];
-                        $input[$row]['filesize'] = $thumb['filesize'];
+                        //$input[$row]['filesize'] = $thumb['filesize'];
                         $input[$row]['image_template'] = $field['image_template'];
                         $input[$row]['alt'] = $thumb['alt'];
                         $input[$row]['languages'] = $languages;

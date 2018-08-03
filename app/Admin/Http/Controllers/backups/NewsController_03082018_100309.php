@@ -1,14 +1,14 @@
 <?php namespace App\Admin\Http\Controllers;
 
-use App\Admin\Http\Requests\SlideshowRequest;
-use App\Admin\Repositories\Contracts\ISlideshowRepository;
+use App\Admin\Http\Requests\NewsRequest;
+use App\Admin\Repositories\Contracts\INewsRepository;
 
-class SlideshowController extends AdminController {
+class NewsController extends AdminController {
 
-    protected $slideshow;
+    protected $news;
 
-    public function __construct(ISlideshowRepository $slideshow){
-        $this->slideshow = $slideshow;
+    public function __construct(INewsRepository $news){
+        $this->news = $news;
         parent::__construct();
     }
 
@@ -18,7 +18,7 @@ class SlideshowController extends AdminController {
 	 */
 	public function index()
 	{
-        $data = $this->slideshow->selectAll();
+        $data = $this->news->selectAll();
         return view('admin')
             
             ->nest('center','main.index',compact('data'));
@@ -34,15 +34,13 @@ class SlideshowController extends AdminController {
 	}
 
 	/**
-     * @param SlideshowRequest $request
+     * @param NewsRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(SlideshowRequest $request)
+    public function store(NewsRequest $request)
 	{
-        //dd($request->all());
-
-        $this->slideshow->add($request->input());
-        return redirect('admin/slideshows');
+        $this->news->add($request->input());
+        return redirect('admin/news');
 	}
 
     /**
@@ -64,20 +62,20 @@ class SlideshowController extends AdminController {
 	 */
 	public function edit($id)
 	{
-        $data = $this->slideshow->selectById($id);
+        $data = $this->news->selectById($id);
         return view('admin')->nest('center','main.form',compact('data'));
 	}
 
 	/**
      * Update the specified resource in storage.
-     * @param SlideshowRequest $request
+     * @param NewsRequest $request
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(SlideshowRequest $request, $id)
+    public function update(NewsRequest $request, $id)
 	{
-        $this->slideshow->update($request->input(), $id);
-        return redirect('admin/slideshows');
+        $this->news->update($request->input(), $id);
+        return redirect('admin/news');
 	}
 
 	/**
@@ -88,7 +86,7 @@ class SlideshowController extends AdminController {
 	 */
 	public function destroy($id)
 	{
-        $this->slideshow->delete($id);
+        $this->news->delete($id);
         return redirect()->back();
 	}
 

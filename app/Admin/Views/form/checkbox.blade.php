@@ -1,5 +1,7 @@
+{{--dd($field)--}}
 <div class="formRow checkbox">
     <label class="@if(isset($field['required'])) required @endif">{{ Lang::get($moduleName.'.'.$field['label']) }}</label>
+    {!! Form::hidden($field['name'], '0') !!}
     {!! Form::checkbox($field['name'], '1', $field['value'] == '1' ? true : false, ['id' => $field['id'], 'class' => isset($field['class']) ? $field['class'] : '', $field['disabled'] ? 'disabled' : '']) !!}
     <label class="checkbox_style" for="{{ $field['id'] }}"><span></span></label>
     @if(isset($field['language']) && $field['language'])

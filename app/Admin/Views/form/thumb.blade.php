@@ -27,7 +27,7 @@
     {!! Form::hidden($field."[field][".$row."]", $field) !!}
     {!! Form::hidden($field."[filename][".$row."]", $thumb['filename']) !!}
     {!! Form::hidden($field."[image_template][".$row."]", $thumb['image_template']) !!}
-    {!! Form::hidden($field."[filesize][".$row."]", $thumb['filesize']) !!}
+    {{-- Form::hidden($field."[filesize][".$row."]", $thumb['filesize']) !!--}}
 </div>
 
 

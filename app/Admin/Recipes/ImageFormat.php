@@ -85,6 +85,7 @@ class ImageFormat extends Recipe{
                         ],
             "constraint" => [
                             "type" => "boolean",
+                            "default" => "0",
                             "nullable" => 1,
                             "label" => "Constraint proportions",
                             "input" => "checkbox",
