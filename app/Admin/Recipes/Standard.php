@@ -12,12 +12,19 @@ class Standard  extends Recipe{
         "id"=>[
             "type"=>"increments",
             "input"=>"hidden"
-        ]
+        ],
+        "name" => [
+            "type" => "varchar",
+            "length" => 255,
+            "unique" => 1,
+            "label" => "Name",
+            "input" => "text",
+        ],
     ];
     public $hidden = [];
-    public $fillable = [];
+    public $fillable = ["name"];
     public $guarded = ["id"];
-    public $summary = [];
+    public $summary = ["name"];
     public $scoped = [];
     public $has_one = [];
     public $has_many = [];
