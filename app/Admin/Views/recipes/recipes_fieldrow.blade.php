@@ -21,8 +21,8 @@
 
     {{-- ROW OPTIONS --}}
     <td>
-        <button title="Delete field" type="button" data-row="{{ $row }}" class="btnDeleteFieldRow" style="margin: 6px 0 0 5px; ">
-            <div class="icon-delete"></div>
+        <button title="Delete field" type="button" data-row="{{ $row }}" class="btnDeleteFieldRow" style="margin: 7px 2px 2px 2px; width: 20px;">
+            <div class="far fa-trash-alt" style="font-size:18px;"></div>
         </button>
     </td>
 </tr>

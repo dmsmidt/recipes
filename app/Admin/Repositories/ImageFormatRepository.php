@@ -20,7 +20,6 @@ class ImageFormatRepository extends BaseRepository implements IImageFormatReposi
     }
 
     public function update($input, $id){
-        //dd($input);
         $model = ImageFormat::find($id);
         $model->fill($input)->save();
         

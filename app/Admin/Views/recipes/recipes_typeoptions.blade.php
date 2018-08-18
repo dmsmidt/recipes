@@ -21,3 +21,6 @@
 @if(isset($field['type_options']) && in_array('options',$field['type_options']))
     <div class="row fieldrow_{{$row}}"><label class="text">Options</label><input type="text" name="field[{{ $row }}][typeoptions]" id="field_typeoptions_{{ $row }}" value="@if(isset($field['typeoptions'])){{ $field['typeoptions'] }}@endif"></div>
 @endif
+@if(isset($field['type_options']) && in_array('relation',$field['type_options']))
+    <div class="row fieldrow_{{$row}}"><label class="text">Relation</label><input type="text" name="field[{{ $row }}][relation]" id="field_relation_{{ $row }}" value="@if(isset($field['relation'])){{ $field['relation'] }}@endif"></div>
+@endif

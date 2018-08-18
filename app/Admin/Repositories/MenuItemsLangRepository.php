@@ -1,20 +1,20 @@
 <?php namespace App\Admin\Repositories;
 
-use App\Admin\Repositories\Contracts\INewsRepository;
-use App\Models\News;
+use App\Admin\Repositories\Contracts\IMenuItemsLangRepository;
+use App\Models\MenuItemsLang;
 
-class NewsRepository extends BaseRepository implements INewsRepository{
+class MenuItemsLangRepository extends BaseRepository implements IMenuItemsLangRepository{
 
     public function selectAll(){
-        return News::all()->toArray();
+        return MenuItemsLang::all()->toArray();
     }
 
     public function SelectById($id){
-        return News::find($id);
+        return MenuItemsLang::find($id);
     }
 
     public function add($input){
-        $model = new News;
+        $model = new MenuItemsLang;
         $model->fill($input)->save();
         
         
@@ -22,7 +22,7 @@ class NewsRepository extends BaseRepository implements INewsRepository{
     }
 
     public function update($input, $id){
-        $model = News::find($id);
+        $model = MenuItemsLang::find($id);
         $model->fill($input)->save();
         
         
@@ -30,7 +30,7 @@ class NewsRepository extends BaseRepository implements INewsRepository{
     }
 
     public function delete($id){
-        $model = News::find($id);
+        $model = MenuItemsLang::find($id);
         $model->delete();
         
     }

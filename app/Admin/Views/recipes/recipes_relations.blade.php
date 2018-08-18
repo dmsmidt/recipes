@@ -5,8 +5,8 @@
         <option value="has_many">has many</option>
         <option value="many_many">many many</option>
     </select>
-    <button title="Add relation" id="btnAddRelation" type="button" class="row_btn" style="float:left; margin: 6px 2px;">
-        <div class="icon-add"></div>
+    <button title="Add relation" id="btnAddRelation" type="button" class="row_btn" style="margin: 4px 2px; background-color: #FE7239; padding: 4px 6px; color: #fff; border-radius: 50%;">
+        <div class="fas fa-plus"></div>
     </button>
 </div>
 

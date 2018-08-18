@@ -14,18 +14,20 @@ class News extends Recipe{
                             "type" => "increments",
                             "input" => "hidden",
                         ],
-            "image" => [
-                            "type" => "foreign",
-                            "label" => "Image",
-                            "image_template" => "news",
-                            "input" => "image",
-                        ],
             "name" => [
                             "type" => "varchar",
                             "length" => 255,
+                            "unique" => 1,
                             "label" => "Name",
                             "input" => "text",
-                            "rule" => "required",
+                        ],
+            "image" => [
+                            "type" => "foreign",
+                            "relation" => "images",
+                            "label" => "Image",
+                            "max_files" => "1",
+                            "image_template" => "news",
+                            "input" => "images",
                         ],
     ];
     public $hidden = [];
@@ -36,11 +38,11 @@ class News extends Recipe{
     public $add = true;
     public $edit = true;
     public $delete = true;
-    public $activatable = false;
+    public $activatable = true;
     public $protectable = false;
-    public $sortable = false;
+    public $sortable = true;
     public $nestable = false;
-    public $timestamps = false;
+    public $timestamps = true;
     public $many_many = [
             [
                 "table" => "images",

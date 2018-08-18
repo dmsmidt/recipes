@@ -151,8 +151,11 @@ class Recipe {
                 if(isset($field['nullable']) && !empty($field['nullable'])){
                     $recipe['fields'][$field['name']]['nullable'] = $field['nullable'] ? true : false;
                 }
+                if(isset($field['relation']) && !empty($field['relation'])){
+                    $recipe['fields'][$field['name']]['relation'] = $field['relation'];
+                }
                 if(isset($field['primary']) && !empty($field['primary'])){
-                    $recipe['fields'][$field['name']]['primary'] = $field['primary'] ? true : false;
+                    $recipe['fields'][$field['name']]['primary'] = $field['relation'] ? true : false;
                 }
                 if(isset($field['label']) && !empty($field['label'])){
                     $recipe['fields'][$field['name']]['label'] = $field['label'];

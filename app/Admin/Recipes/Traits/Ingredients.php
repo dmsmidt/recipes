@@ -29,7 +29,7 @@ trait Ingredients {
     }
 
     /**
-     * Returns array with possible foreign fields (related data)
+     * Returns array with possible foreign type fields (related data)
      * @return array
      */
     public function foreign(){

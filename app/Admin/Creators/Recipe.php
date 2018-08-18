@@ -123,6 +123,12 @@ UNIQUE;
                             "nullable" => {$field['nullable']},
 NULLABLE;
             }
+            if (isset($field['relation']) && !empty($field['relation'])) {
+                $str .= <<<RELATION
+
+                            "relation" => "{$field['relation']}",
+RELATION;
+            }
             if (isset($field['primary']) && !empty($field['primary'])) {
                 $str .= <<<PRIMARY
 

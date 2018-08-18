@@ -16,33 +16,7 @@
                 @include('form.thumb',["field" => $field['name'], "row" => 0, "thumb" => $field])
             @endif
         @endif
-        <?php
-                $thumbs = Session::get('input')[$field['name']];
-                $active_languages = Session::get('language.active');
-                $languages = [];
-                foreach($active_languages as $key => $lang){
-                    $languages[] = $lang['abbr'];
-                }
-                if(is_array($thumbs)){
-                    $input = [];
-                    foreach($thumbs as $row => $thumb){
-                        $input[$row]['field'] = $field['name'];
-                        $input[$row]['row'] = $row;
-                        $input[$row]['id'] = $thumb['id'];
-                        $input[$row]['filename'] = $thumb['filename'];
-                        //$input[$row]['filesize'] = $thumb['filesize'];
-                        $input[$row]['image_template'] = $field['image_template'];
-                        $input[$row]['alt'] = $thumb['alt'];
-                        $input[$row]['languages'] = $languages;
-                        $input[$row]['languages'] = $languages;
-                        if(isset($languages)){
-                            foreach($languages as $language){
-                                $input[$row]['alt_'.$language] = $thumb['alt_'.$language];
-                            }
-                        }
-                    }
-                }
-            ?>
+
         </div>
         <div class="dropzone {{$field['name']}}"
              data-field="{{$field['name']}}"

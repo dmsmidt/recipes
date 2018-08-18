@@ -11,4 +11,5 @@ Homestead.yaml
 /Admin/Repositories/Contracts/backups
 /app/Models/backups
 /public/uploads
+/
 /assets

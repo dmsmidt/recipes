@@ -36,13 +36,13 @@ class Repository {
         if(isset($recipe->many_many) && count($recipe->many_many)){
             foreach($recipe->many_many as $relation){
                 $related = $relation['table'];
-                if(array_key_exists($related,$recipe->fields)){
-                    if($recipe->fields[$related]['type']  == 'foreign' && $recipe->fields[$related]['input'] != 'foreign'){
+                foreach($recipe->foreign() as $field){
+                    if(isset($recipe->fields[$field]['relation']) && $recipe->fields[$field]['relation'] == $related && $recipe->fields[$field]['input'] != 'foreign'){
                         $attach_multiple .= '$foreign_ids = [];'.PHP_EOL;
                         $attach_multiple .= '        foreach($this->multipleToArray($input) as $foreign){'.PHP_EOL;
                         $attach_multiple .= '           $foreign_ids[] = $foreign[\'id\'];'.PHP_EOL;
                         $attach_multiple .= '        }'.PHP_EOL;
-                        $attach_multiple .= '        $model->'.$related.'()->sync($foreign_ids);'.PHP_EOL;
+                        $attach_multiple .= '        $model->'.$related.'()->sync($foreign_ids);';
                     }
                 }
             }

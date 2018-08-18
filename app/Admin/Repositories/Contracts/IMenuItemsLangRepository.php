@@ -1,6 +1,6 @@
 <?php namespace App\Admin\Repositories\Contracts;
 
-interface INewsRepository{
+interface IMenuItemsLangRepository{
 
     public function selectAll();
 

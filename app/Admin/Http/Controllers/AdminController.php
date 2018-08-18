@@ -6,7 +6,7 @@ use Request;
 use View;
 use App\Models\Language;
 use App;
-
+use AdminRequest;
 
 class AdminController extends Controller
 {
@@ -69,9 +69,7 @@ class AdminController extends Controller
      * @return array
      */
     public function nestableUpdate($data, $callback){
-        $path = Request::path();
-        $segments = explode('/',$path);
-        $module = 'App\\Models\\'.str_singular(studly_case($segments[count($segments)-2]));
+        $module = 'App\\Models\\'.str_singular(studly_case(AdminRequest::module()));
         unset($data['urlModule']);
         $node = $module::find($data['id']);
         if(isset($data['prev_id']) && !empty($data['prev_id'])){
@@ -90,7 +88,15 @@ class AdminController extends Controller
             }else{
                 $node->makeRoot();
                 $first_sibling = $node->siblingsAndSelf()->first();
-                $node->moveToLeftOf($first_sibling);
+                try{
+                    $node->moveToLeftOf($first_sibling);
+                }catch(\Exception $e){
+                    if($e instanceof \Baum\MoveNotPossibleException){
+                        //
+                    }else{
+                        throw $e;
+                    }
+                }
             }
         }
         //$module::rebuild(true);

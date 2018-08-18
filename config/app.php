@@ -197,6 +197,7 @@ return [
         App\Admin\Providers\DashboardServiceProvider::class,
         App\Admin\Providers\MenuServiceProvider::class,
         App\Admin\Providers\MenuItemServiceProvider::class,
+        App\Admin\Providers\MenuItemsLangServiceProvider::class,
         App\Admin\Providers\RoleServiceProvider::class,
         App\Admin\Providers\ConfigurationServiceProvider::class,
         App\Admin\Providers\SettingServiceProvider::class,
@@ -205,7 +206,7 @@ return [
         App\Admin\Providers\ImageServiceProvider::class,
         App\Admin\Providers\ImageFormatServiceProvider::class,
         App\Admin\Providers\SlideshowServiceProvider::class,
-        
+        App\Admin\Providers\NewsServiceProvider::class,
         //<<CMS
 
     ],
@@ -264,6 +265,7 @@ return [
         'Recipe' => App\Admin\Facades\Recipe::class,
         'ClassCreator' => App\Admin\Facades\ClassCreator::class,
         'FormField' => App\Admin\Facades\FormField::class,
+        'AdminRequest' => App\Admin\Facades\AdminRequest::class,
     ],
 
 ];

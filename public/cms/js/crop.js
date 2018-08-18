@@ -27,7 +27,6 @@ $(function(){
      */
     initCrop = function(){
         $('#crop').find('.image_preview img').Jcrop({
-
             //boxWidth: 500,
             //boxheight: 250
         });

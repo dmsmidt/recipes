@@ -66,8 +66,8 @@
     </select>
 
     {{-- ADD BUTTON --}}
-    <button title="Add rule" type="button" class="row_btn btnAddRule" data-row="{{ $row }}" style="float:left; margin: 6px 2px;">
-        <div class="icon-add"></div>
+    <button title="Add rule" type="button" class="row_btn btnAddRule" data-row="{{ $row }}" style="margin: 4px 2px; background-color: #FE7239; padding: 4px 6px; color: #fff; border-radius: 50%;">
+        <div class="fas fa-plus"></div>
     </button>
 
     <div class="row fieldrow_{{$row}}">

@@ -23,7 +23,9 @@ class Foreign extends Type{
 
     //Returns array with possible options
     public function getOptions(){
-        return [];
+        return [
+            'relation'
+        ];
     }
 
 

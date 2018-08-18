@@ -110,11 +110,12 @@
 
             {{-- FIELDS --}}
             <div class="parentRow ">
-                <div class="parentTitle" style="margin:7px 10px 0 15px; float:left;">
+                <div class="parentTitle" style="margin:1px 10px 0 15px; float:left;">
                     Fields
                 </div>
-                <button title="Add field" id="btnAddField" type="button" class="btnAdd row_btn" style="margin: 6px 2px;">
-                    <div class="icon-add"></div>
+                <button title="Add field" id="btnAddField" type="button" class="btnAdd row_btn"
+                style="margin: 4px 2px; background-color: #FE7239; padding: 4px 6px; color: #fff; border-radius: 50%;">
+                    <div class="fas fa-plus"></div>
                 </button>
             </div>
 

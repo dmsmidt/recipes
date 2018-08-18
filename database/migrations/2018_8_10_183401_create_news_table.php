@@ -16,7 +16,14 @@ class CreateNewsTable extends Migration {
 	    Schema::create('news', function($table)
 	    {
 		 $table->increments('id');
-         $table->string('name', 255);
+         $table->string('name', 255)
+               ->unique();
+         $table->integer('parent_id')->nullable()->index();
+         $table->integer('lft')->nullable()->index();
+         $table->integer('rgt')->nullable()->index();
+         $table->integer('level')->nullable()->index();
+         $table->boolean('active')->default(false);
+         $table->timestamps();
 
 		});
 

@@ -23,6 +23,7 @@ class Slideshow extends Recipe{
                         ],
             "images" => [
                             "type" => "foreign",
+                            "relation" => "images",
                             "label" => "Images",
                             "max_files" => "10",
                             "image_template" => "slideshow",

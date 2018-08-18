@@ -12,7 +12,9 @@ class AdminRequestServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(
-            'App\Admin\Http\Requests\IAdminRequest','App\Admin\Http\Requests\AdminRequest');
+        $this->app->bind('admin_request', function()
+        {
+            return new \App\Admin\Http\Requests\AdminRequest;
+        });
     }
 }

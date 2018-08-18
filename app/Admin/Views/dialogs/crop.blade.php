@@ -1,4 +1,3 @@
-
 {!! Form::open(["method" => 'PUT', "url" => '/admin/images/'.$data['id']]) !!}
     <div class="title">
         {!! Lang::get('images.Crop image') !!} <b>{{$data['filename']}}</b>
