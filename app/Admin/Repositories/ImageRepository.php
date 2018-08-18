@@ -2,7 +2,6 @@
 
 use App\Admin\Repositories\Contracts\IImageRepository;
 use App\Models\Image;
-use App\Admin\Http\Requests\AdminRequest;
 
 class ImageRepository extends BaseRepository implements IImageRepository{
 

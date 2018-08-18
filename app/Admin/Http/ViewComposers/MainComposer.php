@@ -2,7 +2,7 @@
 
 use Illuminate\View\View;
 use Illuminate\Routing\Route;
-use App\Admin\Http\Requests\AdminRequest;
+use AdminRequest;
 use DB;
 use Recipe;
 use Lang;
@@ -19,12 +19,11 @@ class MainComposer
     protected $lang;
     protected $role_id;
 
-    public function __construct(Route $route, AdminRequest $adminRequest)
+    public function __construct(Route $route)
     {
-        $this->admin_request = $adminRequest;
-        $this->moduleName = $adminRequest->module();
-        $this->action = $adminRequest->action();
-        $this->uri = $adminRequest->path();
+        $this->moduleName = AdminRequest::module();
+        $this->action = AdminRequest::action();
+        $this->uri = AdminRequest::path();
     }
 
     /**
@@ -77,11 +76,11 @@ class MainComposer
         }
 
         //define the topbar title
-        if ($this->admin_request->hasChilds()) {
-            $child_module = $this->admin_request->childModule();
+        if (AdminRequest::hasChilds()) {
+            $child_module = AdminRequest::childModule();
             $repository = 'App\\Admin\\Repositories\\' . str_singular(studly_case($this->moduleName)) . 'Repository';
             $repo = new $repository;
-            $module_item_id = $this->admin_request->moduleItemId();
+            $module_item_id = AdminRequest::moduleItemId();
             $model = $repo->selectById($module_item_id);
             $parent_name = $model->name;
             $top_bar["title"] = Lang::get($this->moduleName . '.' . ucfirst($this->moduleName)) . ' ' . $parent_name . ': ' . ucfirst(str_replace('_', ' ', $child_module));
@@ -90,8 +89,8 @@ class MainComposer
         }
 
         //define related child title if creating or editing a child item
-        if ($this->admin_request->hasChilds()) {
-            $top_bar["sub_title"] = $this->admin_request->recipe();
+        if (AdminRequest::hasChilds()) {
+            $top_bar["sub_title"] = AdminRequest::recipe();
         }
 
         //select the active languages to show the flag buttons
@@ -110,7 +109,7 @@ class MainComposer
     public function bottomBar()
     {
         $bottom_bar = [];
-        $arr_path = $this->admin_request->segments();
+        $arr_path = AdminRequest::segments();
         if ($this->action == 'create' || $this->action == 'edit') {
             if ($arr_path[count($arr_path) - 1] == 'edit') {
                 $return = '/' . implode('/', array_slice($arr_path, 0, count($arr_path) - 2));
@@ -123,7 +122,7 @@ class MainComposer
             $bottom_bar['cancel'] = [
                 "href" => $return
             ];
-        } elseif($this->action == 'index' && $this->admin_request->hasChilds()) {
+        } elseif($this->action == 'index' && AdminRequest::hasChilds()) {
             $bottom_bar['cancel'] = [
                 "href" => '/' . implode('/', array_slice($arr_path, 0, count($arr_path) - 2))
             ];
@@ -155,8 +154,8 @@ class MainComposer
             }
         }
         //get javascript and css plugins from the recipes inputs
-        if($this->admin_request->hasChilds()){
-            $moduleName = $this->admin_request->childModule();
+        if(AdminRequest::hasChilds()){
+            $moduleName = AdminRequest::childModule();
         }else {
             $moduleName = $this->moduleName;
         }

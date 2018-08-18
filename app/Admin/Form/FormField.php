@@ -2,7 +2,7 @@
 
 use DB;
 use Session;
-use App\Admin\Http\Requests\AdminRequest;
+use AdminRequest;
 use App\Admin\Services\AdminConfig;
 
 
@@ -26,8 +26,7 @@ class FormField {
         //dd($data);
         $this->properties = [];
         $Config = new AdminConfig();
-        $AdminRequest = new AdminRequest();
-        $this->moduleName = $AdminRequest->module();
+        $this->moduleName = AdminRequest::module();
 
         //moduleName
         $this->properties['moduleName'] = $this->moduleName;
@@ -183,7 +182,7 @@ class FormField {
         }
 
         //Remove required mark when it is a password field and action is edit
-        $action = $AdminRequest->action();
+        $action = AdminRequest::action();
         if($field['input'] == 'password' && $action == 'edit'){
             $this->properties['required'] = null;
         }
@@ -205,8 +204,8 @@ class FormField {
          * Generate hidden id_fields for relationships
          * These fields contain a hidden input and _id in the name
          */
-        if($field['input'] == 'hidden' && strpos($name,'_id') !== false && count($AdminRequest->segments()) >= 5){
-            $this->properties['value'] = $AdminRequest->parent_id();
+        if($field['input'] == 'hidden' && strpos($name,'_id') !== false && count(AdminRequest::segments()) >= 5){
+            $this->properties['value'] = AdminRequest::parent_id();
         }
 
         return $this->properties;

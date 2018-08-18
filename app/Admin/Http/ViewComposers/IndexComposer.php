@@ -2,7 +2,7 @@
 
 use Illuminate\View\View;
 use Illuminate\Routing\Route;
-use App\Admin\Http\Requests\AdminRequest;
+use AdminRequest;
 use Recipe;
 use FormField;
 
@@ -16,11 +16,11 @@ class IndexComposer {
     protected $data;
     protected $levels;
 
-    public function __construct(Route $route, AdminRequest $adminRequest){
-        $this->moduleName = $adminRequest->module();
-        if($adminRequest->hasChilds()){
-            $this->childRecipe = $adminRequest->recipe();
-            $this->parent_id = $adminRequest->segments()[2];
+    public function __construct(Route $route){
+        $this->moduleName = AdminRequest::module();
+        if(AdminRequest::hasChilds()){
+            $this->childRecipe = AdminRequest::recipe();
+            $this->parent_id = AdminRequest::segments()[2];
         }else{
             $this->childRecipe = null;
             $this->parent_id = null;

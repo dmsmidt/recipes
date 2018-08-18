@@ -3,7 +3,7 @@
 use App\Admin\Form\Checkbox;
 use Illuminate\Contracts\View\View;
 use Route;
-use App\Admin\Http\Requests\AdminRequest;
+use AdminRequest;
 use Recipe;
 use FormField;
 use Session;
@@ -11,28 +11,26 @@ use Session;
 
 class FormComposer {
 
-    protected $admin_request;
     protected $recipe;
     protected $action; //the basic action (create or edit)
     protected $method; //the form method (POST or PUT)
     protected $url; //the action url of the form
     protected $id; //If model editing, the id is id of the model
 
-    public function __construct(Route $route, AdminRequest $adminRequest){
+    public function __construct(Route $route){
 
         /**
          * Define the controller action (edit or create) and request method (POST or PUT)
          */
-        $this->admin_request = $adminRequest;
-        if($adminRequest->action() == 'create'){
+        if(AdminRequest::action() == 'create'){
             $this->action = 'create';
             $this->method = 'post';
         }else{
             $this->action = 'edit';
             $this->method = 'put';
         }
-        $this->recipe = Recipe::get($adminRequest->recipe());
-        $form_action = $adminRequest->formAction();
+        $this->recipe = Recipe::get(AdminRequest::recipe());
+        $form_action = AdminRequest::formAction();
         $this->url = $form_action->url;
         $this->id = $form_action->id;
     }

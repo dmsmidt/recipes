@@ -67,9 +67,15 @@ class AdminController extends Controller
      * @param $data
      * @param $callback
      * @return array
+     * @throws \Exception
      */
     public function nestableUpdate($data, $callback){
-        $module = 'App\\Models\\'.str_singular(studly_case(AdminRequest::module()));
+        $child_module = AdminRequest::childModule();
+        if($child_module){
+            $module = 'App\\Models\\'.str_singular(studly_case($child_module));
+        }else{
+            $module = 'App\\Models\\'.str_singular(studly_case(AdminRequest::module()));
+        }
         unset($data['urlModule']);
         $node = $module::find($data['id']);
         if(isset($data['prev_id']) && !empty($data['prev_id'])){

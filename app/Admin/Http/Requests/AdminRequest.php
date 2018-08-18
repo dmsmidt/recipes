@@ -139,7 +139,7 @@ class AdminRequest extends Request {
     public function childModule(){
         if($this->hasChilds()){
             $segments = $this->segments();
-            $filter_arr = ['admin','edit','create'];
+            $filter_arr = ['admin','edit','create','ajax'];
             $modules = [];
             foreach($segments as $segment){
                 if(!in_array($segment,$filter_arr) && !is_numeric($segment)){
