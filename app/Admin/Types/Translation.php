@@ -15,7 +15,7 @@ class Translation extends Type{
 
     //Adding row to schema builder
     public function addSchema($rel){
-        dd($rel);
+        //dd($rel);
         $constrain = '         $table->foreign(\''.$this->_name.'_id\')'.PHP_EOL;
         $constrain .= '               ->references(\'id\')->on(\''.$rel['table'].'\')';
         $constrain .= $rel['cascade'] ? PHP_EOL.'               ->onDelete(\'cascade\');' : ';';

@@ -25,7 +25,6 @@ class CropComposer {
      */
     public function compose(View $view)
     {
-        //dd($view->data);
         $data = $view->data;
         //get the true size of the preview image
         $size = getimagesize(base_path().'/storage/app/public/uploads/'.$data['image_template'].'/preview/'.$data['filename']);

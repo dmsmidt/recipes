@@ -2,6 +2,7 @@
 
 use App\Admin\Http\Requests\MenuRequest;
 use App\Admin\Repositories\Contracts\IMenuRepository;
+use App\Models\Menu;
 
 class MenuController extends AdminController {
 
@@ -14,7 +15,8 @@ class MenuController extends AdminController {
 
     /**
 	 * Display a listing of the resource.
-	 * @return mixed
+	 *
+	 * @return Response
 	 */
 	public function index()
 	{
@@ -26,7 +28,8 @@ class MenuController extends AdminController {
 
 	/**
 	 * Show the form for creating a new resource.
-	 * @return mixed
+	 *
+	 * @return Response
 	 */
 	public function create()
 	{
@@ -58,7 +61,7 @@ class MenuController extends AdminController {
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param  int  $id
-	 * @return mixed
+	 * @return Response
 	 */
 	public function edit($id)
 	{
@@ -68,7 +71,7 @@ class MenuController extends AdminController {
 
 	/**
      * Update the specified resource in storage.
-     * @param MenuRequest $request
+     * @param RoleRequest $request
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -82,7 +85,7 @@ class MenuController extends AdminController {
 	 * Remove the specified resource from storage.
 	 *
 	 * @param  int  $id
-	 * @return \Illuminate\Http\RedirectResponse
+	 * @return Response
 	 */
 	public function destroy($id)
 	{

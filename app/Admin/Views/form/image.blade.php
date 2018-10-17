@@ -48,6 +48,7 @@ $(document).ready(function(){
     /**
     * DROPZONE IMAGE UPLOAD
     */
+
     var data = $('.dropzone.{{$field['name']}}').data();
     var img_cnt = $('.thumbs > div').length;
     $('.dropzone.{{$field['name']}}').dropzone({
@@ -78,7 +79,7 @@ $(document).ready(function(){
             img_cnt++;
         },
         success: function(file, response){
-            addThumb(response.thumb);
+            $('.image.{{$field['name']}} .input .thumbs').append(response.thumb);
         },
         queuecomplete: function(file){
             $('.image.{{$field['name']}} .input .dropzone .dz-preview').remove();
@@ -86,9 +87,9 @@ $(document).ready(function(){
             if(img_cnt >= data.max_files){
                 $('.image.{{$field['name']}} .input .dropzone .dz-message').html('<span>{{\Lang::get('images.Maximum number of images reached, you can not upload any more.')}}</span>');
             }else{
-                console.log('Number images okay!');
+                //console.log('Number images okay!');
             }
-            console.log('data.maxFiles: ',data.max_files );
+            //console.log('data.maxFiles: ',data.max_files );
         },
         init: function(){
             this.on('error',function(dz, data){
@@ -96,13 +97,6 @@ $(document).ready(function(){
             });
         }
     });
-
-    /**
-     * ADDING THUMB AT IMAGE INPUT FIELD
-     */
-    addThumb = function(data){
-        $('.image.{{$field['name']}} .input .thumbs').append(data);
-    }
 
 });
 

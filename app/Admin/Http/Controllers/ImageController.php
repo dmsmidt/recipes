@@ -2,6 +2,7 @@
 
 use App\Admin\Http\Requests\ImageRequest;
 use App\Admin\Repositories\Contracts\IImageRepository;
+use Illuminate\Http\Request;
 use Session;
 use Response;
 use App\Admin\Repositories\ImageTemplateRepository as ImageTemplate;
@@ -23,7 +24,6 @@ class ImageController extends AdminController {
 	{
         $data = $this->image->selectAll();
         return view('admin')
-            
             ->nest('center','main.index',compact('data'));
 	}
 

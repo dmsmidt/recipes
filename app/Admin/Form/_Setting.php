@@ -22,7 +22,7 @@ class Setting {
     }
 
     public function build($formfield){
-        dd($formfield);
+        //dd($formfield);
         $input_class = (new \ReflectionClass($this))->getShortName();
         $moduleName = $formfield->recipe->moduleName;
         $this->value = $formfield->value;

@@ -16,6 +16,7 @@ class AdminConfig {
     }
 
     public function get($name){
+        //dd($this->settings);
         $type = $this->settings[$name]->value_type;
         $value = $this->settings[$name]->$type;
         return $value;

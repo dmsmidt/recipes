@@ -21,7 +21,6 @@ class NewsRepository extends BaseRepository implements INewsRepository{
            $foreign_ids[] = $foreign['id'];
         }
         $model->images()->sync($foreign_ids);
-        
         return $model;
     }
 
@@ -32,8 +31,7 @@ class NewsRepository extends BaseRepository implements INewsRepository{
         foreach($this->multipleToArray($input) as $foreign){
            $foreign_ids[] = $foreign['id'];
         }
-        $model->images()->sync($foreign_ids);
-        
+        $model->images()->sync($foreign_ids);$foreign_ids = [];
         return $model;
     }
 

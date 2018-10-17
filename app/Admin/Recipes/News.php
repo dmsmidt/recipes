@@ -21,13 +21,19 @@ class News extends Recipe{
                             "label" => "Name",
                             "input" => "text",
                         ],
-            "image" => [
+            "main_image" => [
                             "type" => "foreign",
                             "relation" => "images",
-                            "label" => "Image",
-                            "max_files" => "1",
-                            "image_template" => "news",
-                            "input" => "images",
+                            "label" => "Main image",
+                            "image_template" => "news_main",
+                            "input" => "image",
+                        ],
+            "sub_image" => [
+                            "type" => "foreign",
+                            "relation" => "images",
+                            "label" => "Sub image",
+                            "image_template" => "news_sub",
+                            "input" => "image",
                         ],
     ];
     public $hidden = [];

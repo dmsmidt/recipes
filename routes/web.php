@@ -31,7 +31,6 @@ Route::group(['prefix' => 'admin'], function() {
         Route::group(['middleware' => 'role'], function(){
             //>>CMS
             Route::resource('recipes', '\App\Admin\Http\Controllers\RecipeController');
-            Route::resource('menus', '\App\Admin\Http\Controllers\MenuController');
             Route::resource('roles', '\App\Admin\Http\Controllers\RoleController');
             Route::resource('settings', '\App\Admin\Http\Controllers\SettingController');
             Route::resource('configurations', '\App\Admin\Http\Controllers\ConfigurationController');
@@ -42,6 +41,7 @@ Route::group(['prefix' => 'admin'], function() {
             Route::resource('image_formats', '\App\Admin\Http\Controllers\ImageFormatController');
             Route::resource('images_lang', '\App\Admin\Http\Controllers\ImagesLangController');
             Route::resource('slideshows', '\App\Admin\Http\Controllers\SlideshowController');
+            Route::resource('menus', '\App\Admin\Http\Controllers\MenuController');
             Route::resource('news', '\App\Admin\Http\Controllers\NewsController');
           //<<CMS
         });

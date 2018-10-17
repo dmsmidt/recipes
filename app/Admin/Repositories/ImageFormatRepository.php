@@ -35,7 +35,7 @@ class ImageFormatRepository extends BaseRepository implements IImageFormatReposi
     }
 
     public function selectByImage($template, $id){
-        $format = ImageFormat::where('image_template', $template)->where('image_id', $id)->get();
+        $format = ImageFormat::where('image_template', $template)->get();
         if($format->count()){
             return $format;
         }else{

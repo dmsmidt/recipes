@@ -25,6 +25,7 @@ class SlideshowRepository extends BaseRepository implements ISlideshowRepository
     }
 
     public function update($input, $id){
+        //dd($input);
         $model = Slideshow::find($id);
         $model->fill($input)->save();
         $foreign_ids = [];

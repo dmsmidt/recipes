@@ -4,7 +4,7 @@ use Recipe;
 use Session;
 
 
-class ImageRequest extends Request {
+class MenuRequest extends Request {
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class ImageRequest extends Request {
 	 */
 	public function authorize()
 	{
-        return true;
+		return true;
 	}
 
 	/**
@@ -23,7 +23,7 @@ class ImageRequest extends Request {
 	 */
 	public function rules()
 	{
-        $this->recipe = Recipe::get('Images');
+	    $this->recipe = Recipe::get('Menus');
 		$this->sanitize();
 		Session::flash('input', $this->input());
         $rules =  $this->recipe->rules();

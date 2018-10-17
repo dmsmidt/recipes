@@ -44,7 +44,7 @@ class ConfigurationRepository extends BaseRepository implements IConfigurationRe
                                                settings.datetime,
                                                settings.timestamp
                                         FROM configurations
-                                        LEFT JOIN settings ON configurations.id = settings.configuration_id WHERE active = 1 AND is_header IS NULL; "));
+                                        LEFT JOIN settings ON configurations.id = settings.configuration_id WHERE active = 1 AND is_header = 0; "));
         $settings = [];
         foreach($r as $key => $val){
             $settings[$r[$key]->name] = $val;

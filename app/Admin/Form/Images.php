@@ -14,6 +14,8 @@ class Images{
             //'/cms/js/dropzone.js',
             '/cms/js/crop.js',
             '/cms/vendor/jcrop/js/jquery.Jcrop.min.js'
+
+
         ],
         'css' => [
             //add plugin stylesheet paths here
