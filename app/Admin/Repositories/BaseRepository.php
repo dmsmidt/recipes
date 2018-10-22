@@ -62,18 +62,16 @@ class BaseRepository {
      * @param $input
      * @return array
      */
-    public function multipleToArray($input){
+    public function foreignToArray($input){
         $multiple_input = [];
-        if(isset($input[$input['_field']]) && !empty($input[$input['_field']])){
-            $fields_arr = array_keys($input[$input['_field']]);
-            $input_arr  = $input[$input['_field']];
-            for($n = 0; $n < count($input_arr[$fields_arr[0]]); $n++){
-                foreach($fields_arr as $field){
-                    $multiple_input[$n][$field] = $input_arr[$field][$n];
-                }
+        $array_keys = array_keys($input);
+        foreach($array_keys as $fieldname){
+            $n = 0;
+            foreach($input[$fieldname] as $value){
+                $multiple_input[$n][$fieldname] = $value;
+                $n++;
             }
         }
         return $multiple_input;
     }
-
 }

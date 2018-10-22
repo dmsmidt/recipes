@@ -1,7 +1,6 @@
 {{-- dd($field) --}}
 <div class="formRow {{$field['name']}} image">
     {!! Form::label($field['name'], Lang::get($moduleName.'.'.$field['label']), ['class' => isset($field['required']) ? 'required' : '']) !!}
-    {!! Form::hidden('_field', $field['name'])!!}
     <div class="input">
         <div class="thumbs">
         {{-- Multiple images field --}}

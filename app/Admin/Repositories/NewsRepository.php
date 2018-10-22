@@ -28,10 +28,14 @@ class NewsRepository extends BaseRepository implements INewsRepository{
         $model = News::find($id);
         $model->fill($input)->save();
         $foreign_ids = [];
-        foreach($this->multipleToArray($input) as $foreign){
+        //dd($this->foreignToArray($input['main_image']));
+        foreach($this->foreignToArray($input['main_image']) as $foreign){
            $foreign_ids[] = $foreign['id'];
         }
-        $model->images()->sync($foreign_ids);$foreign_ids = [];
+        foreach($this->foreignToArray($input['sub_image']) as $foreign){
+           $foreign_ids[] = $foreign['id'];
+        }
+        $model->images()->sync($foreign_ids);
         return $model;
     }
 
