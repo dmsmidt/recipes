@@ -50,7 +50,25 @@ class News extends Node {
      * Querying relations
      * @var array
      */
-    protected $with = ["images"];
+    protected $with = ["main_image", "sub_image"];
+
+    /**
+     * Retrieve many_many relationships
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function main_image()
+    {
+        return $this->belongsToMany('App\Models\Image')->where('image_template', 'news_main');
+    }
+
+    /**
+     * Retrieve many_many relationships
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function sub_image()
+    {
+        return $this->belongsToMany('App\Models\Image')->where('image_template', 'news_sub');
+    }
 
     /**
      * Retrieve many_many relationships

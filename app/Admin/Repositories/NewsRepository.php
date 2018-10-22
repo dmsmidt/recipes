@@ -17,8 +17,11 @@ class NewsRepository extends BaseRepository implements INewsRepository{
         $model = new News;
         $model->fill($input)->save();
         $foreign_ids = [];
-        foreach($this->multipleToArray($input) as $foreign){
-           $foreign_ids[] = $foreign['id'];
+        foreach($this->foreignToArray($input['main_image']) as $foreign){
+            $foreign_ids[] = $foreign['id'];
+        }
+        foreach($this->foreignToArray($input['sub_image']) as $foreign){
+            $foreign_ids[] = $foreign['id'];
         }
         $model->images()->sync($foreign_ids);
         return $model;
@@ -29,11 +32,16 @@ class NewsRepository extends BaseRepository implements INewsRepository{
         $model->fill($input)->save();
         $foreign_ids = [];
         //dd($this->foreignToArray($input['main_image']));
-        foreach($this->foreignToArray($input['main_image']) as $foreign){
-           $foreign_ids[] = $foreign['id'];
+        if(isset($input['main_image'])){
+            foreach($this->foreignToArray($input['main_image']) as $foreign){
+                $foreign_ids[] = $foreign['id'];
+            }
+
         }
-        foreach($this->foreignToArray($input['sub_image']) as $foreign){
-           $foreign_ids[] = $foreign['id'];
+        if(isset($input['sub_image'])){
+            foreach($this->foreignToArray($input['sub_image']) as $foreign){
+                $foreign_ids[] = $foreign['id'];
+            }
         }
         $model->images()->sync($foreign_ids);
         return $model;
@@ -42,7 +50,6 @@ class NewsRepository extends BaseRepository implements INewsRepository{
     public function delete($id){
         $model = News::find($id);
         $model->delete();
-        
     }
 
 }

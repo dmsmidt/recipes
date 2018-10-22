@@ -163,11 +163,12 @@ class FormField {
 
         //special field properties for image and images input
         if($field['input'] == 'images' || $field['input'] == 'image'){
-            $this->properties['value'] = isset($data->images) ? $data->images : null;
+            $this->properties['value'] = isset($data->$name) ? $data->$name : null;
             $this->properties['maxsize'] = $Config->get('max_image_size');
             $this->properties['max_files'] = isset($field['max_files']) ? $field['max_files'] : $data['max_files'];
             $this->properties['image_template'] = isset($field['image_template']) ? $field['image_template'] : $data['image_template'];
             $this->properties['filename'] = isset($data['filename']) ? $data['filename'] : null;
+            //dd($field,$data, $this->properties);
         }
 
         //set the error key of the form field, needed to show the validation error with equal key
