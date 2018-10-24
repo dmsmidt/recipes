@@ -45,7 +45,7 @@ class BaseRepository {
 
     /**
      * Deleting related images and language
-     * @param $images
+     * @param $image
      */
     public function deleteImage($image){
         $uploads_path = base_path().'/storage/app/public/uploads/';
