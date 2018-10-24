@@ -53,7 +53,7 @@ class News extends Recipe{
             [
                 "table" => "images",
                 "cascade" => true,
-                "with" => true
+                "with" => false
             ],
     ];
 

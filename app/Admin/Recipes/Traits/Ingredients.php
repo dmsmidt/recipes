@@ -133,8 +133,28 @@ trait Ingredients {
         return false;
     }
 
+    public function imageInputFields(){
+        if(in_array(['image','images'],$this->inputs())){
+            $field_names = [];
+            foreach($this->fields as $name => $field){
+                if(isset($field['input']) && ($field['input'] == 'image') || $field['input'] == 'images'){
+                    $field_names[] = $name;
+                }
+            }
+            return $field_names;
+        }
+        return null;
+    }
+
+    /**
+     * returns an array with tables or foreign image field names to join the model
+     * @return array
+     */
     public function with(){
         $with = [];
+        /**
+         * select the tables to join
+         */
         if(isset($this->has_one) && count($this->has_one)){
             foreach($this->has_one as $value){
                 if(array_key_exists('with',$value) && $value['with'] == true){
@@ -154,6 +174,15 @@ trait Ingredients {
                 if(array_key_exists('with',$value) && $value['with'] == true){
                     $with[] = $value['table'];
                 }
+            }
+        }
+        /**
+         * select the foreign image field names
+         */
+        $fields = $this->imageInputFields();
+        if(is_array($fields) && count($fields)){
+            foreach($fields as $field){
+                $with[] = $field;
             }
         }
         return $with;
