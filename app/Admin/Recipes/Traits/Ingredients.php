@@ -134,7 +134,8 @@ trait Ingredients {
     }
 
     public function imageInputFields(){
-        if(in_array(['image','images'],$this->inputs())){
+        $inputs = $this->inputs();
+        if(in_array('image',$inputs) || in_array('images',$inputs)){
             $field_names = [];
             foreach($this->fields as $name => $field){
                 if(isset($field['input']) && ($field['input'] == 'image') || $field['input'] == 'images'){
@@ -143,7 +144,7 @@ trait Ingredients {
             }
             return $field_names;
         }
-        return null;
+        return [];
     }
 
     /**

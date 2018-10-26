@@ -237,6 +237,27 @@ HAS_MANY_INVERSE;
 MANY_MANY;
             }
         }
+
+        $image_inputs = $recipe->imageInputFields();
+        if( count($image_inputs) ){
+            foreach($image_inputs as $field){
+                $func_name = $field;
+                $image_template = $recipe->fields[$field]['image_template'];
+                $relModel = studly_case(str_singular($field));
+                $str .= PHP_EOL.<<<IMAGES
+    /**
+     * Retrieve many_many relationships
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function {$func_name}()
+    {
+        return \$this->belongsToMany('App\\Models\\Image')->where('image_templates', '{$image_template}');
+    }
+
+IMAGES;
+            }
+        }
+
         if(isset($recipe->timestamps)){
             $timestamps = $recipe->timestamps ? 'true' : 'false';
             $str .= PHP_EOL.<<<TIMESTAMPS
