@@ -32,10 +32,9 @@ class CreateNewsTable extends Migration {
             $table->increments('id');
             $table->integer('news_id')->unsigned();
             $table->integer('image_id')->unsigned();
-                     $table->foreign('image_id')
+            $table->foreign('image_id')
                ->references('id')->on('images')
                ->onDelete('cascade');
-
 		});
 
 	}

@@ -49,11 +49,17 @@ class BaseRepository {
      */
     public function deleteImage($image){
         $uploads_path = base_path().'/storage/app/public/uploads/';
-        $image_paths = array_diff(scandir($uploads_path.$image->image_template), array('..', '.'));
-        foreach($image_paths as $path){
-            unlink($uploads_path.$image->image_template.'/'.$path.'/'.$image->filename);
+        if(file_exists($uploads_path.$image->image_template)){
+            $image_paths = array_diff(scandir($uploads_path.$image->image_template), array('..', '.'));
+            foreach($image_paths as $path){
+                if(file_exists($uploads_path.$image->image_template.'/'.$path.'/'.$image->filename)){
+                    unlink($uploads_path.$image->image_template.'/'.$path.'/'.$image->filename);
+                }
+            }
+            if(file_exists($uploads_path.$image->filename)){
+                unlink($uploads_path.$image->filename);
+            }
         }
-        unlink($uploads_path.$image->filename);
     }
 
     /**
