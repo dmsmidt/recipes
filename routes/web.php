@@ -42,7 +42,7 @@ Route::group(['prefix' => 'admin'], function() {
             Route::resource('images_lang', '\App\Admin\Http\Controllers\ImagesLangController');
             Route::resource('slideshows', '\App\Admin\Http\Controllers\SlideshowController');
             Route::resource('menus', '\App\Admin\Http\Controllers\MenuController');
-          
+            Route::resource('news', '\App\Admin\Http\Controllers\NewsController');
           //<<CMS
         });
 

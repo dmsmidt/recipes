@@ -16,15 +16,20 @@ class NewsRepository extends BaseRepository implements INewsRepository{
     public function add($input){
         $model = new News;
         $model->fill($input)->save();
-
         $foreign_ids = [];
-        foreach($this->foreignToArray($input['main_image']) as $foreign){
-            $foreign_ids[] = $foreign['id'];
+        if(isset($input['main_image'])){
+            foreach($this->foreignToArray($input['main_image']) as $foreign){
+                $foreign_ids[] = $foreign['id'];
+            }
         }
-        foreach($this->foreignToArray($input['sub_image']) as $foreign){
-            $foreign_ids[] = $foreign['id'];
+        if(isset($input['sub_image'])){
+            foreach($this->foreignToArray($input['sub_image']) as $foreign){
+                $foreign_ids[] = $foreign['id'];
+            }
         }
-        $model->images()->sync($foreign_ids);
+       $model->images()->sync($foreign_ids);
+
+        
         return $model;
     }
 
@@ -42,13 +47,16 @@ class NewsRepository extends BaseRepository implements INewsRepository{
                 $foreign_ids[] = $foreign['id'];
             }
         }
-        $model->images()->sync($foreign_ids);
+       $model->images()->sync($foreign_ids);
+
+        
         return $model;
     }
 
     public function delete($id){
         $model = News::find($id);
         $model->delete();
+        
     }
 
 }

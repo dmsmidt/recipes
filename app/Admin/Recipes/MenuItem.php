@@ -46,6 +46,7 @@ class MenuItem extends Recipe{
                         ],
             "roles" => [
                             "type" => "foreign",
+                            "relation" => "roles",
                             "label" => "Roles",
                         ],
     ];

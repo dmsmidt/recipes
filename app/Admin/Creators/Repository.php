@@ -36,14 +36,27 @@ class Repository {
         if(isset($recipe->many_many) && count($recipe->many_many)){
             foreach($recipe->many_many as $relation){
                 $related = $relation['table'];
-                foreach($recipe->foreign() as $field){
-                    if(isset($recipe->fields[$field]['relation']) && $recipe->fields[$field]['relation'] == $related && $recipe->fields[$field]['input'] != 'foreign'){
-                        $attach_multiple .= '$foreign_ids = [];'.PHP_EOL;
-                        $attach_multiple .= '        foreach($this->multipleToArray($input) as $foreign){'.PHP_EOL;
-                        $attach_multiple .= '           $foreign_ids[] = $foreign[\'id\'];'.PHP_EOL;
-                        $attach_multiple .= '        }'.PHP_EOL;
-                        $attach_multiple .= '        $model->'.$related.'()->sync($foreign_ids);';
+                $added_foreign_ids = false;
+                $n = 1;
+                $foreigns = $recipe->foreign();
+                foreach($foreigns as $field){
+                    $is_image_field = false;
+                    if(isset($recipe->fields[$field]['input']) && ($recipe->fields[$field]['input'] == 'images' || $recipe->fields[$field]['input'] == 'image')){
+                        $is_image_field = true;
                     }
+                    $attach_multiple .= $is_image_field && !$added_foreign_ids ? '$foreign_ids = [];'.PHP_EOL : '';
+                    $attach_multiple .= !$is_image_field ? '$foreign_ids = [];'.PHP_EOL : '';
+                    if(isset($recipe->fields[$field]['relation']) && $recipe->fields[$field]['relation'] == $related && $recipe->fields[$field]['input'] != 'foreign'){
+                        $attach_multiple .= '        if(isset($input[\''.$field.'\'])){'.PHP_EOL;
+                        $attach_multiple .= '            foreach($this->foreignToArray($input[\''.$field.'\']) as $foreign){'.PHP_EOL;
+                        $attach_multiple .= '                $foreign_ids[] = $foreign[\'id\'];'.PHP_EOL;
+                        $attach_multiple .= '            }'.PHP_EOL;
+                        $attach_multiple .= '        }'.PHP_EOL;
+                        $attach_multiple .= $is_image_field && count($foreigns) === $n ? '       $model->'.$related.'()->sync($foreign_ids);'.PHP_EOL : '';
+                        $attach_multiple .= !$is_image_field ? '         $model->'.$related.'()->sync($foreign_ids);'.PHP_EOL : '';
+                    }
+                    $added_foreign_ids = true;
+                    $n++;
                 }
             }
         }

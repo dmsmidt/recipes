@@ -45,6 +45,7 @@ class Menu extends Recipe{
                         ],
             "menu_items" => [
                             "type" => "foreign",
+                            "relation" => "menu_items",
                             "label" => "Menu items",
                             "input" => "foreign",
                         ],

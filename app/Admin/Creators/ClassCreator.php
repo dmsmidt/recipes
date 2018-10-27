@@ -100,7 +100,6 @@ class ClassCreator {
                         }else{
                             $messages[] = ['type' => 'alert', 'text' => 'The service provider could not be added to config/app.php'];
                         }
-                        $messages[] = ['type' => 'info', 'text' => 'Add the path to the providers array in config/app.php manually.'];
                     }else{
                         $messages[] = ['type' => 'alert', 'text' => 'The '.$this->recipe.'ServiceProvider could not be created.'];
                     }
@@ -111,7 +110,30 @@ class ClassCreator {
                 $messages[] = ['type' => 'alert', 'text' => 'The '.$this->recipe.'Repository could not be created.'];
             }
         }else{
-            $messages[] = ['type' => 'alert', 'text' => 'The '.$this->recipe.'Repository already exists.'];
+            $_repository = new Repository();
+            $_irepository = new IRepository();
+            $_provider = new Provider();
+            $_service_provider = new ServiceProvider();
+            if($_repository->remove($this->recipe)){
+                $messages[] = ['type' => 'succes', 'text' => 'The '.$this->recipe.'Repository has been removed.'];
+            }else{
+                $messages[] = ['type' => 'alert', 'text' => 'The '.$this->recipe.'Repository could not be removed.'];
+            }
+            if($_irepository->remove($this->recipe)){
+                $messages[] = ['type' => 'succes', 'text' => 'The I'.$this->recipe.'Repository has been removed.'];
+            }else{
+                $messages[] = ['type' => 'alert', 'text' => 'The I'.$this->recipe.'Repository could not be removed.'];
+            }
+            if($_provider->remove($this->name)){
+                $messages[] = ['type' => 'succes', 'text' => 'The '.$this->recipe.'ServiceProvider has been removed.'];
+            }else{
+                $messages[] = ['type' => 'alert', 'text' => 'The '.$this->recipe.'ServiceProvider could not be removed.'];
+            }
+            if($_service_provider->remove($this->name)){
+                $messages[] = ['type' => 'succes', 'text' => 'The '.$this->recipe.'ServiceProvider has been removed from config/app.php.'];
+            }else{
+                $messages[] = ['type' => 'alert', 'text' => 'The '.$this->recipe.'ServiceProvider could not be removed from config/app.php.'];
+            }
         }
         return $messages;
     }

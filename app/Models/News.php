@@ -67,7 +67,7 @@ class News extends Node {
      */
     public function main_image()
     {
-        return $this->belongsToMany('App\Models\Image')->where('image_templates', 'news_main');
+        return $this->belongsToMany('App\Models\Image')->where('image_template', 'news_main');
     }
 
     /**
@@ -76,7 +76,7 @@ class News extends Node {
      */
     public function sub_image()
     {
-        return $this->belongsToMany('App\Models\Image')->where('image_templates', 'news_sub');
+        return $this->belongsToMany('App\Models\Image')->where('image_template', 'news_sub');
     }
 
     /**

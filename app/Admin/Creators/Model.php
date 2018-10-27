@@ -251,7 +251,7 @@ MANY_MANY;
      */
     public function {$func_name}()
     {
-        return \$this->belongsToMany('App\\Models\\Image')->where('image_templates', '{$image_template}');
+        return \$this->belongsToMany('App\\Models\\Image')->where('image_template', '{$image_template}');
     }
 
 IMAGES;

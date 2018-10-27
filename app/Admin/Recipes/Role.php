@@ -23,6 +23,7 @@ class Role extends Recipe{
                         ],
             "menu_items" => [
                             "type" => "foreign",
+                            "relation" => "menu_items",
                             "label" => "Locked menu items",
                             "input" => "multiGroupedCheckbox",
                             "options" => [
@@ -50,13 +51,15 @@ class Role extends Recipe{
             [
                 "table" => "users",
                 "inverse" => false,
-                "cascade" => false
+                "cascade" => false,
+                "with" => false
             ],
     ];
     public $many_many = [
             [
                 "table" => "menu_items",
-                "cascade" => false
+                "cascade" => false,
+                "with" => false
             ],
     ];
 
