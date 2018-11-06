@@ -56,7 +56,6 @@ class NewsRepository extends BaseRepository implements INewsRepository{
     public function delete($id){
         $model = News::find($id);
         $model->delete();
-        
     }
 
 }
