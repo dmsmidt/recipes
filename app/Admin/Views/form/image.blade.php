@@ -11,8 +11,15 @@
             @endforeach
         @else
             @if(isset($field['value']) && !empty($field['value']))
-                {{--dd($field)--}}
                 @include('form.thumb',["field" => $field['name'], "row" => 0, "thumb" => $field])
+            @endif
+        @endif
+        
+        @if(is_object($field['value']))
+            
+        @else
+            @if(isset($field['value']) && !empty($field['value']))
+                
             @endif
         @endif
 

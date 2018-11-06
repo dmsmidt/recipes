@@ -791,7 +791,7 @@ footer{
     position: relative;
     overflow: hidden;
     margin-bottom: 2px;
-    border: 1px solid #666698;
+    /*border: 1px solid #666698;*/
 }
 .formRow.image .input .thumb .details{
     display: inline-block;
