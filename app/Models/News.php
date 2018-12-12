@@ -38,7 +38,7 @@ class News extends Node {
      * Fields allowed for mass assignment
      * @var array
      */
-    protected $fillable = ["name"];
+    protected $fillable = ["name","text"];
 
     /**
      * Fields disallowed for mass assignment

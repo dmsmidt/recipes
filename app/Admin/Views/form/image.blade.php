@@ -14,23 +14,15 @@
                 @include('form.thumb',["field" => $field['name'], "row" => 0, "thumb" => $field])
             @endif
         @endif
-        
-        @if(is_object($field['value']))
-            
-        @else
-            @if(isset($field['value']) && !empty($field['value']))
-                
-            @endif
-        @endif
-
         </div>
-        <div class="dropzone {{$field['name']}}"
+
+        <div class="dropzone {{$field['name']}} @if( isset($field['max_reached']) && $field['max_reached'] ) max_reached @endif"
              data-field="{{$field['name']}}"
              data-image_template="{{$field['image_template']}}"
              data-max_files="@if(isset($field['max_files'])){{ $field['max_files'] }}@else{{1}}@endif"
              data-maxsize="@if(isset($field['maxsize'])){{ $field['maxsize'] }}@else{{5}}@endif"
              @if(isset($field['max_files']) && $field['max_files'] > 1)
-                 @if(count($field['value']) >= $field['max_files'] )
+                 @if( isset($field['max_reached']) && $field['max_reached'])
                     data-message="{{ \Lang::get('images.Maximum number of images reached, you can not upload any more.') }}"
                  @else
                     data-message="{{ \Lang::get('images.Click or drop images here to upload') }}"

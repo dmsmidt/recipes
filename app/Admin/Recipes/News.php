@@ -35,10 +35,16 @@ class News extends Recipe{
                             "image_template" => "news_sub",
                             "input" => "image",
                         ],
+            "text" => [
+                            "type" => "text",
+                            "nullable" => 1,
+                            "label" => "Text",
+                            "input" => "html",
+                        ],
     ];
     public $hidden = [];
     public $summary = ["name"];
-    public $fillable = ["name"];
+    public $fillable = ["name","text"];
     public $guarded = ["id"];
     public $scoped = [];
     public $add = true;

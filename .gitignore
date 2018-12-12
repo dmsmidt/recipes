@@ -13,8 +13,8 @@ Homestead.yaml
 /public/uploads
 /
 /assets
-app/Admin/Http/Controllers/backups/SlideshowController_12122018_202707.php
-app/Admin/Http/Requests/backups/SlideshowRequest_12122018_202707.php
-app/Admin/Recipes/backups/Slideshow_12122018_202707.php
-app/Admin/Repositories/backups/SlideshowRepository_12122018_202707.php
-app/Admin/Repositories/Contracts/backups/ISlideshowRepository_12122018_202707.php
+app/Admin/Http/Controllers/backups
+app/Admin/Http/Requests/backups
+app/Admin/Recipes/backups
+app/Admin/Repositories/backups
+app/Admin/Repositories/Contracts

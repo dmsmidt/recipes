@@ -95,8 +95,9 @@ class FormField {
                                 $where = "WHERE ".$rel_table.".".$filterFindWhat." = '".$filterFindEqual."'";
                             }
                         }
+                        
                         /**
-                         * @todo this query should not be here. Move is to a repository class.
+                         * TODO this query should not be here. Move is to a repository class.
                          * If the recipe has a field with a grouped input this query(below) should be added to the repository of the recipe
                          * Add groupAndFilterBy method to the repository
                          */
@@ -168,6 +169,19 @@ class FormField {
             $this->properties['max_files'] = isset($field['max_files']) ? $field['max_files'] : $data['max_files'];
             $this->properties['image_template'] = isset($field['image_template']) ? $field['image_template'] : $data['image_template'];
             $this->properties['filename'] = isset($data['filename']) ? $data['filename'] : null;
+            $this->properties['max_reached'] = false;
+            if( isset($this->properties['value']) && !empty($this->properties['value']) ){
+                if( isset($this->properties['max_files']) && $this->properties['max_files'] > 0 ){
+                    if( count($this->properties['value']) >= $this->properties['max_files']){
+                        $this->properties['max_reached'] = true;
+                    }
+                }else{
+                    $this->properties['max_files'] = 1;
+                    if( count($this->properties['value']) ){
+                        $this->properties['max_reached'] = true;
+                    }
+                }
+            }
             //dd($field,$data, $this->properties);
         }
 

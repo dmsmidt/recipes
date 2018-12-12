@@ -188,6 +188,9 @@
       /* min-width: 200px; */
       border: 2px dashed #000;
   }
+    .dropzone.dz-clickable.max_reached{
+        display:none;
+    }
     .dropzone.dz-clickable * {
       /*cursor: pointer;*/ }
     .dropzone.dz-clickable .dz-message, .dropzone.dz-clickable .dz-message * {
