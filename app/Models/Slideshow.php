@@ -34,7 +34,7 @@ class Slideshow extends Model {
      */
     public function images()
     {
-        return $this->belongsToMany('App\Models\Image');
+        return $this->belongsToMany('App\Models\Image')->where('image_template', 'slideshow');
     }
 
     /**

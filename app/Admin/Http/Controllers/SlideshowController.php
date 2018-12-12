@@ -39,8 +39,6 @@ class SlideshowController extends AdminController {
      */
     public function store(SlideshowRequest $request)
 	{
-        //dd($request->all());
-
         $this->slideshow->add($request->input());
         return redirect('admin/slideshows');
 	}

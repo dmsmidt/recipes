@@ -40,9 +40,9 @@ Route::group(['prefix' => 'admin'], function() {
             Route::resource('images', '\App\Admin\Http\Controllers\ImageController');
             Route::resource('image_formats', '\App\Admin\Http\Controllers\ImageFormatController');
             Route::resource('images_lang', '\App\Admin\Http\Controllers\ImagesLangController');
-            Route::resource('slideshows', '\App\Admin\Http\Controllers\SlideshowController');
             Route::resource('menus', '\App\Admin\Http\Controllers\MenuController');
             Route::resource('news', '\App\Admin\Http\Controllers\NewsController');
+            Route::resource('slideshows', '\App\Admin\Http\Controllers\SlideshowController');
           //<<CMS
         });
 
