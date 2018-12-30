@@ -2,6 +2,7 @@
 
 use App\Admin\Http\Requests\DashboardRequest;
 use App\Admin\Repositories\Contracts\IDashboardRepository;
+use App\Admin\Jobs\PurgeUnusedImages;
 
 class DashboardController extends AdminController {
 
@@ -9,7 +10,8 @@ class DashboardController extends AdminController {
 
     public function __construct(IDashboardRepository $dashboard){
         $this->dashboard = $dashboard;
-        parent::__construct();
+		parent::__construct();
+		dispatch((new PurgeUnusedImages)->onQueue('purge_images'));
     }
 
     /**
@@ -18,9 +20,9 @@ class DashboardController extends AdminController {
 	 */
 	public function index()
 	{
-        $data = $this->dashboard->selectAll();
-        return view('admin')
-            ->nest('center','main.index',compact('data'));
+		$data = $this->dashboard->selectAll();
+		return view('admin')
+		->nest('center','main.index',compact('data'));
 	}
 
 	/**
@@ -29,7 +31,7 @@ class DashboardController extends AdminController {
 	 */
 	public function create()
 	{
-        return view('admin')->nest('center','main.form');
+		return view('admin')->nest('center','main.form');
 	}
 
 	/**

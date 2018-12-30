@@ -135,7 +135,7 @@ GUARDED;
                     $with[$k] = 'language';
                 }
             }
-            $with = implode('","',$with);
+            $with = implode('","',array_unique($with));
             $str .= PHP_EOL.<<<WITH
     /**
      * Querying relations
@@ -221,10 +221,14 @@ HAS_MANY_INVERSE;
 
         if(isset($recipe->many_many)){
             $many_many = $recipe->many_many;
-            foreach($many_many as $field){
-                $func_name = $field['table'];
-                $relModel = studly_case(str_singular($field['table']));
-                $str .= PHP_EOL.<<<MANY_MANY
+            foreach($many_many as $rel){
+                //filter image table, image relationship has different approach see IMAGES below
+                if($rel['table'] !== 'images'){
+
+                
+                    $func_name = $rel['table'];
+                    $relModel = studly_case(str_singular($rel['table']));
+                    $str .= PHP_EOL.<<<MANY_MANY
     /**
      * Retrieve many_many relationships
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -235,6 +239,7 @@ HAS_MANY_INVERSE;
     }
 
 MANY_MANY;
+                }
             }
         }
 

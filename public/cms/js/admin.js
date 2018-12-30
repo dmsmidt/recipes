@@ -94,7 +94,6 @@ $(function(){
          * PHP: CmsController->dialog
          * @var $data ['id'], ['module'], ['dialog']
          */
-        console.log($(this).data());
         ajaxRequest(
             {
                 method: 'dialog',

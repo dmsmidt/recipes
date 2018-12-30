@@ -15,4 +15,7 @@ return [
   "Delete image"=>"Afbeelding verwijderen",
   "Delete this image"=>"Afbeelding verwijderen",
   "Maximum number of images reached, you can not upload any more."=>"Maximum aantal afbeeldingen bereikt, u kunt er niet meer uploaden.",
+  "is too large." => "is te groot.",
+  "passed maximum number of images." => "overschrijdt het maximaal aantal afbeeldingen."
+
 ];

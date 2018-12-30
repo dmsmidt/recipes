@@ -1,5 +1,5 @@
 
-    <div class="title"><div style="margin-right:10px;" class="@if(isset($data['icon'])&&!empty($data['icon'])){{$data['icon']}}@else icon-alert @endif"></div>
+    <div class="title"><div style="margin-right:10px;" class="@if(isset($data['icon'])&&!empty($data['icon'])){{$data['icon']}}@else fas fa-exclamation-triangle @endif"></div>
         {!! Lang::get('admin.Attention!') !!}
     </div>
     <div class="content">

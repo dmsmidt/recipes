@@ -17,7 +17,7 @@ class Recipe {
      * @throws RecipeException
      */
     public function all(){
-        $dir = '../app/Admin/Recipes';
+        $dir = app_path().'/Admin/Recipes';
         $recipeClassNames = array_diff(scandir($dir), array('..', '.', 'Recipe.php', 'backups', 'Traits'));
         $recipes = [];
         foreach($recipeClassNames as $key => $val){

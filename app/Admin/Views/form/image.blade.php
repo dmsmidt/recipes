@@ -49,6 +49,13 @@ $(document).ready(function(){
 
     var data = $('.dropzone.{{$field['name']}}').data();
     var img_cnt = $('.thumbs > div').length;
+    var files = [];
+    var error_files = [];
+    var error_file_names = [];
+    var messages = [];
+    var msg_too_big = "{{ \Lang::get('images.is too large.') }}";
+    var msg_passed_max = "{{ \Lang::get('images.passed maximum number of images.') }}";
+
     $('.dropzone.{{$field['name']}}').dropzone({
         url: "/admin/upload/images",
         maxFilesize: data.maxsize,
@@ -56,6 +63,7 @@ $(document).ready(function(){
         addRemoveLinks: false,
         dictDefaultMessage: data.message,
         dictMaxFilesExceeded: 'images.Maximum number of images reached, you can not upload any more.',
+        acceptedFiles: 'image/*',
         //previewTemplate: $('#preview-template').html(),
         params: {
             image_template: data.image_template,
@@ -65,7 +73,6 @@ $(document).ready(function(){
             field: data.field
         },
         accept: function(file, done) {
-                    console.log('accept');
                     //add further logic for accepting images
                     $('.image.{{$field['name']}} .input .dropzone .dz-message').hide();
                     done();
@@ -80,18 +87,65 @@ $(document).ready(function(){
             $('.image.{{$field['name']}} .input .thumbs').append(response.thumb);
         },
         queuecomplete: function(file){
+            files = this.files;
             $('.image.{{$field['name']}} .input .dropzone .dz-preview').remove();
             $('.image.{{$field['name']}} .input .dropzone .dz-message').show();
-            if(img_cnt >= data.max_files){
-                $('.image.{{$field['name']}} .input .dropzone .dz-message').html('<span>{{\Lang::get('images.Maximum number of images reached, you can not upload any more.')}}</span>');
-            }else{
-                //console.log('Number images okay!');
+            //hide dropzone if max images has been reached
+            if(this.files.length >= data.max_files){
+                $('.image.{{$field['name']}} .input .dropzone').hide();
             }
-            //console.log('data.maxFiles: ',data.max_files );
+            //show alert dialog with errors
+            if(error_file_names.length){
+                var messages = [];
+                $.each(error_file_names, function(k,v){
+                    if(error_files[k]){
+                        if( (error_files[k].size * 1024 **-2) > data.maxsize){
+                            messages.push(
+                                {
+                                'type' : 'alert',
+                                'text' : error_files[k].name+' '+msg_too_big,
+                                }
+                            );
+                        }
+                        console.log('amount: ',files.length,data.max_files);
+                        if( (files.length + $('.thumbs .thumb').length)  > data.max_files){
+                            messages.push(
+                                {
+                                'type' : 'alert',
+                                'text' : error_files[k].name+' '+msg_passed_max,
+                                }
+                            );
+                        }
+                    }
+                });
+               ajaxRequest(
+                {
+                    method: 'dialog',
+                    params: {
+                        'module'   : '{{ $moduleName }}',
+                        'dialog'   : 'attention',
+                        'messages' : messages,
+                        'icon'         : null,
+                        'page_refresh' : 0
+                    },
+                    callback: 'openDialog'
+                });
+            }
+            error_files = [];
+            error_file_names = [];
+            messages = [];
         },
         init: function(){
+            //TODO show alert dialog for too big file on upload request
             this.on('error',function(dz, data){
-                console.log('error data: ',data);
+                $.each(this.files, function(k, v){
+                    if(v.status === 'error'){
+                        if($.inArray(v.name, error_file_names) < 0){
+                            error_files.push(v);
+                            error_file_names.push(v.name);
+                        }
+                    }
+                });
             });
         }
     });

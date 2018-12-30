@@ -15,4 +15,6 @@ return [
   "Delete image"=>"Delete image",
   "Delete this image"=>"Delete this image",
   "Maximum number of images reached, you can not upload any more."=>"Maximum number of images reached, you can not upload any more.",
+  "is too large." => "is too large.",
+  "passed maximum number of images." => "passed maximum number of images."
 ];
