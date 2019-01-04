@@ -38,11 +38,11 @@ Route::group(['prefix' => 'admin'], function() {
             Route::resource('menus.menu_items', '\App\Admin\Http\Controllers\MenuItemController');
             Route::resource('dashboard', '\App\Admin\Http\Controllers\DashboardController');
             Route::resource('images', '\App\Admin\Http\Controllers\ImageController');
-            Route::resource('image_formats', '\App\Admin\Http\Controllers\ImageFormatController');
             Route::resource('images_lang', '\App\Admin\Http\Controllers\ImagesLangController');
             Route::resource('menus', '\App\Admin\Http\Controllers\MenuController');
             Route::resource('news', '\App\Admin\Http\Controllers\NewsController');
             Route::resource('slideshows', '\App\Admin\Http\Controllers\SlideshowController');
+            Route::resource('image_formats', '\App\Admin\Http\Controllers\ImageFormatController');
           //<<CMS
         });
 

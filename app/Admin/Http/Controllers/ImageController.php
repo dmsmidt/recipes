@@ -7,24 +7,26 @@ use Session;
 use Response;
 use App\Admin\Repositories\ImageTemplateRepository as ImageTemplate;
 
-class ImageController extends AdminController {
+class ImageController extends AdminController
+{
 
-    protected $image;
+	protected $image;
 
-    public function __construct(IImageRepository $image){
-        $this->image = $image;
-        parent::__construct();
-    }
+	public function __construct(IImageRepository $image)
+	{
+		$this->image = $image;
+		parent::__construct();
+	}
 
-    /**
+	/**
 	 * Display a listing of the resource.
 	 * @return mixed
 	 */
 	public function index()
 	{
-        $data = $this->image->selectAll();
-        return view('admin')
-            ->nest('center','main.index',compact('data'));
+		$data = $this->image->selectAll();
+		return view('admin')
+			->nest('center', 'main.index', compact('data'));
 	}
 
 	/**
@@ -33,20 +35,20 @@ class ImageController extends AdminController {
 	 */
 	public function create()
 	{
-        return view('admin')->nest('center','main.form');
+		return view('admin')->nest('center', 'main.form');
 	}
 
 	/**
-     * @param ImageRequest $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function store(ImageRequest $request)
+	 * @param ImageRequest $request
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+	 */
+	public function store(ImageRequest $request)
 	{
-        $this->image->add($request->input());
-        return redirect('admin/images');
+		$this->image->add($request->input());
+		return redirect('admin/images');
 	}
 
-    /**
+	/**
 	 * Display the specified resource.
 	 *
 	 * @param  int  $id
@@ -65,20 +67,20 @@ class ImageController extends AdminController {
 	 */
 	public function edit($id)
 	{
-        $data = $this->image->selectById($id);
-        return view('admin')->nest('center','main.form',compact('data'));
+		$data = $this->image->selectById($id);
+		return view('admin')->nest('center', 'main.form', compact('data'));
 	}
 
 	/**
-     * Update the specified resource in storage.
-     * @param ImageRequest $request
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function update(ImageRequest $request, $id)
+	 * Update the specified resource in storage.
+	 * @param ImageRequest $request
+	 * @param $id
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+	 */
+	public function update(ImageRequest $request, $id)
 	{
-        $this->image->update($request->input(), $id);
-        return redirect('admin/images');
+		$this->image->update($request->input(), $id);
+		return redirect('admin/images');
 	}
 
 	/**
@@ -89,8 +91,8 @@ class ImageController extends AdminController {
 	 */
 	public function destroy($id)
 	{
-        $this->image->delete($id);
-        return redirect()->back();
+		$this->image->delete($id);
+		return redirect()->back();
 	}
 
 }

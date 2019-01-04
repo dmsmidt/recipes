@@ -4,6 +4,7 @@ use App\Admin\Creators\ImageCreator as ImageCreator;
 use Request;
 use Session;
 use Response;
+use Log;
 
 class UploadController extends AdminController {
 
@@ -30,11 +31,13 @@ class UploadController extends AdminController {
             $_imageCreator = new ImageCreator($template,$filename);
             $img = $_imageCreator->create();
             if(!$img){
+                Log::warning('Thumb of image '.$this->filename.' could not be saved!');
                 $this->dialog('data','callback');/////@TODO: parameters for data(f.e. error messages) and callback
             }else{
                 $image_data = Request::all();
                 $image_data['filename'] = $filename;
                 $image_data['filesize'] = $_imageCreator->formatBytes($img->filesize());
+                
                 //add to database table
                 $image_repo = 'App\\Admin\\Repositories\\ImageRepository';
                 $imageRepo = new $image_repo();

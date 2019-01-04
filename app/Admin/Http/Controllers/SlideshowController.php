@@ -3,25 +3,27 @@
 use App\Admin\Http\Requests\SlideshowRequest;
 use App\Admin\Repositories\Contracts\ISlideshowRepository;
 
-class SlideshowController extends AdminController {
+class SlideshowController extends AdminController
+{
 
-    protected $slideshow;
+	protected $slideshow;
 
-    public function __construct(ISlideshowRepository $slideshow){
-        $this->slideshow = $slideshow;
-        parent::__construct();
-    }
+	public function __construct(ISlideshowRepository $slideshow)
+	{
+		$this->slideshow = $slideshow;
+		parent::__construct();
+	}
 
-    /**
+	/**
 	 * Display a listing of the resource.
 	 * @return mixed
 	 */
 	public function index()
 	{
-        $data = $this->slideshow->selectAll();
-        return view('admin')
-            
-            ->nest('center','main.index',compact('data'));
+		$data = $this->slideshow->selectAll();
+		return view('admin')
+
+			->nest('center', 'main.index', compact('data'));
 	}
 
 	/**
@@ -30,20 +32,20 @@ class SlideshowController extends AdminController {
 	 */
 	public function create()
 	{
-        return view('admin')->nest('center','main.form');
+		return view('admin')->nest('center', 'main.form');
 	}
 
 	/**
-     * @param SlideshowRequest $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function store(SlideshowRequest $request)
+	 * @param SlideshowRequest $request
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+	 */
+	public function store(SlideshowRequest $request)
 	{
-        $this->slideshow->add($request->input());
-        return redirect('admin/slideshows');
+		$this->slideshow->add($request->input());
+		return redirect('admin/slideshows');
 	}
 
-    /**
+	/**
 	 * Display the specified resource.
 	 *
 	 * @param  int  $id
@@ -62,20 +64,20 @@ class SlideshowController extends AdminController {
 	 */
 	public function edit($id)
 	{
-        $data = $this->slideshow->selectById($id);
-        return view('admin')->nest('center','main.form',compact('data'));
+		$data = $this->slideshow->selectById($id);
+		return view('admin')->nest('center', 'main.form', compact('data'));
 	}
 
 	/**
-     * Update the specified resource in storage.
-     * @param SlideshowRequest $request
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function update(SlideshowRequest $request, $id)
+	 * Update the specified resource in storage.
+	 * @param SlideshowRequest $request
+	 * @param $id
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+	 */
+	public function update(SlideshowRequest $request, $id)
 	{
-        $this->slideshow->update($request->input(), $id);
-        return redirect('admin/slideshows');
+		$this->slideshow->update($request->input(), $id);
+		return redirect('admin/slideshows');
 	}
 
 	/**
@@ -86,8 +88,8 @@ class SlideshowController extends AdminController {
 	 */
 	public function destroy($id)
 	{
-        $this->slideshow->delete($id);
-        return redirect()->back();
+		$this->slideshow->delete($id);
+		return redirect()->back();
 	}
 
 }

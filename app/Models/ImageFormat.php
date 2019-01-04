@@ -14,7 +14,7 @@ class ImageFormat extends Model {
      * Fields allowed for mass assignment
      * @var array
      */
-    protected $fillable = ["image_template","name","x","y","width","height","scaling","constraint"];
+    protected $fillable = ["image_template","name","x","y","width","height","scaling","image_id","constraint","minimum_size"];
 
     /**
      * Fields disallowed for mass assignment

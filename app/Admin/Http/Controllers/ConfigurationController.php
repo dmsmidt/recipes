@@ -3,26 +3,28 @@
 use App\Admin\Http\Requests\ConfigurationRequest;
 use App\Admin\Repositories\Contracts\IConfigurationRepository;
 
-class ConfigurationController extends AdminController {
+class ConfigurationController extends AdminController
+{
 
-    protected $configuration;
+	protected $configuration;
 
-    public function __construct(IConfigurationRepository $configuration){
-        $this->configuration = $configuration;
-        parent::__construct();
-    }
+	public function __construct(IConfigurationRepository $configuration)
+	{
+		$this->configuration = $configuration;
+		parent::__construct();
+	}
 
-    /**
+	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
 	public function index()
 	{
-        $data = $this->configuration->selectTree();
-        return view('admin')
-            ->with("javascripts", ["/cms/js/jquery.nestable.js"])
-            ->nest('center','main.index',compact('data'));
+		$data = $this->configuration->selectTree();
+		return view('admin')
+			->with("javascripts", ["/cms/js/jquery.nestable.js"])
+			->nest('center', 'main.index', compact('data'));
 	}
 
 	/**
@@ -32,20 +34,20 @@ class ConfigurationController extends AdminController {
 	 */
 	public function create()
 	{
-        return view('admin')->nest('center','main.form');
+		return view('admin')->nest('center', 'main.form');
 	}
 
 	/**
-     * @param ConfigurationRequest $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function store(ConfigurationRequest $request)
+	 * @param ConfigurationRequest $request
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+	 */
+	public function store(ConfigurationRequest $request)
 	{
-        $this->configuration->add($request->input());
-        return redirect('admin/configurations');
+		$this->configuration->add($request->input());
+		return redirect('admin/configurations');
 	}
 
-    /**
+	/**
 	 * Display the specified resource.
 	 *
 	 * @param  int  $id
@@ -64,20 +66,20 @@ class ConfigurationController extends AdminController {
 	 */
 	public function edit($id)
 	{
-        $data = $this->configuration->selectById($id);
-        return view('admin')->nest('center','main.form',compact('data'));
+		$data = $this->configuration->selectById($id);
+		return view('admin')->nest('center', 'main.form', compact('data'));
 	}
 
 	/**
-     * Update the specified resource in storage.
-     * @param RoleRequest $request
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function update(ConfigurationRequest $request, $id)
+	 * Update the specified resource in storage.
+	 * @param RoleRequest $request
+	 * @param $id
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+	 */
+	public function update(ConfigurationRequest $request, $id)
 	{
-        $this->configuration->update($request->input(), $id);
-        return redirect('admin/configurations');
+		$this->configuration->update($request->input(), $id);
+		return redirect('admin/configurations');
 	}
 
 	/**
@@ -88,8 +90,8 @@ class ConfigurationController extends AdminController {
 	 */
 	public function destroy($id)
 	{
-        $this->configuration->delete($id);
-        return redirect()->back();
+		$this->configuration->delete($id);
+		return redirect()->back();
 	}
 
 }

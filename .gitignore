@@ -18,3 +18,16 @@ app/Admin/Http/Requests/backups
 app/Admin/Recipes/backups
 app/Admin/Repositories/backups
 app/Admin/Repositories/Contracts
+app/Admin/Http/Controllers/backups/NewsController_25102018_213217.php
+app/Admin/Http/Controllers/backups/NewsController_25102018_213217.php
+app/Admin/Http/Controllers/backups/NewsController_25102018_213217.php
+app/Admin/Http/Requests/backups/NewsRequest_25102018_213217.php
+app/Admin/Repositories/backups/NewsRepository_25102018_213217.php
+app/Admin/Repositories/Contracts/backups/INewsRepository_25102018_213217.php
+database/migrations/2018_12_30_121702_create_image_formats_table.php
+database/migrations/2018_12_30_134623_create_image_formats_table.php
+database/migrations/2018_12_30_134243_create_image_formats_table.php
+database/migrations/2019_1_4_095704_create_image_formats_table.php
+database/migrations/2018_7_29_122730_create_image_formats_table.php
+.vscode/settings.json
+app/Admin/Http/Controllers/backups/NewsController_25102018_213217.php

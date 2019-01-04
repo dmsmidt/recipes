@@ -136,7 +136,6 @@ $(document).ready(function(){
             messages = [];
         },
         init: function(){
-            //TODO show alert dialog for too big file on upload request
             this.on('error',function(dz, data){
                 $.each(this.files, function(k, v){
                     if(v.status === 'error'){
@@ -147,6 +146,10 @@ $(document).ready(function(){
                     }
                 });
             });
+            this.on("thumbnail", function(file){
+                console.log('width: ', file.width, 'height: ', file.height);
+                console.log('data: ', data);
+            })
         }
     });
 

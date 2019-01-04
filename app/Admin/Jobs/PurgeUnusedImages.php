@@ -33,6 +33,21 @@ class PurgeUnusedImages implements ShouldQueue
     public function handle()
     {
         /**
+         * Remove uploaded images from /uploads
+         */
+        $uploads_dir = storage_path('app/public/uploads');
+        $files = array_diff( scandir($uploads_dir), ['..','.']);
+        \Log::debug('files in uploads: '.print_r($files,true));
+        foreach($files as $file){
+            if(strpos($file,'.') !== false){
+                $aFileParts = explode('.',$file);
+                if(last($aFileParts) == 'jpg' || last($aFileParts) == 'png' || last($aFileParts) == 'gif' || last($aFileParts) == 'pdf' || last($aFileParts) == 'webp' || last($aFileParts) == 'tiff'){
+                    unlink($uploads_dir.'/'.$file);
+                }
+            }
+        }
+        
+        /**
          * Select all the recipes with image inputs with a template 
          */
         $recipes = Recipe::all();
@@ -76,8 +91,9 @@ class PurgeUnusedImages implements ShouldQueue
                 Image::find($image->id)->delete();
                 if(file_exists( storage_path('app/public/uploads').'/'.$image->filename )){
                     unlink(storage_path('app/public/uploads').'/'.$image->filename);
+                }else{
+                    \Log::debug('Image to purge not found: '.storage_path('app/public/uploads').'/'.$image->filename);
                 }
-
                 if(!array_key_exists($image->image_template,$template_formats)){
                     $formats = DB::table('image_formats')->select('*')->where('image_template', $image->image_template)->get();
                     if(count($formats)){

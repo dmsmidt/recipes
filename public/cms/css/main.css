@@ -627,9 +627,9 @@ footer{
 #crop{
     position: absolute;
     display: none;
-    width: 96%;
+    /*width: 96%;*/
     /* height: 96%; */
-    max-width: 1054px;
+    max-width: 100%;
     /*max-height: 863px;*/
     /* margin-top: calc(6% - 98%); */
     left: 0;
@@ -655,9 +655,9 @@ footer{
 }
 #dialog .content,
 #crop .content{
-    width: calc(100% - 30px);
+    /*width: calc(100% - 30px);
     -moz-width: calc(100% - 30px);
-    -webkit-width: calc(100% - 30px);
+    -webkit-width: calc(100% - 30px);*/
     padding: 15px 15px 15px 15px;
     /* background-color: #C6C0E8; */
     color: #181818;
@@ -672,6 +672,10 @@ footer{
     padding: 5px 15px 15px 15px;
     /*background-color: #C6C0E8;*/
     text-align: center;
+}
+#crop .buttons{
+    position: absolute;
+    bottom: 15px;
 }
 #dialog .buttons button,
 #crop .buttons button{
@@ -693,10 +697,34 @@ footer{
 /*crop window*/
 .image_preview img{
     display: block;
-    width: 100%;
-    max-width: 1024px;
+    /*width: 100%;
+    max-width: 1024px;*/
 }
-/*block page and progress indicator*/
+#crop .image_formats button{
+    min-width: 130px;
+}
+#crop .image_formats button.active{
+    text-decoration: underline;
+}
+#crop .image_preview{
+    display:none;
+}
+#crop .image_preview.active{
+    display:block;
+}
+#crop .values ul{
+    padding: 0;
+    margin: 0 0 0 0;
+}
+#crop .values ul li{
+    float: left;
+    font-size: 10px;
+}
+#crop .values ul li span{
+    display:inline-block;
+    min-width:40px;
+}
+    /*block page and progress indicator*/
 #dialogblocker {
     background-color:rgba(0,0,0,.3);
     margin: 0;

@@ -84,7 +84,7 @@ $(function(){
         if($('#field_max_files_'+row).length){
             $('#field_max_files_'+row).parent().remove();
         }
-        if(input == 'select' || input == 'checkbox' || input == 'radio'){
+        if(input == 'select' || input == 'radio'){
             $inputoptions_selector.prop('disabled', false);
         }else if(input == 'image' || input == 'images'){
             if(input == 'images'){

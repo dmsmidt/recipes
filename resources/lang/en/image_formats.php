@@ -10,4 +10,5 @@ return [
   "Y-position"=>"Y-position",
   "Cropping and scaling"=>"Cropping and Scaling",
   "Constraint proportions"=>"Constraint proportions",
+  "Minimum size required"=>"Minimum size required",
 ];

@@ -12,8 +12,4 @@ interface IImageFormatRepository{
 
     public function delete($id);
 
-    public function selectByTemplate($template);
-
-    public function selectByImage($template, $id);
-
 }

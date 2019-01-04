@@ -17,30 +17,22 @@ class ImageFormatRepository extends BaseRepository implements IImageFormatReposi
         $model = new ImageFormat;
         $model->fill($input)->save();
         
+        
+        return $model;
     }
 
     public function update($input, $id){
         $model = ImageFormat::find($id);
         $model->fill($input)->save();
         
+        
+        return $model;
     }
 
     public function delete($id){
         $model = ImageFormat::find($id);
         $model->delete();
-    }
-
-    public function selectByTemplate($template){
-        return ImageFormat::where('image_template', $template)->get();
-    }
-
-    public function selectByImage($template, $id){
-        $format = ImageFormat::where('image_template', $template)->get();
-        if($format->count()){
-            return $format;
-        }else{
-            return ImageFormat::where('image_template', $template)->get();
-        }
+        
     }
 
 }

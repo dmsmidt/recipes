@@ -10,4 +10,5 @@ return [
     "Y-position"=>"Y-positie",
   "Cropping and scaling"=>"Bijsnijden en verschalen",
   "Constraint proportions"=>"Verhouding behouden",
+  "Minimum size required"=>"Minimale afmetingen verplicht",
 ];

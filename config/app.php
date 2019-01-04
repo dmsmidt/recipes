@@ -204,9 +204,9 @@ return [
         App\Admin\Providers\UserServiceProvider::class,
         App\Admin\Providers\ImagesLangServiceProvider::class,
         App\Admin\Providers\ImageServiceProvider::class,
-        App\Admin\Providers\ImageFormatServiceProvider::class,
         App\Admin\Providers\NewsServiceProvider::class,
         App\Admin\Providers\SlideshowServiceProvider::class,
+        App\Admin\Providers\ImageFormatServiceProvider::class,
         //<<CMS
 
     ],
